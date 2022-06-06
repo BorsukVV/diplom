@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">NMedia</string>
     <string name="greeting">NMedia!</string>
+    <string name="avatar_description">Author avatar</string>
+    <string name="more_info">Show hide information</string>
+    <string name="see_content">See content</string>
 </resources>
