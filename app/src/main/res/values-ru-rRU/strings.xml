@@ -5,4 +5,9 @@
     <string name="avatar_description">Аватар автора</string>
     <string name="more_info">Развернуть заголовок</string>
     <string name="see_content">Смотреть пост</string>
+    <string name="suffix_thousands">К</string>
+    <string name="suffix_millions">М</string>
+    <string name="formatted_like_rep_view_count_without_suffix">%1$d</string>
+    <string name="formatted_like_rep_view_count_two_dig_suf">%1$d.%2$d%3$s</string>
+    <string name="formatted_like_rep_view_thousands_one_dig_suf">%1$d%2$s</string>
 </resources>

@@ -4,4 +4,9 @@
     <string name="avatar_description">Author avatar</string>
     <string name="more_info">Show hide information</string>
     <string name="see_content">See content</string>
+    <string name="suffix_thousands">K</string>
+    <string name="suffix_millions">M</string>
+    <string name="formatted_like_rep_view_count_without_suffix">%1$d</string>
+    <string name="formatted_like_rep_view_count_two_dig_suf">%1$d.%2$d%3$s</string>
+    <string name="formatted_like_rep_view_thousands_one_dig_suf">%1$d%2$s</string>
 </resources>
