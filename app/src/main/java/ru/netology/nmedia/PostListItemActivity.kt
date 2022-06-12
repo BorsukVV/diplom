@@ -4,44 +4,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.DrawableRes
 import ru.netology.nmedia.databinding.PostListItemBinding
+import ru.netology.nmedia.viewModel.PostViewModel
 
 open class PostListItemActivity : AppCompatActivity() {
+    private val viewModel = PostViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_list_item)
         val binding = PostListItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val post = Post(
-            id = 0,
-            authorName = "Netology",
-            date = "09/06/2022",
-            text = "Greeting",
-            isLiked = false,
-            likesCount = 999,
-            isReposted = false,
-            repostsCount = 9995,
-            viewesCount = 1299999
-        )
-
-        binding.render(post)
+        viewModel.data.observe(this) { post -> binding.render(post) }
 
         binding.likesIcon.setOnClickListener {
-            post.isLiked = !post.isLiked
-            binding.likesIcon.setImageResource(getLikeIconResID(post.isLiked))
-            setLikeCount(post)
-            binding.render(post)
+            viewModel.onLikeClicked()
         }
 
         binding.repostIcon.setOnClickListener {
-            setSharedCount(post)
-            binding.repostCount.text = countFormatter(post.repostsCount)
-            binding.render(post)
+            viewModel.onShareClicked()
         }
-
-//        binding.root.setOnClickListener { println("Сработало нажатие ROOT") }
-//
-//        binding.avatar.setOnClickListener { println("Сработало нажатие AVATAR") }
 
     }
 
@@ -61,38 +42,6 @@ open class PostListItemActivity : AppCompatActivity() {
         return if (liked) R.drawable.ic_liked_icon_24dp else R.drawable.ic_likes_24dp
     }
 
-    private fun setLikeCount(post: Post) {
-        if (post.isLiked) post.likesCount++ else post.likesCount--
-    }
-
-    private fun setSharedCount(post: Post) {
-        post.repostsCount++
-    }
-
-    //    private fun countFormatter(count: Int): String {
-//        when (count) {
-//            in (0 until 1000) -> {
-//                return count.toString()
-//            }
-//            in (1000 until 10_000) -> {
-//                val tensOfHundreds = count / 100
-//                val hundreds = tensOfHundreds % 10
-//                val thousands = tensOfHundreds / 10
-//                return if (hundreds == 0) "${thousands}K" else "${thousands}.${hundreds}K"
-//            }
-//            in (10_000 until 1_000_000) -> {
-//                val thousands = count / 1000
-//                return "${thousands}K"
-//            }
-//            else -> {
-//                val tensOfThousands = count / 100_000
-//                val thousands = tensOfThousands % 10
-//                val millions = tensOfThousands / 10
-//                return if (thousands == 0) "${thousands}M" else "${millions}.${thousands}M"
-//            }
-//        }
-//
-//    }
     private fun countFormatter(count: Int): String {
         val template: String
         val suffix: String
