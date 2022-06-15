@@ -87,7 +87,7 @@ postponed_id integer	Идентификатор отложенной запис�
  */
 
 data class Post (
-    val id: Int,
+    val id: Long,
 //    val ownerId: Int,
 //    val fromId: Int,
     val authorName: String,
