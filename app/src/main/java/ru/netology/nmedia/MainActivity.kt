@@ -1,9 +1,9 @@
 package ru.netology.nmedia
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,5 +18,6 @@ class MainActivity : AppCompatActivity()  {
         }
     }
 }
+
 
 

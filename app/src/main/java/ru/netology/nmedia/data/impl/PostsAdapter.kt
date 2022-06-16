@@ -1,6 +1,5 @@
 package ru.netology.nmedia.data.impl
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
@@ -16,7 +15,12 @@ typealias OnShareListener = (post: Post) -> Unit
 
 internal class PostsAdapter(
     private val onLikeClicked: OnLikeListener,
-    private val onShareClicked: OnShareListener
+    private val onShareClicked: OnShareListener,
+    val templateNoSuf: String,
+    val templateOneDigSuf: String,
+    val templateTwoDigSuf: String,
+    val suffixThousands: String,
+    val suffixMillions: String
 
 ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
 
@@ -44,12 +48,9 @@ internal class PostsAdapter(
                 postText.text = post.text
                 data.text = post.date
                 likesIcon.setImageResource(getLikeIconResID(post.isLiked))
-//                likesCount.text = countFormatter(post.likesCount)
-//                repostCount.text = countFormatter(post.repostsCount)
-//                viewsCount.text = countFormatter(post.viewesCount)
-                likesCount.text = post.likesCount.toString()
-                repostCount.text = post.repostsCount.toString()
-                viewsCount.text = post.viewesCount.toString()
+                likesCount.text = countFormatter(post.likesCount)
+                repostCount.text = countFormatter(post.repostsCount)
+                viewsCount.text = countFormatter(post.viewesCount)
             }
         }
 
@@ -59,53 +60,35 @@ internal class PostsAdapter(
         }
 
         private fun countFormatter(count: Int): String {
-            val template: String
-            val suffix: String
             when (count) {
                 in (0 until 1000) -> {
-                    template =
-                        Resources.getSystem()
-                            .getString(R.string.formatted_like_rep_view_count_without_suffix)
-                    return String.format(template, count)
+                    return String.format(templateNoSuf, count)
                 }
                 in (1000 until 10_000) -> {
                     val tensOfHundreds = count / 100
                     val hundreds = tensOfHundreds % 10
                     val thousands = tensOfHundreds / 10
-                    suffix = Resources.getSystem().getString(R.string.suffix_thousands)
-                    return stringOfTwoDigits(thousands, hundreds, suffix)
+                    return stringOfTwoDigits(thousands, hundreds, suffixThousands)
                 }
                 in (10_000 until 1_000_000) -> {
                     val thousands = count / 1000
-                    suffix = Resources.getSystem().getString(R.string.suffix_thousands)
-                    template =
-                        Resources.getSystem()
-                            .getString(R.string.formatted_like_rep_view_thousands_one_dig_suf)
-                    return String.format(template, thousands, suffix)
+                    return String.format(templateOneDigSuf, thousands, suffixThousands)
                 }
                 else -> {
                     val tensOfThousands = count / 100_000
                     val thousands = tensOfThousands % 10
                     val millions = tensOfThousands / 10
-                    suffix = Resources.getSystem().getString(R.string.suffix_millions)
-                    return stringOfTwoDigits(millions, thousands, suffix)
+                    return stringOfTwoDigits(millions, thousands, suffixMillions)
                 }
             }
 
         }
 
         private fun stringOfTwoDigits(firstDigit: Int, secondDigit: Int, suffix: String): String {
-            val template: String
             return if (secondDigit != 0) {
-                template =
-                    Resources.getSystem()
-                        .getString(R.string.formatted_like_rep_view_count_two_dig_suf)
-                String.format(template, firstDigit, secondDigit, suffix)
+                String.format(templateTwoDigSuf, firstDigit, secondDigit, suffix)
             } else {
-                template =
-                    Resources.getSystem()
-                        .getString(R.string.formatted_like_rep_view_thousands_one_dig_suf)
-                String.format(template, firstDigit, suffix)
+                String.format(templateOneDigSuf, firstDigit, suffix)
             }
         }
 
@@ -128,5 +111,7 @@ internal class PostsAdapter(
         override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean =
             oldItem == newItem
     }
+
+    //override fun getItemCount() =
 
 }
