@@ -116,12 +116,12 @@ data class Post (
 //    val donut: Donut
 )
 {
-    override fun equals(other: Any?): Boolean {
-        if (other == null || other !is Post)
-            return false
-        //return id == other.id && ownerId == other.ownerId
-        return id == other.id && date == other.date
-    }
+//    override fun equals(other: Any?): Boolean {
+//        if (other == null || other !is Post)
+//            return false
+//        //return id == other.id && ownerId == other.ownerId
+//        return id == other.id && date == other.date
+//    }
 
 }
 

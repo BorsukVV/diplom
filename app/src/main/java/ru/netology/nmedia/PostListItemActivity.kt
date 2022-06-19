@@ -15,20 +15,9 @@ open class PostListItemActivity : AppCompatActivity() {
         val binding = PostListItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val templateNoSuf = resources.getString(R.string.formatted_like_rep_view_count_without_suffix)
-        val templateOneDigSuf = resources.getString(R.string.formatted_like_rep_view_thousands_one_dig_suf)
-        val templateTwoDigSuf = resources.getString(R.string.formatted_like_rep_view_count_two_dig_suf)
-        val suffixThousands = resources.getString(R.string.suffix_thousands)
-        val suffixMillions = resources.getString(R.string.suffix_millions)
-
         val adapter = PostsAdapter(
             viewModel::onLikeClicked,
-            viewModel::onShareClicked,
-            templateNoSuf,
-            templateOneDigSuf,
-            templateTwoDigSuf,
-            suffixThousands,
-            suffixMillions
+            viewModel::onShareClicked
         )
 
         binding.PostsRecyclerView.adapter = adapter

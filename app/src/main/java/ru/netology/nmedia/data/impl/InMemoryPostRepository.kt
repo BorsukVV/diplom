@@ -5,13 +5,14 @@ import ru.netology.nmedia.Post
 import ru.netology.nmedia.data.PostRepository
 
 class InMemoryPostRepository : PostRepository {
+    private val someData = Data()
     override val data = MutableLiveData(
-        List(10) { index ->
+        List(1000) { index ->
             Post(
                 id = index + 1L,
                 authorName = "Netology",
                 date = "13/06/2022",
-                text = "Random content $index",
+                text = someData.getRandomContent(),
                 isLiked = false,
                 likesCount = 999,
                 isReposted = false,

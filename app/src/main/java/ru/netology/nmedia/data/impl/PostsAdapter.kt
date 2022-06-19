@@ -15,12 +15,7 @@ typealias OnShareListener = (post: Post) -> Unit
 
 internal class PostsAdapter(
     private val onLikeClicked: OnLikeListener,
-    private val onShareClicked: OnShareListener,
-    val templateNoSuf: String,
-    val templateOneDigSuf: String,
-    val templateTwoDigSuf: String,
-    val suffixThousands: String,
-    val suffixMillions: String
+    private val onShareClicked: OnShareListener
 
 ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
 
@@ -60,6 +55,14 @@ internal class PostsAdapter(
         }
 
         private fun countFormatter(count: Int): String {
+
+            val templateNoSuf =
+                binding.root.context.resources.getString(R.string.formatted_like_rep_view_count_without_suffix)
+            val suffixThousands =
+                binding.root.context.resources.getString(R.string.suffix_thousands)
+            val suffixMillions =
+                binding.root.context.resources.getString(R.string.suffix_millions)
+
             when (count) {
                 in (0 until 1000) -> {
                     return String.format(templateNoSuf, count)
@@ -72,7 +75,8 @@ internal class PostsAdapter(
                 }
                 in (10_000 until 1_000_000) -> {
                     val thousands = count / 1000
-                    return String.format(templateOneDigSuf, thousands, suffixThousands)
+                    val hundreds = count % 1000
+                    return stringOfTwoDigits(thousands, hundreds, suffixThousands)
                 }
                 else -> {
                     val tensOfThousands = count / 100_000
@@ -85,6 +89,12 @@ internal class PostsAdapter(
         }
 
         private fun stringOfTwoDigits(firstDigit: Int, secondDigit: Int, suffix: String): String {
+
+            val templateTwoDigSuf =
+                binding.root.context.resources.getString(R.string.formatted_like_rep_view_count_two_dig_suf)
+            val templateOneDigSuf =
+                binding.root.context.resources.getString(R.string.formatted_like_rep_view_thousands_one_dig_suf)
+
             return if (secondDigit != 0) {
                 String.format(templateTwoDigSuf, firstDigit, secondDigit, suffix)
             } else {
@@ -111,7 +121,5 @@ internal class PostsAdapter(
         override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean =
             oldItem == newItem
     }
-
-    //override fun getItemCount() =
 
 }
