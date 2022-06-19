@@ -87,7 +87,7 @@ postponed_id integer	Идентификатор отложенной запис�
  */
 
 data class Post (
-    val id: Int,
+    val id: Long,
 //    val ownerId: Int,
 //    val fromId: Int,
     val authorName: String,
@@ -99,13 +99,13 @@ data class Post (
 //    val comments: Comments,
 //    val copyright: Copyright,
 //    val likes: Likes,
-    var isLiked: Boolean,
-    var likesCount: Int,
+    val isLiked: Boolean,
+    val likesCount: Int,
 //    val reposts: Reposts,
-    var isReposted: Boolean,
-    var repostsCount: Int,
+    val isReposted: Boolean,
+    val repostsCount: Int,
 //    val views: Views,
-    var viewesCount: Int,
+    val viewesCount: Int,
 //    val postType: String,
 //    val canPin: Boolean,
 //    val canDelete: Boolean,
@@ -116,12 +116,12 @@ data class Post (
 //    val donut: Donut
 )
 {
-    override fun equals(other: Any?): Boolean {
-        if (other == null || other !is Post)
-            return false
-        //return id == other.id && ownerId == other.ownerId
-        return id == other.id && date == other.date
-    }
+//    override fun equals(other: Any?): Boolean {
+//        if (other == null || other !is Post)
+//            return false
+//        //return id == other.id && ownerId == other.ownerId
+//        return id == other.id && date == other.date
+//    }
 
 }
 
