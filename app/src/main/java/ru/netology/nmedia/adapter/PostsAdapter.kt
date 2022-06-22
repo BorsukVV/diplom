@@ -1,7 +1,8 @@
-package ru.netology.nmedia.data.impl
+package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,28 +11,45 @@ import ru.netology.nmedia.Post
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.PostBinding
 
-typealias OnLikeListener = (post: Post) -> Unit
-typealias OnShareListener = (post: Post) -> Unit
-
 internal class PostsAdapter(
-    private val onLikeClicked: OnLikeListener,
-    private val onShareClicked: OnShareListener
+
+    private val interActionListener: PostInterActionListener
 
 ) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
 
     inner class ViewHolder(
-        private val binding: PostBinding
+        private val binding: PostBinding,
+        listener: PostInterActionListener
 
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private lateinit var post: Post
 
+        private val popupMenu by lazy {
+            PopupMenu(itemView.context, binding.options).apply {
+                inflate(R.menu.options_post)
+                setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.remove -> {
+                            listener.onRemoveClicked(post)
+                            true
+                        }
+                        R.id.edit -> {
+                            listener.onEditClicked(post)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+            }
+        }
+
         init {
             binding.likesIcon.setOnClickListener {
-                onLikeClicked(post)
+                listener.onLikeClicked(post)
             }
             binding.repostIcon.setOnClickListener {
-                onShareClicked(post)
+                listener.onShareClicked(post)
             }
         }
 
@@ -46,6 +64,7 @@ internal class PostsAdapter(
                 likesCount.text = countFormatter(post.likesCount)
                 repostCount.text = countFormatter(post.repostsCount)
                 viewsCount.text = countFormatter(post.viewesCount)
+                options.setOnClickListener { popupMenu.show() }
             }
         }
 
@@ -107,7 +126,7 @@ internal class PostsAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = PostBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, interActionListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
