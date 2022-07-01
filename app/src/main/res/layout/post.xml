@@ -45,13 +45,15 @@
         app:layout_constraintTop_toBottomOf="@id/authorName"
         tools:text="04.06.2022" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+
+    <!-- optionsIcon -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/options"
+        style="@style/Widget.AppTheme.OptionsCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:contentDescription="@string/more_info"
-        android:src="@drawable/ic_options_24dp"
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -80,72 +82,48 @@
         app:barrierDirection="top"
         app:constraint_referenced_ids="likesIcon, repostIcon, viewsIcon" />
 
-    <androidx.appcompat.widget.AppCompatImageButton
+    <!-- likesIcon -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/likesIcon"
+        style="@style/Widget.AppTheme.LikeCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_likes_24dp"
+        android:checkable="true"
+        android:textColor="@color/material_on_background_emphasis_high_type"
+        app:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/likesCount"
+        app:layout_constraintEnd_toStartOf="@id/repostIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lowerBarrier" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/likesCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="53"
-        app:layout_constraintBottom_toBottomOf="@id/likesIcon"
-        app:layout_constraintEnd_toStartOf="@id/repostIcon"
-        app:layout_constraintStart_toEndOf="@id/likesIcon"
-        app:layout_constraintTop_toTopOf="@id/likesIcon"
-        tools:text="53" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
+    <!-- repostIcon -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/repostIcon"
+        style="@style/Widget.AppTheme.ShareCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_spacing"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_repost_icon_24dp"
+        android:checkable="true"
+        android:textColor="@color/material_on_background_emphasis_high_type"
+        app:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/repostCount"
-        app:layout_constraintStart_toEndOf="@id/likesCount"
+        app:layout_constraintEnd_toStartOf="@id/space"
+        app:layout_constraintStart_toEndOf="@id/likesIcon"
         app:layout_constraintTop_toBottomOf="@id/lowerBarrier" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/repostCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="35"
-        app:layout_constraintBottom_toBottomOf="@id/likesIcon"
-        app:layout_constraintEnd_toStartOf="@id/space"
-        app:layout_constraintStart_toEndOf="@id/repostIcon"
-        app:layout_constraintTop_toTopOf="@id/likesIcon"
-        tools:text="35" />
-
-    <androidx.appcompat.widget.AppCompatImageButton
+    <!-- viewsIcon -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/viewsIcon"
+        style="@style/Widget.AppTheme.ViewCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_views_icon_24dp"
+        android:checkable="false"
+        android:textColor="@color/material_on_background_emphasis_high_type"
+        app:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/viewsCount"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/space"
         app:layout_constraintTop_toBottomOf="@id/lowerBarrier" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/viewsCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="98"
-        app:layout_constraintBottom_toBottomOf="@id/likesIcon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/viewsIcon"
-        app:layout_constraintTop_toTopOf="@id/likesIcon"
-        tools:text="98" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/space"
@@ -154,10 +132,8 @@
         android:layout_marginStart="@dimen/common_spacing"
         app:layout_constraintBottom_toBottomOf="@id/likesIcon"
         app:layout_constraintEnd_toStartOf="@id/viewsIcon"
-        app:layout_constraintStart_toEndOf="@id/repostCount"
-        app:layout_constraintTop_toTopOf="@id/likesIcon"
-
-        />
+        app:layout_constraintStart_toEndOf="@id/repostIcon"
+        app:layout_constraintTop_toTopOf="@id/likesIcon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

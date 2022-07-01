@@ -3,7 +3,6 @@ package ru.netology.nmedia.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -51,6 +50,7 @@ internal class PostsAdapter(
             binding.repostIcon.setOnClickListener {
                 listener.onShareClicked(post)
             }
+            binding.options.setOnClickListener { popupMenu.show() }
         }
 
         fun bind(post: Post) {
@@ -60,17 +60,11 @@ internal class PostsAdapter(
                 authorName.text = post.authorName
                 postText.text = post.text
                 data.text = post.date
-                likesIcon.setImageResource(getLikeIconResID(post.isLiked))
-                likesCount.text = countFormatter(post.likesCount)
-                repostCount.text = countFormatter(post.repostsCount)
-                viewsCount.text = countFormatter(post.viewesCount)
-                options.setOnClickListener { popupMenu.show() }
+                likesIcon.text = countFormatter(post.likesCount)
+                likesIcon.isChecked = post.isLiked
+                repostIcon.text = countFormatter(post.repostsCount)
+                viewsIcon.text = countFormatter(post.viewesCount)
             }
-        }
-
-        @DrawableRes
-        private fun getLikeIconResID(liked: Boolean): Int {
-            return if (liked) R.drawable.ic_liked_icon_24dp else R.drawable.ic_likes_24dp
         }
 
         private fun countFormatter(count: Int): String {
@@ -94,7 +88,7 @@ internal class PostsAdapter(
                 }
                 in (10_000 until 1_000_000) -> {
                     val thousands = count / 1000
-                    val hundreds = count % 1000
+                    val hundreds = (count % 1000) / 100
                     return stringOfTwoDigits(thousands, hundreds, suffixThousands)
                 }
                 else -> {
