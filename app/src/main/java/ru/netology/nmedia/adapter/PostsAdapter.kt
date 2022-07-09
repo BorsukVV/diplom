@@ -35,6 +35,7 @@ internal class PostsAdapter(
                         }
                         R.id.edit -> {
                             listener.onEditClicked(post)
+
                             true
                         }
                         else -> false

@@ -43,7 +43,7 @@ class InMemoryPostRepository : PostRepository {
     override fun share(postID: Long) {
 
         data.value = posts.map {
-            print("0")
+//            print("0")
             if (it.id != postID) it
             else {
                 it.copy(
