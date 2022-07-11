@@ -20,6 +20,8 @@ class PostViewModel : ViewModel(), PostInterActionListener {
 
     val currentPost = MutableLiveData<Post?>(null)
 
+    val playVideoContent = SingleLiveEvent<String>()
+
     fun onSaveButtonClicked(content: String) {
 
         if (content.isBlank()) return
@@ -36,12 +38,13 @@ class PostViewModel : ViewModel(), PostInterActionListener {
             isReposted = false,
             repostsCount = 0,
             viewesCount = 0,
+            videoUrl = null
         )
         repository.save(post)
         currentPost.value = null
     }
 
-    fun onAddClicked(post: Post?) {
+    fun onAddClicked() {
         navigateToPostContentScreenEvent.call()
     }
 
@@ -61,6 +64,14 @@ class PostViewModel : ViewModel(), PostInterActionListener {
         currentPost.value = post
         editPostContent.value = post.text
 
+    }
+
+    override fun onVideoClicked(post: Post) {
+        if (post.videoAttachment) {
+            playVideoContent.value = post.videoUrl!!
+        } else {
+            return
+        }
     }
 
     fun onCancelClicked(content: String) {

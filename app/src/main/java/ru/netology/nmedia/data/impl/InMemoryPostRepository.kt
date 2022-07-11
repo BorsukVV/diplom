@@ -19,6 +19,7 @@ class InMemoryPostRepository : PostRepository {
                 isReposted = false,
                 repostsCount = 9995,
                 viewesCount = 1299999,
+                videoUrl = someData.getRandomURL()
             )
         }
     )

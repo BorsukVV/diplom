@@ -1,6 +1,7 @@
 package ru.netology.nmedia.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,13 @@ import ru.netology.nmedia.viewModel.PostViewModel
 
 open class PostListItemActivity : AppCompatActivity() {
     private val viewModel by viewModels<PostViewModel>()
+    private val postContentActivityLauncher = registerForActivityResult(
+        PostContentActivity.ResultContract
+    ) { postContent ->
+        postContent ?: return@registerForActivityResult
+        viewModel.onSaveButtonClicked(postContent)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_list_item)
@@ -21,12 +29,14 @@ open class PostListItemActivity : AppCompatActivity() {
 
         binding.PostsRecyclerView.adapter = adapter
 
+
+
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
 
         binding.fab.setOnClickListener {
-            viewModel.onAddClicked(null)
+            viewModel.onAddClicked()
         }
 
         viewModel.sharePostContent.observe(this) { postContent ->
@@ -39,26 +49,21 @@ open class PostListItemActivity : AppCompatActivity() {
             startActivity(shareIntent)
         }
 
+        viewModel.playVideoContent.observe(this) { postUrl ->
+            val intent = Intent().apply {
+                action = Intent.ACTION_VIEW
+                data = Uri.parse(postUrl)
+            }
+            startActivity(intent)
+        }
+
         viewModel.editPostContent.observe(this) {
             val textForEdit = viewModel.currentPost.value?.text
-            println(textForEdit)
-            getDataFromPostContentActivity(textForEdit)
-
-        }
-        getDataFromPostContentActivity("don't worry")
-
-    }
-
-    fun getDataFromPostContentActivity(textForSend: String? = "Введите текст поста") {
-        val postContentActivityLauncher = registerForActivityResult(
-            PostContentActivity.ResultContract
-        ) { postContent ->
-            postContent ?: return@registerForActivityResult
-            viewModel.onSaveButtonClicked(postContent)
+            postContentActivityLauncher.launch(textForEdit)
         }
 
         viewModel.navigateToPostContentScreenEvent.observe(this) {
-            postContentActivityLauncher.launch(textForSend)
+            postContentActivityLauncher.launch(null)
         }
     }
 

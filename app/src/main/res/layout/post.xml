@@ -11,7 +11,6 @@
         android:layout_width="@dimen/post_avatar_size"
         android:layout_height="@dimen/post_avatar_size"
         android:contentDescription="@string/avatar_description"
-        app:layout_constraintBottom_toTopOf="@id/headerBarrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -27,6 +26,7 @@
         android:text="Our jokes"
         app:layout_constraintBottom_toTopOf="@id/data"
         app:layout_constraintEnd_toStartOf="@id/options"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
@@ -39,7 +39,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="04.06.2022"
-        app:layout_constraintBottom_toTopOf="@id/headerBarrier"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar"
         app:layout_constraintEnd_toEndOf="@id/authorName"
         app:layout_constraintStart_toStartOf="@id/authorName"
         app:layout_constraintTop_toBottomOf="@id/authorName"
@@ -58,6 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/headerBarrier"
         android:layout_width="match_parent"
@@ -71,18 +72,45 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@id/lowerBarrier"
-        app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+        android:layout_marginTop="@dimen/common_spacing"
+        app:layout_constraintBottom_toTopOf="@id/video_frame_in_post"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatar"
+        android:layout_marginBottom="@dimen/common_spacing"
         tools:text="@tools:sample/lorem/random" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/postVideoGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="1"
+        android:background="@android:color/background_light"
+        android:visibility="visible"
+        app:constraint_referenced_ids="video_frame_in_post" />
+
+    <include
+        android:id="@+id/video_frame_in_post"
+        layout="@layout/post_video_module"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/postText"
+        app:layout_constraintBottom_toTopOf="@id/lowerBarrier"
+        android:layout_marginBottom="@dimen/common_spacing"
+         />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/lowerBarrier"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:barrierDirection="top"
+        app:layout_constraintTop_toBottomOf="@id/video_frame_in_post"
         app:constraint_referenced_ids="likesIcon, repostIcon, viewsIcon" />
 
+
     <!-- likesIcon -->
+
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likesIcon"
         style="@style/Widget.AppTheme.LikeCheckbox"
@@ -134,6 +162,7 @@
         app:layout_constraintEnd_toStartOf="@id/viewsIcon"
         app:layout_constraintStart_toEndOf="@id/repostIcon"
         app:layout_constraintTop_toTopOf="@id/likesIcon" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

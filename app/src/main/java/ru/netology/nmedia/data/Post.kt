@@ -106,6 +106,8 @@ data class Post(
     val repostsCount: Int,
 //    val views: Views,
     val viewesCount: Int,
+    val videoUrl: String?,
+
 //    val postType: String,
 //    val canPin: Boolean,
 //    val canDelete: Boolean,
@@ -115,6 +117,10 @@ data class Post(
 //    val isFavorite: Boolean,
 //    val donut: Donut
 ) {
+
+    val videoAttachment = videoUrl != null
+
+
 //    override fun equals(other: Any?): Boolean {
 //        if (other == null || other !is Post)
 //            return false

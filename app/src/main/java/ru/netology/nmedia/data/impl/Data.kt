@@ -136,9 +136,46 @@ class Data {
                 "\n- Ему лет двести будет, да... Это очень, очень большой заяц!"
     )
 
+    private val urlStorage = listOf(
+        null,
+        "https://youtu.be/b11RKHyOFCs",
+        null,
+        "https://youtu.be/sTQ2XyNqCq8",
+        "https://youtu.be/gZtJ0atk5do",
+        "https://youtu.be/uON3qCXLFFQ",
+        null,
+        "https://youtu.be/-ZmCrdt_7oQ",
+        "https://youtu.be/DB7NKl6-hTk",
+        "https://youtu.be/Q5Qf-Z8Gc0U",
+        "https://youtu.be/_AugS7xw2Po",
+        null,
+        "https://youtu.be/vTvM2NeyUqo",
+        "https://youtu.be/gzquI2JMNys",
+        "https://youtu.be/V2Y_w63kMdI",
+        "https://youtu.be/i3S9cOfgOkc",
+        null,
+        "https://youtu.be/j6_hrWT3myM",
+        "https://youtu.be/kndWaB_X5nk",
+        "https://youtu.be/r9mtBfs7rH4",
+        null,
+        "https://youtu.be/nNY3oJg5mgM",
+        "https://youtu.be/r-f55QN7V14",
+        null,
+        "https://youtu.be/xHlLyuWoDgs",
+        "https://youtu.be/F8OF-kyui4Y",
+        null,
+        "https://youtu.be/bbDLTZYO3_s"
+    )
+
     fun getRandomContent(): String {
         val listSize = myData.size
         val randomIndex = (0 until listSize).random()
         return myData[randomIndex]
+    }
+
+    fun getRandomURL(): String? {
+        val listSize = urlStorage.size
+        val randomIndex = (0 until listSize).random()
+        return urlStorage[randomIndex]
     }
 }
