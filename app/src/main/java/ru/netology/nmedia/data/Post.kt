@@ -1,4 +1,6 @@
-package ru.netology.nmedia
+package ru.netology.nmedia.data
+
+import kotlinx.serialization.Serializable
 
 /***
  *
@@ -85,7 +87,7 @@ postponed_id integer	Идентификатор отложенной запис�
  *
  *
  */
-
+@Serializable
 data class Post(
     val id: Long,
 //    val ownerId: Int,

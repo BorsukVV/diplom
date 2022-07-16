@@ -1,15 +1,22 @@
 package ru.netology.nmedia.viewModel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import ru.netology.nmedia.Post
 import ru.netology.nmedia.adapter.PostInterActionListener
+import ru.netology.nmedia.data.Post
 import ru.netology.nmedia.data.PostRepository
-import ru.netology.nmedia.data.impl.InMemoryPostRepository
+import ru.netology.nmedia.data.impl.FilePostRepository
 import ru.netology.nmedia.util.SingleLiveEvent
 
-class PostViewModel : ViewModel(), PostInterActionListener {
-    private val repository: PostRepository = InMemoryPostRepository()
+class PostViewModel (
+    application: Application
+        ): AndroidViewModel(application), PostInterActionListener {
+
+    //private val repository: PostRepository = SharedPrefsPostRepository(application)
+
+    private val repository: PostRepository = FilePostRepository(application)
+
     val data by repository::data
 
     val sharePostContent = SingleLiveEvent<String>()
@@ -63,22 +70,13 @@ class PostViewModel : ViewModel(), PostInterActionListener {
 
         currentPost.value = post
         editPostContent.value = post.text
-
     }
 
     override fun onVideoClicked(post: Post) {
-        if (post.videoAttachment) {
-            playVideoContent.value = post.videoUrl!!
-        } else {
-            return
+        post.videoUrl?.let {
+            playVideoContent.value = it
         }
     }
-
-    fun onCancelClicked(content: String) {
-        currentPost.value = null
-        return
-    }
-
 
     //endregion
 }
