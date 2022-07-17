@@ -178,4 +178,6 @@ class Data {
         val randomIndex = (0 until listSize).random()
         return urlStorage[randomIndex]
     }
+
+    fun getContentCount() = myData.size
 }

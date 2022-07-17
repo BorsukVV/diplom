@@ -13,19 +13,17 @@ class PostViewModel (
     application: Application
         ): AndroidViewModel(application), PostInterActionListener {
 
-    //private val repository: PostRepository = SharedPrefsPostRepository(application)
-
     private val repository: PostRepository = FilePostRepository(application)
 
     val data by repository::data
 
+    var contentGeneratorButtonVisibility = !repository.contentGeneratorButtonWasClicked
+
     val sharePostContent = SingleLiveEvent<String>()
 
-    val editPostContent = SingleLiveEvent<String>()
+    val navigateToPostContentScreenEvent = SingleLiveEvent<String>()
 
-    val navigateToPostContentScreenEvent = SingleLiveEvent<Unit>()
-
-    val currentPost = MutableLiveData<Post?>(null)
+    private val currentPost = MutableLiveData<Post?>(null)
 
     val playVideoContent = SingleLiveEvent<String>()
 
@@ -69,7 +67,7 @@ class PostViewModel (
     override fun onEditClicked(post: Post) {
 
         currentPost.value = post
-        editPostContent.value = post.text
+        navigateToPostContentScreenEvent.value = post.text
     }
 
     override fun onVideoClicked(post: Post) {
@@ -77,6 +75,9 @@ class PostViewModel (
             playVideoContent.value = it
         }
     }
+
+    fun contentGeneratorClicked() = repository.generateContent()
+
 
     //endregion
 }

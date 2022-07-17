@@ -45,7 +45,6 @@
         app:layout_constraintTop_toBottomOf="@id/authorName"
         tools:text="04.06.2022" />
 
-
     <!-- optionsIcon -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/options"
@@ -96,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@id/postText"
         app:layout_constraintBottom_toTopOf="@id/lowerBarrier"
         android:layout_marginBottom="@dimen/common_spacing"
-         />
+        />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/lowerBarrier"
@@ -106,11 +105,7 @@
         app:layout_constraintTop_toBottomOf="@id/video_frame_in_post"
         app:constraint_referenced_ids="likesIcon, repostIcon, viewsIcon" />
 
-
     <!-- likesIcon -->
-
-
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/likesIcon"
         style="@style/Widget.AppTheme.LikeCheckbox"
@@ -162,7 +157,5 @@
         app:layout_constraintEnd_toStartOf="@id/viewsIcon"
         app:layout_constraintStart_toEndOf="@id/repostIcon"
         app:layout_constraintTop_toTopOf="@id/likesIcon" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

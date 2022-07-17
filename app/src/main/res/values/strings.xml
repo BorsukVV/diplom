@@ -17,4 +17,6 @@
     <string name="description_post_save">Save</string>
     <string name="add_post">Add post</string>
     <string name="poster_of_video">Poster of video</string>
+    <string name="generate_posts">Generate posts</string>
+    <string name="generate_content_tooltip_text">Generate Content</string>
 </resources>

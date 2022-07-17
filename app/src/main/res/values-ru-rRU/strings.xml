@@ -18,4 +18,6 @@
     <string name="description_post_save">Сохранить</string>
     <string name="add_post">Добавить</string>
     <string name="poster_of_video">Постер ролика</string>
+    <string name="generate_posts">Сгенерировать посты</string>
+    <string name="generate_content_tooltip_text">Генерировать посты</string>
 </resources>

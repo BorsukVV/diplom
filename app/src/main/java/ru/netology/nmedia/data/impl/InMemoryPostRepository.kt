@@ -23,6 +23,9 @@ class InMemoryPostRepository : PostRepository {
             )
         }
     )
+    override var contentGeneratorButtonWasClicked: Boolean
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
     private val posts
         get() = checkNotNull(data.value) {
@@ -60,6 +63,10 @@ class InMemoryPostRepository : PostRepository {
 
     override fun save(post: Post) {
         if (post.id == PostRepository.NEW_POST_ID) insert(post) else update(post)
+    }
+
+    override fun generateContent() {
+        TODO("Not yet implemented")
     }
 
     private fun update(post: Post) {

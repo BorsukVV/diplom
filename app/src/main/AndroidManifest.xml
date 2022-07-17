@@ -10,11 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NMedia">
         <activity
-            android:name=".activity.PostContentActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.IntentHandlerActivity"
+            android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -22,19 +26,15 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.PostListItemActivity"
-            android:exported="false" />
+
+<!--        <activity-->
+<!--            android:name=".ui.IntentHandlerActivity"-->
+<!--            android:exported="true"-->
+<!--            >-->
+
+<!--        </activity>-->
     </application>
 
 </manifest>

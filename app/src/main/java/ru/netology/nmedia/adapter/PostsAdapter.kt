@@ -75,7 +75,7 @@ internal class PostsAdapter(
                 viewsIcon.text = countFormatter(post.viewesCount)
                 if (post.videoUrl != null) {
                     postVideoGroup.visibility = View.VISIBLE
-                    binding.videoFrameInPost.videoUrl.setText(post.videoUrl)
+                    binding.videoFrameInPost.videoUrl.text = post.videoUrl
                 } else {
                     postVideoGroup.visibility = View.GONE
                 }

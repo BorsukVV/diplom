@@ -27,7 +27,14 @@ class FilePostRepository(
         prefs.edit { putLong(NEXT_ID_PREF_KEY, newValue) }
     }
 
+    override var contentGeneratorButtonWasClicked =
+        prefs.getBoolean(
+            GENERATED_POSTS_PREF_KEY,
+            false
+        )
+
     override val data: MutableLiveData<List<Post>>
+
 
     private var posts
         get() = checkNotNull(data.value) {
@@ -87,6 +94,29 @@ class FilePostRepository(
         if (post.id == PostRepository.NEW_POST_ID) insert(post) else update(post)
     }
 
+    override fun generateContent() {
+        if (!contentGeneratorButtonWasClicked) {
+
+            val someData = Data()
+            val generatedContent = List(someData.getContentCount()) { index ->
+                Post(
+                    id = index + 1L,
+                    authorName = "Netology",
+                    date = "13/06/2022",
+                    text = "#${index + 1} \n" + someData.getRandomContent(),
+                    isLiked = false,
+                    likesCount = (0 until 2_300_000).random(),
+                    isReposted = false,
+                    repostsCount = (0 until 500_000).random(),
+                    viewesCount = (0 until 5_300_000).random(),
+                    videoUrl = someData.getRandomURL()
+                )
+            }
+            posts = generatedContent + posts
+        }
+        prefs.edit { putBoolean(GENERATED_POSTS_PREF_KEY, true) }
+    }
+
     private fun update(post: Post) {
         posts = posts.map {
             if (it.id == post.id) post else it
@@ -98,7 +128,7 @@ class FilePostRepository(
     }
 
     private companion object {
-        const val GENERATED_POSTS_AMOUNT = 1000
+        const val GENERATED_POSTS_PREF_KEY = "Posts Generator Was Started"
         const val POSTS_PREF_KEY = "posts"
         const val NEXT_ID_PREF_KEY = "nextID"
         const val FILE_NAME = "posts.json"
