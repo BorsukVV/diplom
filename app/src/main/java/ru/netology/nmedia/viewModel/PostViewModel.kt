@@ -23,7 +23,9 @@ class PostViewModel (
 
     val navigateToPostContentScreenEvent = SingleLiveEvent<String>()
 
-    private val currentPost = MutableLiveData<Post?>(null)
+    val navigateToPostDetails = SingleLiveEvent<Long>()
+
+    val currentPost = MutableLiveData<Post?>(null)
 
     val playVideoContent = SingleLiveEvent<String>()
 
@@ -74,6 +76,11 @@ class PostViewModel (
         post.videoUrl?.let {
             playVideoContent.value = it
         }
+    }
+
+    override fun viewPostDetails(post: Post) {
+        currentPost.value = post
+        navigateToPostDetails.value = post.id
     }
 
     fun contentGeneratorClicked() = repository.generateContent()

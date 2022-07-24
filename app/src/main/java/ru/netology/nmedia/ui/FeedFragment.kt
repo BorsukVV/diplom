@@ -16,7 +16,9 @@ import ru.netology.nmedia.databinding.FeedFragmentBinding
 import ru.netology.nmedia.viewModel.PostViewModel
 
 open class FeedFragment : Fragment() {
-    private val viewModel by viewModels<PostViewModel>()
+    private val viewModel by viewModels<PostViewModel>(
+        ownerProducer = ::requireParentFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +55,11 @@ open class FeedFragment : Fragment() {
             val direction = FeedFragmentDirections.toPostContentFragment(initialContent)
             findNavController().navigate(direction)
         }
+
+        viewModel.navigateToPostDetails.observe(this){postID ->
+            val direction = FeedFragmentDirections.toPostDetailsFragment(postID.toString())
+            findNavController().navigate(direction)
+        }
     }
 
     override fun onCreateView(
@@ -85,7 +92,4 @@ open class FeedFragment : Fragment() {
 
     }.root
 
-    companion object {
-        const val TAG = "FeedFragment"
-    }
 }

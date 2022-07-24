@@ -11,8 +11,10 @@
         android:theme="@style/Theme.NMedia">
         <activity
             android:name=".ui.MainActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
+            <nav-graph android:value="@navigation/nav_graph" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -25,13 +27,6 @@
             </intent-filter>
 
         </activity>
-
-<!--        <activity-->
-<!--            android:name=".ui.IntentHandlerActivity"-->
-<!--            android:exported="true"-->
-<!--            >-->
-
-<!--        </activity>-->
     </application>
 
 </manifest>

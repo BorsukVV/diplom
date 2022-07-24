@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="@dimen/common_spacing">
 
     <ImageView
@@ -11,10 +11,10 @@
         android:layout_width="@dimen/post_avatar_size"
         android:layout_height="@dimen/post_avatar_size"
         android:contentDescription="@string/avatar_description"
+        app:layout_constraintBottom_toTopOf="@+id/detailsScroll"
+        app:layout_constraintEnd_toStartOf="@+id/authorName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/postText"
-        app:layout_constraintEnd_toStartOf="@+id/authorName"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -58,9 +58,8 @@
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/authorName"/>
-
+        app:layout_constraintStart_toEndOf="@+id/authorName"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/headerBarrier"
@@ -69,48 +68,62 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="avatar, data, options" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/postText"
+    <ScrollView
+        android:id="@+id/detailsScroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="10"
-        android:ellipsize="end"
-        android:text=""
-        android:layout_marginTop="@dimen/common_spacing"
-        app:layout_constraintBottom_toTopOf="@id/video_frame_in_post"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/avatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/common_spacing"
-        tools:text="@tools:sample/lorem/random" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/postVideoGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:alpha="1"
-        android:background="@android:color/background_light"
-        android:visibility="visible"
-        app:constraint_referenced_ids="video_frame_in_post" />
-
-    <include
-        android:id="@+id/video_frame_in_post"
-        layout="@layout/post_video_module"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/postText"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/lowerBarrier"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/common_spacing"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerBarrier">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/postText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:layout_marginBottom="@dimen/common_spacing"
+                android:ellipsize="end"
+                android:text=""
+                app:layout_constraintBottom_toTopOf="@id/video_frame_in_post"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/avatar"
+                tools:text="@tools:sample/lorem/random" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/postDetailsVideoGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="1"
+                android:background="@android:color/background_light"
+                android:visibility="visible"
+                app:constraint_referenced_ids="video_frame_in_post" />
+
+            <include
+                android:id="@+id/video_frame_in_post"
+                layout="@layout/post_video_module"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_spacing"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/postText" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/lowerBarrier"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:barrierDirection="top"
-        app:layout_constraintTop_toBottomOf="@id/video_frame_in_post"
+
         app:constraint_referenced_ids="likesIcon, repostIcon, viewsIcon" />
 
     <!-- likesIcon -->
