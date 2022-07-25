@@ -34,7 +34,7 @@ class ViewsUtils() {
 
             when (count) {
                 in (0 until 1000) -> {
-                    return String.format(templateNoSuf, resources)
+                    return String.format(templateNoSuf, count)
                 }
                 in (1000 until 10_000) -> {
                     val tensOfHundreds = count / 100

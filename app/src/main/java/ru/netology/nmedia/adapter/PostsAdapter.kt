@@ -18,9 +18,9 @@ internal class PostsAdapter(
 
     private val interActionListener: PostInterActionListener
 
-) : ListAdapter<Post, PostsAdapter.ViewHolder>(DiffCallBack) {
+) : ListAdapter<Post, PostsAdapter.PostViewHolder>(DiffCallBack) {
 
-    inner class ViewHolder(
+    inner class PostViewHolder(
         private val binding: PostBinding,
         listener: PostInterActionListener
 
@@ -73,10 +73,10 @@ internal class PostsAdapter(
                 authorName.text = post.authorName
                 postText.text = post.text
                 data.text = post.date
-                likesIcon.text = ViewsUtils.countFormatter(resources, post.repostsCount)
+                likesIcon.text = ViewsUtils.countFormatter(resources, post.likesCount)
                 likesIcon.isChecked = post.isLiked
                 repostIcon.text = ViewsUtils.countFormatter(resources, post.repostsCount)
-                viewsIcon.text = ViewsUtils.countFormatter(resources, post.repostsCount)
+                viewsIcon.text = ViewsUtils.countFormatter(resources, post.viewesCount)
                 if (post.videoUrl != null) {
                     postVideoGroup.visibility = View.VISIBLE
                     videoFrameInPost.videoUrl.text = post.videoUrl
@@ -87,13 +87,13 @@ internal class PostsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = PostBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding, interActionListener)
+        return PostViewHolder(binding, interActionListener)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
