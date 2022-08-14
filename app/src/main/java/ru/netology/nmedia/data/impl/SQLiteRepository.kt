@@ -22,13 +22,13 @@ class SQLiteRepository(
         //data.value = postDao.getAll()
     }
 
-    override fun like(id: Long) {
-        postDao.likeByID(id)
+    override fun like(postID: Long) {
+        postDao.likeByID(postID)
         //data.value = postDao.getAll()
     }
 
-    override fun delete(id: Long) {
-        postDao.removeByID(id)
+    override fun delete(postID: Long) {
+        postDao.removeByID(postID)
         //data.value = postDao.getAll()
     }
 
