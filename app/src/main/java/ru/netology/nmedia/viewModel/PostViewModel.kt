@@ -6,14 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.adapter.PostInterActionListener
 import ru.netology.nmedia.data.Post
 import ru.netology.nmedia.data.PostRepository
-import ru.netology.nmedia.data.impl.FilePostRepository
+import ru.netology.nmedia.data.impl.SQLiteRepository
+import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.util.SingleLiveEvent
 
-class PostViewModel (
+class PostViewModel(
     application: Application
-        ): AndroidViewModel(application), PostInterActionListener {
+) : AndroidViewModel(application), PostInterActionListener {
 
-    private val repository: PostRepository = FilePostRepository(application)
+    private val repository: PostRepository = SQLiteRepository(
+        postDao = AppDb.getInstance(
+            context = application
+        ).postDao
+    )
 
     val data by repository::data
 

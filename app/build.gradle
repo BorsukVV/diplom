@@ -11,12 +11,13 @@ android {
 
     defaultConfig {
         applicationId "ru.netology.nmedia"
-        minSdk 23
+        minSdk 19
         //targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        targetSdk 23
     }
 
     buildFeatures {
@@ -36,6 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    compileSdk 31
 }
 
 dependencies {
