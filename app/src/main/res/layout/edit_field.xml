@@ -65,7 +65,7 @@
         android:layout_marginEnd="@dimen/common_spacing"
         android:background="@android:color/background_light"
         android:contentDescription="@string/more_info"
-        android:src="@drawable/ic_post_edit_cancel_24dp"
+        app:srcCompat="@drawable/ic_post_edit_cancel_24dp"
         app:layout_constraintBottom_toBottomOf="@id/avatarEditIcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/avatarEditIcon" />
