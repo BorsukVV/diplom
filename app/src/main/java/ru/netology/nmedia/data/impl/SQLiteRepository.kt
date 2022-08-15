@@ -19,24 +19,24 @@ class SQLiteRepository(
 
     override fun save(post: Post) {
         postDao.save(post)
-        //data.value = postDao.getAll()
+        data.value = postDao.getAll()
     }
 
     override fun like(postID: Long) {
         postDao.likeByID(postID)
-        //data.value = postDao.getAll()
+        data.value = postDao.getAll()
     }
 
     override fun delete(postID: Long) {
         postDao.removeByID(postID)
-        //data.value = postDao.getAll()
+        data.value = postDao.getAll()
     }
 
     override var contentGeneratorButtonWasClicked: Boolean = true
 
     override fun share(postID: Long) {
         postDao.shareByID(postID)
-        //data.value = postDao.getAll()
+        data.value = postDao.getAll()
     }
 
     override fun generateContent() {}
