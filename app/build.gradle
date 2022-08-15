@@ -7,12 +7,10 @@ plugins {
 
 
 android {
-    compileSdk 31
-//    android.defaultConfig.
+    //compileSdk 31
     defaultConfig {
         applicationId "ru.netology.nmedia"
         minSdk 19
-        //targetSdk 31
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -37,7 +35,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    compileSdk 31
+    compileSdk 33
 }
 
 dependencies {
