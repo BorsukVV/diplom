@@ -49,7 +49,7 @@ class PostViewModel(
             likesCount = 0,
             isReposted = false,
             repostsCount = 0,
-            viewesCount = 0,
+            viewsCount = 0,
             videoUrl = null
         )
         repository.save(post)

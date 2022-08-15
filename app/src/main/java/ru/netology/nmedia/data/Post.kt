@@ -107,7 +107,7 @@ data class Post(
     val isReposted: Boolean,
     val repostsCount: Int,
 //    val views: Views,
-    val viewesCount: Int,
+    val viewsCount: Int,
     val videoUrl: String?,
 
 //    val postType: String,

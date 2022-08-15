@@ -17,7 +17,7 @@ internal fun View.showKeyboard() {
 }
 
 
-class ViewsUtils() {
+class ViewsUtils {
 
     companion object {
         private lateinit var res: Resources

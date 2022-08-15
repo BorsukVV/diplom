@@ -28,7 +28,7 @@ class PostDaoImpl(
             put(PostTable.Column.IsLiked.columnName, post.isLiked)
             put(PostTable.Column.LikesCount.columnName, post.likesCount)
             put(PostTable.Column.IsReposted.columnName, post.isReposted)
-            put(PostTable.Column.ViewsCount.columnName, post.viewesCount)
+            put(PostTable.Column.ViewsCount.columnName, post.viewsCount)
             put(PostTable.Column.VideoUrl.columnName, post.videoUrl)
         }
         val id = if (post.id != 0L) {

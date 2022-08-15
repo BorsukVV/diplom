@@ -12,7 +12,7 @@ fun Cursor.toPost() = Post(
     likesCount = getInt(getColumnIndexOrThrow(PostTable.Column.LikesCount.columnName)),
     isReposted = getInt(getColumnIndexOrThrow(PostTable.Column.IsReposted.columnName)) != 0,
     repostsCount = getInt(getColumnIndexOrThrow(PostTable.Column.RepostsCount.columnName)),
-    viewesCount = getInt(getColumnIndexOrThrow(PostTable.Column.ViewsCount.columnName)),
+    viewsCount = getInt(getColumnIndexOrThrow(PostTable.Column.ViewsCount.columnName)),
     videoUrl = getString(getColumnIndexOrThrow(PostTable.Column.VideoUrl.columnName))
 
 )

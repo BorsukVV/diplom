@@ -76,7 +76,7 @@ internal class PostsAdapter(
                 likesIcon.text = ViewsUtils.countFormatter(resources, post.likesCount)
                 likesIcon.isChecked = post.isLiked
                 repostIcon.text = ViewsUtils.countFormatter(resources, post.repostsCount)
-                viewsIcon.text = ViewsUtils.countFormatter(resources, post.viewesCount)
+                viewsIcon.text = ViewsUtils.countFormatter(resources, post.viewsCount)
                 if (post.videoUrl != null) {
                     postVideoGroup.visibility = View.VISIBLE
                     videoFrameInPost.videoUrl.text = post.videoUrl

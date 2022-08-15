@@ -108,7 +108,7 @@ class FilePostRepository(
                     likesCount = (0 until 2_300_000).random(),
                     isReposted = false,
                     repostsCount = (0 until 500_000).random(),
-                    viewesCount = (0 until 5_300_000).random(),
+                    viewsCount = (0 until 5_300_000).random(),
                     videoUrl = someData.getRandomURL()
                 )
             }
