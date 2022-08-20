@@ -1,18 +1,32 @@
 package ru.netology.nmedia.db
 
-import android.database.Cursor
-import ru.netology.nmedia.data.Post
+//internal fun PostEntity.toModel() = Post(
+//    id = id,
+//    authorName = authorName,
+//    date = date,
+//    text = text,
+//    isLiked = isLiked,
+//    likesCount = likesCount,
+//    isReposted = isReposted,
+//    repostsCount = repostsCount,
+//    viewsCount = viewsCount,
+//    videoUrl = videoUrl
+//)
 
-fun Cursor.toPost() = Post(
-    id = getLong(getColumnIndexOrThrow(PostTable.Column.Id.columnName)),
-    authorName = getString(getColumnIndexOrThrow(PostTable.Column.AuthorName.columnName)),
-    date = getString(getColumnIndexOrThrow(PostTable.Column.Date.columnName)),
-    text = getString(getColumnIndexOrThrow(PostTable.Column.Text.columnName)),
-    isLiked = getInt(getColumnIndexOrThrow(PostTable.Column.IsLiked.columnName)) != 0,
-    likesCount = getInt(getColumnIndexOrThrow(PostTable.Column.LikesCount.columnName)),
-    isReposted = getInt(getColumnIndexOrThrow(PostTable.Column.IsReposted.columnName)) != 0,
-    repostsCount = getInt(getColumnIndexOrThrow(PostTable.Column.RepostsCount.columnName)),
-    viewsCount = getInt(getColumnIndexOrThrow(PostTable.Column.ViewsCount.columnName)),
-    videoUrl = getString(getColumnIndexOrThrow(PostTable.Column.VideoUrl.columnName))
-
-)
+//internal fun Post.toEntity() = PostEntity(
+//    id = id,
+//    authorName = authorName,
+//    date = date,
+//    text = text,
+//    isLiked = isLiked,
+//    likesCount = likesCount,
+//    isReposted = isReposted,
+//    repostsCount = repostsCount,
+//    viewsCount = viewsCount,
+//    videoUrl = videoUrl
+//)
+//
+//fun bla() {
+//    var dp = PostEntity(0L, "a", "0", "000", false, 0, false, 0, 0, null)
+//    dp.toModel()
+//}
