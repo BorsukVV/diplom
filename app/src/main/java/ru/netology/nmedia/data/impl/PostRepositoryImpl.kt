@@ -1,12 +1,12 @@
 package ru.netology.nmedia.data.impl
 
+import android.util.Log
 import androidx.lifecycle.map
 import ru.netology.nmedia.data.Post
 import ru.netology.nmedia.data.PostRepository
 import ru.netology.nmedia.db.PostDao
 import ru.netology.nmedia.db.PostEntity
 import ru.netology.nmedia.db.PrefDao
-import ru.netology.nmedia.db.PrefEntity
 
 class PostRepositoryImpl(
     private val dao: PostDao,
@@ -21,6 +21,8 @@ class PostRepositoryImpl(
     override fun save(post: Post) {
         if (post.id == PostRepository.NEW_POST_ID) dao.insert(post.toEntity())
         else dao.updateContentById(post.id, post.text)
+        val logMsg = pref.checkWasClicked().last().contentGeneratorButtonWasClicked
+        Log.d("TAG", "fun save checkWasClicked $logMsg")
     }
 
     override fun like(postID: Long) {
@@ -31,26 +33,30 @@ class PostRepositoryImpl(
         dao.removeById(postID)
     }
 
-//    override var contentGeneratorButtonWasClicked: Boolean = true
+ //   override var contentGeneratorButtonWasClicked: Boolean = false
 //   override var contentGeneratorButtonWasClicked: Boolean = prefChecker()
 
-    override var contentGeneratorButtonWasClicked: Boolean = pref.checkWasClicked().last().contentGeneratorButtonWasClicked
+    override var contentGeneratorButtonWasClicked: Boolean =
+        pref.checkWasClicked().last().contentGeneratorButtonWasClicked
 
 
-private fun prefChecker() : Boolean {
-    if (pref.checkWasClicked().isNullOrEmpty()){
-        val generatorPreset = PrefEntity(1, false)
-        pref.insert(generatorPreset)
-    }
-    return pref.checkWasClicked().last().contentGeneratorButtonWasClicked
 
-}
+//private fun prefChecker() : Boolean {
+//    if (pref.checkWasClicked().isNullOrEmpty()){
+//        val generatorPreset = PrefEntity(1, false)
+//        pref.insert(generatorPreset)
+//    }
+//    return pref.checkWasClicked().last().contentGeneratorButtonWasClicked
+//
+//}
 
     override   fun share(postID: Long) {
         dao.shareByID(postID)
     }
 
     override fun generateContent() {
+        val before = pref.checkWasClicked().last().contentGeneratorButtonWasClicked
+        Log.d("TAG", "fun generateContent checkWasClicked before if $before")
         if (!contentGeneratorButtonWasClicked) {
             val someData = Data()
             for (index: Int in 0..someData.getContentCount()) {
@@ -71,6 +77,8 @@ private fun prefChecker() : Boolean {
             }
         }
         pref.wasGenerated()
+        val logMsg = pref.checkWasClicked().last().contentGeneratorButtonWasClicked
+        Log.d("TAG", "fun generateContent checkWasClicked $logMsg")
     }
 
 }
