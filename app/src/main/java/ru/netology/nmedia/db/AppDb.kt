@@ -1,10 +1,11 @@
-
 package ru.netology.nmedia.db
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [PostEntity::class, PrefEntity::class],
@@ -22,11 +23,46 @@ abstract class AppDb : RoomDatabase() {
         fun getInstance(context: Context): AppDb {
             return instance ?: synchronized(this) {
                 instance ?: buildDatabase(context)
-                .also { instance = it }
+                    .also { instance = it }
             }
         }
 
         private fun buildDatabase(context: Context) =
-            Room.databaseBuilder(context, AppDb::class.java, "app.db").allowMainThreadQueries().build()
+            Room.databaseBuilder(
+                context,
+                AppDb::class.java,
+                "app.db"
+            ).allowMainThreadQueries()
+                .addCallback(
+                    object : Callback() {
+                        override fun onCreate(db: SupportSQLiteDatabase) {
+                            super.onCreate(db)
+                            Log.d("TAG", "onCreate")
+                            Thread(Runnable { prepopulateDb(getInstance(context)) }).start()
+                        }
+                    }
+//                    AppDbCallback()
+                )
+                .build()
+
+        private fun prepopulateDb(db: AppDb) {
+            Log.d("TAG", "prepopulateDb")
+            val generatorPreset = PrefEntity(1, false)
+            db.prefDao.insert(generatorPreset)
+        }
+
+        private class AppDbCallback : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                Log.d("TAG", "onCreate")
+                db as AppDb
+
+                db.let {
+                    Log.d("TAG", "in let")
+                    val generatorPreset = PrefEntity(1, false)
+                    it.prefDao.insert(generatorPreset)
+                }
+            }
+        }
     }
 }

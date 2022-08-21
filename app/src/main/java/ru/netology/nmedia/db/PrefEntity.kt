@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "prefs")
 class PrefEntity(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Long,
+    @PrimaryKey
+    @ColumnInfo(name = "id", defaultValue = "1")
+    val id: Int,
     @ColumnInfo(name = "contentGeneratorButtonWasClicked", defaultValue = "0")
     val contentGeneratorButtonWasClicked: Boolean
 )
