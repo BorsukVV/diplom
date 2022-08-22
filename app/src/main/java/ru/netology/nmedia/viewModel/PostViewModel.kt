@@ -25,7 +25,7 @@ class PostViewModel(
 
     val data by repository::data
 
-    var contentGeneratorButtonVisibility = !repository.contentGeneratorButtonWasClicked
+    val generatorButtonVisibility by repository::contentGeneratorButtonWasClicked
 
     val sharePostContent = SingleLiveEvent<String>()
 

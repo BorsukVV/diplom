@@ -1,7 +1,6 @@
 package ru.netology.nmedia.db
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -17,6 +16,10 @@ abstract class AppDb : RoomDatabase() {
     abstract val prefDao: PrefDao
 
     companion object {
+
+        private const val PREF_WAS_GENERATED_ID = 1
+        private const val PREF_WAS_GENERATED_PROPERTY = false
+
         @Volatile
         private var instance: AppDb? = null
 
@@ -29,46 +32,31 @@ abstract class AppDb : RoomDatabase() {
 
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
-                context,                AppDb::class.java,                "app.db"
+                context,
+                AppDb::class.java,
+                "app.db"
             ).allowMainThreadQueries()
                 .addCallback(
                     object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-                            val msg = db.javaClass
-                            Log.d("TAG", "onCreate")
-                            Log.d("TAG", "object : Callback $msg")
-                            Thread(Runnable { prepopulateDb(getInstance(context)) }).start()
+//                            val msg = db.javaClass
+//                            Log.d("TAG", "onCreate")
+//                            Log.d("TAG", "object : Callback $msg")
+                            Thread({ prepopulateDb(getInstance(context)) }).start()
                         }
                     }
-   //                 AppDbCallback()
                 )
                 .build()
-        private fun prepopulateDb(db: AppDb) {
-            Log.d("TAG", "prepopulateDb")
-            val generatorPreset = PrefEntity(1, false)
-            db.prefDao.insert(generatorPreset)
-            val logMsg = db.prefDao.checkWasClicked().last().contentGeneratorButtonWasClicked
-            Log.d("TAG", "fun prepopulateDb $logMsg")
-        }
 
-//        private class AppDbCallback : RoomDatabase.Callback() {
-//            override fun onCreate(db: SupportSQLiteDatabase) {
-//                super.onCreate(db)
-//                Log.d("TAG", "onCreate")
-//                //db as AppDb
-//
-//                val msg = db.javaClass
-//
-//                Log.d("TAG", "$msg")
-//
-//                instance?.let {
-//                    Log.d("TAG", "in let")
-//
-//                    val generatorPreset = PrefEntity(1, false)
-//                    it.prefDao.insert(generatorPreset)
-//                }
-//            }
-//        }
+        private fun prepopulateDb(db: AppDb) {
+//            Log.d("TAG", "prepopulateDb")
+
+            val generatorPreset = PrefEntity(PREF_WAS_GENERATED_ID, PREF_WAS_GENERATED_PROPERTY)
+            db.prefDao.insert(generatorPreset)
+//            val logMsg =
+//                db.prefDao.checkWasClicked().value?.last()?.contentGeneratorButtonWasClicked
+//            Log.d("TAG", "fun prepopulateDb $logMsg")
+        }
     }
 }

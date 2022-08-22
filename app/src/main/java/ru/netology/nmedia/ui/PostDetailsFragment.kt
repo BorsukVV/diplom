@@ -21,7 +21,6 @@ class PostDetailsFragment : Fragment() {
 
     private val viewModel by viewModels<PostViewModel>(
         ownerProducer = ::requireParentFragment
-
     )
 
     override fun onCreateView(
@@ -71,7 +70,6 @@ class PostDetailsFragment : Fragment() {
 
         post?.let {
             binding.likesIcon.setOnClickListener {
-
                 viewModel.onLikeClicked(post)
             }
 
@@ -94,7 +92,6 @@ class PostDetailsFragment : Fragment() {
                             }
                             R.id.edit -> {
                                 viewModel.onEditClicked(post)
-
                                 true
                             }
                             else -> false

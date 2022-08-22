@@ -3,7 +3,6 @@ package ru.netology.nmedia.ui
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +56,7 @@ open class FeedFragment : Fragment() {
             findNavController().navigate(direction)
         }
 
-        viewModel.navigateToPostDetails.observe(this){postID ->
+        viewModel.navigateToPostDetails.observe(this) { postID ->
             val direction = FeedFragmentDirections.toPostDetailsFragment(postID.toString())
             findNavController().navigate(direction)
         }
@@ -71,8 +70,13 @@ open class FeedFragment : Fragment() {
 
         val adapter = PostsAdapter(viewModel)
 
-        val contentGeneratorButtonVisibility = viewModel.contentGeneratorButtonVisibility
-        Log.d("TAG", "GeneratorButtonVisibility $contentGeneratorButtonVisibility")
+        viewModel.generatorButtonVisibility.observe(viewLifecycleOwner) {
+            binding.contentGenerator.visibility =
+                if (it.last().contentGeneratorButtonWasClicked) View.GONE else View.VISIBLE
+        }
+
+//        val contentGeneratorButtonVisibility = viewModel.contentGeneratorButtonVisibility
+//        Log.d("TAG", "GeneratorButtonVisibility $contentGeneratorButtonVisibility")
 
         binding.PostsRecyclerView.adapter = adapter
 
@@ -83,9 +87,6 @@ open class FeedFragment : Fragment() {
         binding.fab.setOnClickListener {
             viewModel.onAddClicked()
         }
-
-        binding.contentGenerator.visibility =
-            if (contentGeneratorButtonVisibility) View.VISIBLE else View.GONE
 
         binding.contentGenerator.setOnClickListener {
             viewModel.contentGeneratorClicked()

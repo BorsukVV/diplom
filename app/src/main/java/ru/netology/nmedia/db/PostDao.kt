@@ -4,15 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-
-//import ru.netology.nmedia.data.Post
+import ru.netology.nmedia.data.PostRepository
 
 @Dao
 interface PostDao {
-
-//    fun save(post: Post): Post
-//    fun likeByID(id:Long)
-//    fun removeByID(id: Long)
 
     @Query("UPDATE posts SET repostsCount = repostsCount + 1 WHERE id = :id")
     fun shareByID(id: Long)
@@ -27,7 +22,7 @@ interface PostDao {
     fun updateContentById(id: Long, content: String)
 
     fun save(post: PostEntity) =
-        if (post.id == 0L) insert(post) else updateContentById(post.id, post.text)
+        if (post.id == PostRepository.NEW_POST_ID) insert(post) else updateContentById(post.id, post.text)
 
     @Query(
         """
@@ -41,6 +36,5 @@ interface PostDao {
 
     @Query("DELETE FROM posts WHERE id = :id")
     fun removeById(id: Long)
-
 
 }

@@ -1,6 +1,5 @@
 package ru.netology.nmedia.data.impl
 
-import android.util.Log
 import androidx.lifecycle.map
 import ru.netology.nmedia.data.Post
 import ru.netology.nmedia.data.PostRepository
@@ -18,46 +17,25 @@ class PostRepositoryImpl(
         entities.map { it.toModel() }
     }
 
-    override fun save(post: Post) {
-        if (post.id == PostRepository.NEW_POST_ID) dao.insert(post.toEntity())
-        else dao.updateContentById(post.id, post.text)
-        val logMsg = pref.checkWasClicked().last().contentGeneratorButtonWasClicked
-        Log.d("TAG", "fun save checkWasClicked $logMsg")
-    }
+    override fun save(post: Post) = dao.save(post.toEntity())
 
-    override fun like(postID: Long) {
-        dao.likeById(postID)
-    }
+    override fun like(postID: Long) = dao.likeById(postID)
 
-    override fun delete(postID: Long) {
-        dao.removeById(postID)
-    }
-
- //   override var contentGeneratorButtonWasClicked: Boolean = false
-//   override var contentGeneratorButtonWasClicked: Boolean = prefChecker()
-
-    override var contentGeneratorButtonWasClicked: Boolean =
-        pref.checkWasClicked().last().contentGeneratorButtonWasClicked
+    override fun delete(postID: Long) = dao.removeById(postID)
 
 
+    override var contentGeneratorButtonWasClicked =
+        pref.checkWasClicked()
 
-//private fun prefChecker() : Boolean {
-//    if (pref.checkWasClicked().isNullOrEmpty()){
-//        val generatorPreset = PrefEntity(1, false)
-//        pref.insert(generatorPreset)
-//    }
-//    return pref.checkWasClicked().last().contentGeneratorButtonWasClicked
-//
-//}
+    private var generatorButtonInvisible: Boolean =
+        contentGeneratorButtonWasClicked.value?.last()?.contentGeneratorButtonWasClicked == true
 
-    override   fun share(postID: Long) {
-        dao.shareByID(postID)
-    }
+    override fun share(postID: Long) = dao.shareByID(postID)
 
     override fun generateContent() {
-        val before = pref.checkWasClicked().last().contentGeneratorButtonWasClicked
-        Log.d("TAG", "fun generateContent checkWasClicked before if $before")
-        if (!contentGeneratorButtonWasClicked) {
+//        val before = pref.checkWasClicked().value?.last()?.contentGeneratorButtonWasClicked
+//        Log.d("TAG", "fun generateContent checkWasClicked before if $before")
+        if (!generatorButtonInvisible) {
             val someData = Data()
             for (index: Int in 0..someData.getContentCount()) {
                 save(
@@ -77,15 +55,10 @@ class PostRepositoryImpl(
             }
         }
         pref.wasGenerated()
-        val logMsg = pref.checkWasClicked().last().contentGeneratorButtonWasClicked
-        Log.d("TAG", "fun generateContent checkWasClicked $logMsg")
+//        val logMsg = pref.checkWasClicked().value?.last()?.contentGeneratorButtonWasClicked
+//        Log.d("TAG", "fun generateContent checkWasClicked $logMsg")
     }
-
 }
-
-//private fun PrefEntity.toBoolean(): Boolean {
-//
-//}
 
 private fun Post.toEntity() = PostEntity(
     id = id,
