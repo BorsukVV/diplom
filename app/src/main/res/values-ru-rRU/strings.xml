@@ -1,23 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">НМедиа</string>
-    <string name="greeting">НМедиа!</string>
-    <string name="avatar_description">Аватар автора</string>
-    <string name="more_info">Развернуть заголовок</string>
-    <string name="see_content">Смотреть посты</string>
-    <string name="suffix_thousands">К</string>
-    <string name="suffix_millions">М</string>
-    <string name="formatted_like_rep_view_count_without_suffix">%1$d</string>
-    <string name="formatted_like_rep_view_count_two_dig_suf">%1$d.%2$d%3$s</string>
-    <string name="formatted_like_rep_view_thousands_one_dig_suf">%1$d%2$s</string>
-    <string name="remove">Удалить</string>
-    <string name="post_text">Введите текст</string>
-    <string name="edit">Редактировать</string>
-    <string name="edit_title">Редактирование</string>
-    <string name="chooser_share_post">Поделиться</string>
-    <string name="description_post_save">Сохранить</string>
-    <string name="add_post">Добавить</string>
-    <string name="poster_of_video">Постер ролика</string>
-    <string name="generate_posts">Сгенерировать посты</string>
-    <string name="generate_content_tooltip_text">Генерировать посты</string>
+<string name="app_name">NeРецепты</string>
+<string name="options">Опции</string>
+
+<string name="remove">Удалить</string>
+
+<string name="edit">Изменить</string>
+    <string name="search">Поиск</string>
+
+<string name="step_with_counter">Шаг %1$d</string>
+<string name="recipe_step_description_hint">Введите описание шага</string>
+<string name="recipe_description">Если просто, шарлотка - яблочный пирог. Хотя этот пирог и называется шарлотка, рецепт приготовления его очень напоминает яблочный бисквит. Что касается названия шарлотки, существует романтичная история о безнадёжно влюблённом поваре, который придумал как готовить шарлотку с яблоками и посвятил этот рецепт даме своего сердца Шарлотте. Так появился пирог шарлотка.</string>
+<string name="recipe_step_description">Описание шага рецепта</string>
+<string name="recipe_author">Автор рецепта</string>
+<string name="recipe_title">Название рецепта</string>
+<string name="recipe_title_hint">Название рецепта</string>
+<string name="recipe_author_hint">Автор рецепта</string>
+<string name="recipe_description_hint">Введите общее описание</string>
+
+<string name="recipe_save">Сохранить рецепт</string>
+<string name="add_recipe">Добавить рецепт</string>
+<string name="add_step">Добавить шаг</string>
+<string name="recipe_step_save">Сохранить шаг</string>
+
+<!-- Bottom tab nav names -->
+<string name="title_home">Домой</string>
+<string name="filters">Фильтры</string>
+<string name="favorites">Избранное</string>
+
+<!-- Recipe tab names -->
+<string name="summary">Общее</string>
+<string name="by_steps">Пошагово</string>
+
+<!-- Search filters for checkboxes-->
+<string name="european">Европейская</string>
+<string name="asian">Азиатская</string>
+<string name="panAsian">Паназиатская</string>
+<string name="eastern">Восточная</string>
+<string name="american">Американская</string>
+<string name="russian">Русская</string>
+<string name="mediterranean">Средиземноморская</string>
+
+<!-- Recipe categories -->
+<string name="recipe_category">Категория</string>
+<string-array name="category_list">
+    <item>Европейская</item>
+    <item>Азиатская</item>
+    <item>Паназиатская</item>
+    <item>Восточная</item>
+    <item>Американская</item>
+    <item>Русская</item>
+    <item>Средиземноморская</item>
+</string-array>
 </resources>

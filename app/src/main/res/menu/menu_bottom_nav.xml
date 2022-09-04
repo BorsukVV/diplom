@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/home"
+        android:icon="@drawable/ic_home_24dp"
+        android:contentDescription="home"
+        android:title="@string/title_home" />
+    <item
+        android:id="@id/filter"
+        android:icon="@drawable/ic_filter_24"
+        android:contentDescription="filter"
+        android:title="@string/filters" />
+    <item
+        android:id="@id/favorites"
+        android:icon="@drawable/ic_not_favourite_24dp"
+        android:contentDescription="favorites"
+        android:title="@string/favorites"
+         />
+</menu>

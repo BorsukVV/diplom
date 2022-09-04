@@ -9,7 +9,7 @@ plugins {
 android {
     //compileSdk 31
     defaultConfig {
-        applicationId "ru.netology.nmedia"
+        applicationId 'ru.netology.neRecipes'
         minSdk 19
         versionCode 1
         versionName "1.0"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.netology.nmedia">
+    package="ru.netology.neRecipes">
 
     <application
         android:allowBackup="true"
@@ -8,13 +8,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NMedia">
+        android:theme="@style/Theme.neRecipes">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="ru.netology.neRecipes.ui.MainActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
-            <nav-graph android:value="@navigation/nav_graph" />
+            <nav-graph android:value="@navigation/bottom_nav_graph" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/steps_creation_graph"
+    app:startDestination="@id/recipeStepsListCreateFragment">
+
+    <fragment
+        android:id="@+id/recipeStepsListCreateFragment"
+        android:name="ru.netology.neRecipes.ui.RecipeStepsListCreateFragment"
+        android:label="RecipeStepsListCreateFragment"
+        tools:layout="@layout/recipe_steps_list_create_fragment">
+        <action
+            android:id="@+id/action_recipeStepsListCreateFragment_to_recipeStepCreateFragment"
+            app:destination="@id/recipeStepCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeStepCreateFragment"
+        android:name="ru.netology.neRecipes.ui.RecipeStepCreateFragment"
+        android:label="RecipeStepCreateFragment"
+        tools:layout="@layout/recipe_step_create_fragment"/>
+</navigation>

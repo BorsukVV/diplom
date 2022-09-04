@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/common_spacing"
+    android:id="@+id/step_fragment"
+    tools:context=".ui.MainActivity">
+
+    <TextView
+        android:id="@+id/recipe_step_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/step_with_counter"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_step_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/step_with_counter" />
+
+    <TextView
+        android:id="@+id/recipe_step_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:text="@string/recipe_step_description"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_step_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_step_header"
+        tools:text="@string/recipe_step_description" />
+
+    <ImageView
+        android:id="@+id/recipe_step_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_step_description"
+        app:srcCompat="@drawable/recipe_image_template" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

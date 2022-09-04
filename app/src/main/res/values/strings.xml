@@ -1,22 +1,54 @@
 <resources>
-    <string name="app_name">NMedia</string>
-    <string name="greeting">NMedia!</string>
-    <string name="avatar_description">Author avatar</string>
-    <string name="more_info">Show hide information</string>
-    <string name="see_content">See content</string>
-    <string name="suffix_thousands">K</string>
-    <string name="suffix_millions">M</string>
-    <string name="formatted_like_rep_view_count_without_suffix">%1$d</string>
-    <string name="formatted_like_rep_view_count_two_dig_suf">%1$d.%2$d%3$s</string>
-    <string name="formatted_like_rep_view_thousands_one_dig_suf">%1$d%2$s</string>
+    <string name="app_name">NeRecipes</string>
+    <string name="options">Options</string>
+
     <string name="remove">Remove</string>
-    <string name="post_text">Post text</string>
+
     <string name="edit">Edit</string>
-    <string name="edit_title">Edit mode</string>
-    <string name="chooser_share_post">Share_post</string>
-    <string name="description_post_save">Save</string>
-    <string name="add_post">Add post</string>
-    <string name="poster_of_video">Poster of video</string>
-    <string name="generate_posts">Generate posts</string>
-    <string name="generate_content_tooltip_text">Generate Content</string>
+    <string name="search">Search</string>
+
+    <string name="step_with_counter">Step %1$d</string>
+    <string name="recipe_step_description_hint">Enter recipe step description</string>
+    <string name="recipe_description">Если просто, шарлотка - яблочный пирог. Хотя этот пирог и называется шарлотка, рецепт приготовления его очень напоминает яблочный бисквит. Что касается названия шарлотки, существует романтичная история о безнадёжно влюблённом поваре, который придумал как готовить шарлотку с яблоками и посвятил этот рецепт даме своего сердца Шарлотте. Так появился пирог шарлотка.</string>
+    <string name="recipe_step_description">Recipe step description</string>
+    <string name="recipe_author">Recipe author</string>
+    <string name="recipe_title">Recipe title</string>
+    <string name="recipe_title_hint">Recipe title</string>
+    <string name="recipe_author_hint">Recipe author</string>
+    <string name="recipe_description_hint">Enter recipe description</string>
+
+    <string name="recipe_save">Save</string>
+    <string name="add_recipe">Add recipe</string>
+    <string name="add_step">Add recipe step</string>
+    <string name="recipe_step_save">Save recipe step</string>
+
+    <!-- Bottom tab nav names -->
+    <string name="title_home">Home</string>
+    <string name="filters">Filter</string>
+    <string name="favorites">Favorites</string>
+
+    <!-- Recipe tab names -->
+    <string name="summary">Summary</string>
+    <string name="by_steps">By steps</string>
+
+    <!-- Search filters for checkboxes-->
+    <string name="european">European</string>
+    <string name="asian">Asian</string>
+    <string name="panAsian">Pan - Asian</string>
+    <string name="eastern">Eastern</string>
+    <string name="american">American</string>
+    <string name="russian">Russian</string>
+    <string name="mediterranean">Mediterranean</string>
+
+    <!-- Recipe categories -->
+    <string name="recipe_category">Recipe category</string>
+    <string-array name="category_list">
+        <item>European</item>
+        <item>Asian</item>
+        <item>Pan - Asian</item>
+        <item>Eastern</item>
+        <item>American</item>
+        <item>Russian</item>
+        <item>Mediterranean</item>
+    </string-array>
 </resources>
