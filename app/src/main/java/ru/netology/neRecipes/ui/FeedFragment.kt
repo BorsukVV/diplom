@@ -30,14 +30,15 @@ open class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
 //            viewModel.onSaveButtonClicked(newPostContent)
 //        }
 
-        viewModel.navigateToRecipeTabsForCreate.observe(this) { initialContent ->
-            val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(initialContent)
+        viewModel.navigateToRecipeTabsForCreate.observe(this) { initialContent  ->
+            val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(initialContent, operationCode = true)
             findNavController().navigate(direction)
         }
 
         viewModel.navigateToRecipeTabForDetails.observe(this) { initialContent ->
             val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(
-                initialContent.toString()
+                initialContent.toString(),
+                operationCode = false
             )
             findNavController().navigate(direction)
         }

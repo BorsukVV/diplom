@@ -2,68 +2,77 @@ package ru.netology.neRecipes.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.tabs.TabLayoutMediator
+import ru.netology.neRecipes.R
 import ru.netology.neRecipes.databinding.RecipeTabFragmentBinding
+import ru.netology.neRecipes.viewModel.RecipeViewModel
 
-class RecipeTabDetailsFragment : Fragment() {
+class RecipeTabFragment : Fragment() {
 
-//    private lateinit var adapter: TabPagerAdapter
-//    private lateinit var viewPager: ViewPager
-    private lateinit var tabLayout: TabLayout
+    private val args by navArgs<RecipeTabFragmentArgs>()
+
+    private val model: RecipeViewModel by activityViewModels()
+    private lateinit var binding: RecipeTabFragmentBinding
+
+    private val fragmentsForOpenDetails = listOf(
+        RecipeDescriptionDetailsFragment.newInstance(),
+        RecipeStepsListFragment.newInstance()
+    )
+
+    private val fragmentsForEdit = listOf(
+        RecipeDescriptionCreateFragment.newInstance(),
+        RecipeStepsListCreateFragment.newInstance()
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = RecipeTabFragmentBinding.inflate(layoutInflater, container, false).also {
+    ): View? {
+        binding = RecipeTabFragmentBinding.inflate(
+            inflater, container, false
+        )
+        return binding.root
+    }
 
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                // Handle tab select
-            }
+        val tabNames = listOf(
+            binding.root.resources.getString(R.string.summary),
+            binding.root.resources.getString(R.string.by_steps)
+        )
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                // Handle tab reselect
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // Handle tab unselect
-            }
-        })
+        val fragmentsSet = if (args.operationCode) fragmentsForEdit else fragmentsForOpenDetails
 
 
-//        adapter = TabPagerAdapter(childFragmentManager)
-//        viewPager = view?.findViewById(R.id.recipe_details_pager)!!
-//        viewPager.adapter = adapter
-//
-////        tabLayout = findViewById(R.id.tab_layout)
-////        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-////            tab.text = if(position == 0) "Description" else "Steps"
-////        }.attach()
-   }.root
+        val adapter = TabPagerAdapter(
+            activity as AppCompatActivity, fragmentsSet
+        )
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//
-//        adapter = NumberAdapter(this)
-//        viewPager = findViewById(R.id.pager)
-//        viewPager.adapter = adapter
-//
-//        tabLayout = findViewById(R.id.tab_layout)
-//        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-//            tab.text = tabNames[position]
-////            tab.setIcon(tabNumbers[position])
-//
-////            if (position == 2) {
-////                val badge = tab.getOrCreateBadge()
-////                badge.number = 1
-////            }
-//
-//        }.attach()
-//    }
+        binding.viewPager.adapter = adapter
+        //val tabLayout = binding.recipeDetailsTabLayout
+
+        TabLayoutMediator(
+            binding.recipeDetailsTabLayout,
+            binding.viewPager
+        ) { tab, position ->
+            tab.text = tabNames[position]
+        }.attach()
+        
+    }
+
+    companion object {
+
+        fun newInstance() = RecipeTabFragment()
+
+    }
+
 }
 

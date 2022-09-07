@@ -13,13 +13,34 @@ interface RecipeDao {
     fun getAll(): LiveData<List<RecipeEntity>>
 
     @Insert
-    fun insert(post: RecipeEntity)
+    fun insert(recipe: RecipeEntity)
 
-    @Query("UPDATE recipes SET description = :updatedDescription WHERE id = :id")
-    fun updateDescriptionById(id: Long, updatedDescription: String)
+    @Query(
+        "UPDATE recipes SET title = :updatedTitle, " +
+                "authorName = :updatedAuthor, " +
+                "category = :updatedCategory, " +
+                "description = :updatedDescription  WHERE id = :id"
+    )
+    fun updateDescriptionById(
+        id: Long,
+        updatedTitle: String,
+        updatedAuthor: String,
+        updatedCategory: String,
+        updatedDescription: String
+    )
 
     fun save(recipe: RecipeEntity) =
-        if (recipe.id == RecipeRepository.NEW_RECIPE_ID) insert(recipe) else updateDescriptionById(recipe.id, recipe.description)
+        if (recipe.id == RecipeRepository.NEW_RECIPE_ID) {
+            insert(recipe)
+        } else {
+            updateDescriptionById(
+                recipe.id,
+                recipe.title,
+                recipe.authorName,
+                recipe.category,
+                recipe.description
+            )
+        }
 
     @Query(
         """

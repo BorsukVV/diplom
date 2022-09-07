@@ -1,27 +1,17 @@
 package ru.netology.neRecipes.ui
 
-//import androidx.fragment.app.Fragment
-//import androidx.fragment.app.FragmentManager
-//import androidx.fragment.app.FragmentStatePagerAdapter
-//
-//class TabPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
-//
-//    override fun getItem(position: Int): Fragment {
-//        return when (position) {
-//            0 -> RecipeDescriptionDetailsFragment()
-//            else -> RecipeStepsListFragment()
-//        }
-//    }
-//
-//    override fun getCount(): Int = 2
-//
-//    override fun getPageTitle(position: Int): CharSequence {
-//        return when (position) {
-//            0 -> "Description"
-//            else -> {
-//                return "Steps"
-//            }
-//        }
-//    }
-//
-//}
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+
+class TabPagerAdapter(fm: FragmentActivity, private  val list: List<Fragment>) : FragmentStateAdapter(fm) {
+
+    override fun getItemCount(): Int {
+        return  list.size
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return list[position]
+    }
+
+}

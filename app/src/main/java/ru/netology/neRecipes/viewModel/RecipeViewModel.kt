@@ -31,18 +31,26 @@ class RecipeViewModel(
 
     val currentRecipe = MutableLiveData<Recipe?>(null)
 
-    fun onSaveButtonClicked(content: String) {
+    fun onSaveButtonClicked(
+        title: String,
+        authorName: String,
+        category: String,
+        description: String
+    ) {
 
-        if (content.isBlank()) return
+        //if (description.isBlank()) return
 
         val recipe = currentRecipe.value?.copy(
-            description = content
+            title = title,
+            authorName = authorName,
+            category = category,
+            description = description
         ) ?: Recipe(
             id = RecipeRepository.NEW_RECIPE_ID,
             title = "",
             authorName = "Red Badger",
             category = "",
-            description = content,
+            description = description,
             isFavourite = false,
             imageUrl = ""
         )

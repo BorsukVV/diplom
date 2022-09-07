@@ -16,12 +16,28 @@
     </fragment>
     <fragment
         android:id="@+id/recipeTabFragment"
-        android:name="ru.netology.neRecipes.ui.TabPagerAdapter"
+        android:name="ru.netology.neRecipes.ui.RecipeTabFragment"
         android:label="RecipeTabDetailsFragment"
         tools:layout="@layout/recipe_tab_fragment">
         <argument
             android:name="initialContent"
             app:argType="string"
             app:nullable="true"/>
+        <argument
+            android:name="operationCode"
+            app:argType="boolean" />
     </fragment>
+    <fragment
+        android:id="@+id/recipeDescriptionCreateFragment"
+        android:name="ru.netology.neRecipes.ui.RecipeDescriptionCreateFragment"
+        android:label="RecipeDescriptionCreateFragment" />
+    <fragment
+        android:id="@+id/recipeDescriptionDetailsFragment"
+        android:name="ru.netology.neRecipes.ui.RecipeDescriptionDetailsFragment"
+        android:label="RecipeDescriptionDetailsFragment" />
+    <fragment
+        android:id="@+id/recipeStepsListFragment"
+        android:name="ru.netology.neRecipes.ui.RecipeStepsListFragment"
+        android:label="RecipeStepsListFragment" />
+    <include app:graph="@navigation/steps_creation_graph" />
 </navigation>
