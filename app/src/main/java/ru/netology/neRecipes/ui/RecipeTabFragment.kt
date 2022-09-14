@@ -6,18 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.databinding.RecipeTabFragmentBinding
-import ru.netology.neRecipes.viewModel.RecipeViewModel
 
 class RecipeTabFragment : Fragment() {
 
     private val args by navArgs<RecipeTabFragmentArgs>()
 
-    private val model: RecipeViewModel by activityViewModels()
     private lateinit var binding: RecipeTabFragmentBinding
 
     private val fragmentsForOpenDetails = listOf(
@@ -51,13 +48,11 @@ class RecipeTabFragment : Fragment() {
 
         val fragmentsSet = if (args.operationCode) fragmentsForEdit else fragmentsForOpenDetails
 
-
         val adapter = TabPagerAdapter(
             activity as AppCompatActivity, fragmentsSet
         )
 
         binding.viewPager.adapter = adapter
-        //val tabLayout = binding.recipeDetailsTabLayout
 
         TabLayoutMediator(
             binding.recipeDetailsTabLayout,
@@ -65,7 +60,6 @@ class RecipeTabFragment : Fragment() {
         ) { tab, position ->
             tab.text = tabNames[position]
         }.attach()
-        
     }
 
     companion object {

@@ -16,9 +16,9 @@ internal class RecipesAdapter(
 
     private val interActionListener: RecipeInterActionListener
 
-) : ListAdapter<Recipe, RecipesAdapter.PostViewHolder>(DiffCallBack) {
+) : ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder>(DiffCallBack) {
 
-    inner class PostViewHolder(
+    inner class RecipeViewHolder(
         private val binding: RecipeListItemFragmentBinding,
         listener: RecipeInterActionListener
 
@@ -50,39 +50,40 @@ internal class RecipesAdapter(
                 listener.chooseFavorite(recipe)
             }
 
-            binding.recipeImageBlock.recipeImage.setOnClickListener {
-                listener.onImageClicked(recipe)
+            //binding.recipeImageBlock.recipeImage.setOnClickListener {
+//                listener.onImageClicked(recipe)
+//            }
+
+            binding.recipeHeader.options.setOnClickListener {
+                popupMenu.show()
             }
 
-            binding.recipeHeader.options.setOnClickListener { popupMenu.show() }
-
-            binding.root.setOnClickListener{listener.viewRecipeDetails(recipe)}
+            binding.root.setOnClickListener{
+                listener.viewRecipeDetails(recipe)
+            }
 
         }
 
         fun bind(recipe: Recipe) {
             this.recipe = recipe
 
-            val resources = binding.root.resources
             with(binding) {
-
                 recipeHeader.title.text = recipe.title
                 recipeHeader.authorName.text = recipe.authorName
                 recipeHeader.recipeCategory.text = recipe.category
-                //recipeImageBlock.recipeImage.setImageURI()
+                recipeImageBlock.recipeImage.setImageURI(recipe.imageUri)
                 recipeImageBlock.isFavouriteIcon.isChecked = recipe.isFavourite
-
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecipeListItemFragmentBinding.inflate(inflater, parent, false)
-        return PostViewHolder(binding, interActionListener)
+        return RecipeViewHolder(binding, interActionListener)
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

@@ -13,6 +13,6 @@ class StepEntity(
     val recipeId: Long,
     @ColumnInfo(name = "stepDescription")
     val stepDescription: String,
-    @ColumnInfo(name = "imageUrl")
-    val stepImageUrl: String,
+    @ColumnInfo(name = "imageUri")
+    val stepImageUri: String?,
 )

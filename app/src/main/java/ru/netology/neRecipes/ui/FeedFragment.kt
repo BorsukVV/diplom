@@ -1,41 +1,31 @@
 package ru.netology.neRecipes.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.neRecipes.adapter.RecipesAdapter
 import ru.netology.neRecipes.databinding.FeedFragmentBinding
 import ru.netology.neRecipes.viewModel.RecipeViewModel
 
 open class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
-    private val viewModel by viewModels<RecipeViewModel>(
-        ownerProducer = ::requireParentFragment
-    )
+    private val model: RecipeViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        setFragmentResultListener(
-//            requestKey = RecipeCreationFragment.REQUEST_KEY
-//        ) { requestKey, bundle ->
-//            if (requestKey != RecipeCreationFragment.REQUEST_KEY) return@setFragmentResultListener
-//            val newPostContent = bundle.getString(
-//                RecipeCreationFragment.RESULT_KEY
-//            ) ?: return@setFragmentResultListener
-//            viewModel.onSaveButtonClicked(newPostContent)
-//        }
-
-        viewModel.navigateToRecipeTabsForCreate.observe(this) { initialContent  ->
+        model.navigateToRecipeTabsForCreate.observe(this) { initialContent  ->
             val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(initialContent, operationCode = true)
             findNavController().navigate(direction)
         }
 
-        viewModel.navigateToRecipeTabForDetails.observe(this) { initialContent ->
+        model.navigateToRecipeTabForDetails.observe(this) { initialContent ->
             val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(
                 initialContent.toString(),
                 operationCode = false
@@ -50,16 +40,19 @@ open class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ) = FeedFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        val adapter = RecipesAdapter(viewModel)
+        val adapter = RecipesAdapter(model)
 
         binding.recipesRecyclerView.adapter = adapter
 
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts)
+        model.data.observe(viewLifecycleOwner) { recipes ->
+            Log.d("TAG", "recipes size ${recipes.size}")
+            binding.defaultStubGroup.visibility =
+                if (recipes.isNotEmpty()) View.GONE else View.VISIBLE
+            adapter.submitList(recipes)
         }
 
         binding.fabAddRecipe.setOnClickListener {
-            viewModel.onAddClicked()
+            model.onAddClicked()
         }
 
     }.root

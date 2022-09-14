@@ -51,4 +51,10 @@
         <item>Russian</item>
         <item>Mediterranean</item>
     </string-array>
+
+    <string name="feed_fragment_greeting">Save your recipes and enjoy your food!</string>
+    <string name="default_recipe_title">Recipe</string>
+    <string name="default_recipe_author">Red Badger</string>
+
+
 </resources>

@@ -1,60 +1,163 @@
 package ru.netology.neRecipes.ui
 
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.neRecipes.R
+import ru.netology.neRecipes.databinding.RecipeStepCreateFragmentBinding
+import ru.netology.neRecipes.viewModel.StepViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RecipeFilterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RecipeStepCreateFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+        private val model: StepViewModel by activityViewModels()
+    private lateinit var binding: RecipeStepCreateFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.recipe_step_create_fragment, container, false)
+        binding = RecipeStepCreateFragmentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding){
+                        val image = registerForActivityResult(ActivityResultContracts.OpenDocument()){
+                model.newImageUri = it
+                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+                recipeStepDescriptionImage.setImageURI(it)
+            }
+
+                        val originalStep = model.currentStep.value
+
+            //TODO реализовать установку значения выпадающего списка
+
+            if (originalStep != null) {
+                editStepDescription.setText(originalStep.stepDescription)
+                recipeStepDescriptionImage.setImageURI(originalStep.stepImageUri)
+            }
+
+            recipeStepDescriptionImage.setOnClickListener {
+                image.launch(arrayOf("image/*"))
+            }
+
+            val resources = binding.root.resources
+
+            val templateImageUri = Uri.Builder()
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+                .authority(resources.getResourcePackageName(R.drawable.step_image_template))
+                .appendPath(resources.getResourceTypeName(R.drawable.step_image_template))
+                .appendPath(resources.getResourceEntryName(R.drawable.step_image_template))
+                .build()
+
+            stepCreateOk.setOnClickListener {
+                val stepDescription = this.editStepDescription.text.toString()
+
+                model.onSaveButtonClicked(
+                    stepDescription = stepDescription,
+                    stepImageUri = if (model.newImageUri == null)
+                        templateImageUri else model.newImageUri
+
+                )
+                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+                findNavController().navigateUp()
+                model.newImageUri = null
+            }
+
+        }
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RecipeStep.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RecipeStepCreateFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+        fun newInstance() =
+            RecipeStepCreateFragment()
+
     }
 }
+
+//class RecipeDescriptionCreateFragment : Fragment() {
+//    private val model: RecipeViewModel by activityViewModels()
+//    private lateinit var binding: RecipeDescriptionCreateFragmentBinding
+//
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        binding = RecipeDescriptionCreateFragmentBinding.inflate(inflater, container, false)
+//        return binding.root
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        with(binding) {
+//
+//            val originalRecipe = model.currentRecipe.value
+//
+//            //TODO реализовать установку значения выпадающего списка
+//
+//            if (originalRecipe != null) {
+//                editTitle.setText(originalRecipe.title)
+//                editAuthor.setText(originalRecipe.authorName)
+//                editDescription.setText(originalRecipe.description)
+//                editDescription.requestFocus()
+//                recipeDescriptionImage.setImageURI(originalRecipe.imageUri)
+//            }
+//
+//            val image = registerForActivityResult(ActivityResultContracts.OpenDocument()){
+//                model.newImageUri = it
+//                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+//                recipeDescriptionImage.setImageURI(it)
+//            }
+//
+//            recipeDescriptionImage.setOnClickListener {
+//                image.launch(arrayOf("image/*"))
+//            }
+//
+//            val resources = binding.root.resources
+//
+//            val templateImageUri = Uri.Builder()
+//                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+//                .authority(resources.getResourcePackageName(R.drawable.recipe_image_template))
+//                .appendPath(resources.getResourceTypeName(R.drawable.recipe_image_template))
+//                .appendPath(resources.getResourceEntryName(R.drawable.recipe_image_template))
+//                .build()
+//
+//            ok.setOnClickListener {
+//                val title = this.editTitle.text.toString()
+//                val author = this.editAuthor.text.toString()
+//                val category = this.categorySpinner.selectedItem.toString()
+//                val description = this.editDescription.text.toString()
+//
+//                model.onSaveButtonClicked(
+//                    title = if (!title.isNullOrBlank())
+//                        title else resources.getString(R.string.default_recipe_title),
+//                    authorName = if (!author.isNullOrBlank())
+//                        author else resources.getString(R.string.default_recipe_author),
+//                    category = category,
+//                    description = description,
+//                    imageUri = if (model.newImageUri == null)
+//                        templateImageUri else model.newImageUri
+//
+//                )
+//                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+//                findNavController().navigateUp()
+//                model.newImageUri = null
+//            }
+//        }
+//    }

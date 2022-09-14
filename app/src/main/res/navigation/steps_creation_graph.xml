@@ -18,5 +18,10 @@
         android:id="@+id/recipeStepCreateFragment"
         android:name="ru.netology.neRecipes.ui.RecipeStepCreateFragment"
         android:label="RecipeStepCreateFragment"
-        tools:layout="@layout/recipe_step_create_fragment"/>
+        tools:layout="@layout/recipe_step_create_fragment">
+        <argument
+            android:name="initialContent"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

@@ -1,6 +1,7 @@
 package ru.netology.neRecipes.viewModel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.neRecipes.adapter.RecipeInterActionListener
@@ -18,7 +19,7 @@ class RecipeViewModel(
         dao = AppDb.getInstance(
             context = application
         ).recipeDao,
-        pref = AppDb.getInstance(
+        stepDao = AppDb.getInstance(
             context = application
         ).stepDao
     )
@@ -31,32 +32,34 @@ class RecipeViewModel(
 
     val currentRecipe = MutableLiveData<Recipe?>(null)
 
+    var newImageUri: Uri? = null
+
     fun onSaveButtonClicked(
         title: String,
         authorName: String,
         category: String,
-        description: String
+        description: String,
+        imageUri: Uri?
     ) {
-
-        //if (description.isBlank()) return
-
         val recipe = currentRecipe.value?.copy(
             title = title,
             authorName = authorName,
             category = category,
-            description = description
+            description = description,
+            imageUri = imageUri
         ) ?: Recipe(
             id = RecipeRepository.NEW_RECIPE_ID,
-            title = "",
-            authorName = "Red Badger",
-            category = "",
+            title = title,
+            authorName = authorName,
+            category = category,
             description = description,
             isFavourite = false,
-            imageUrl = ""
+            imageUri = imageUri
         )
         repository.save(recipe)
         currentRecipe.value = null
     }
+
 
     fun onAddClicked() {
         navigateToRecipeTabsForCreate.call()
@@ -70,12 +73,6 @@ class RecipeViewModel(
 
         currentRecipe.value = recipe
         navigateToRecipeTabsForCreate.value = recipe.description
-    }
-
-    override fun onImageClicked(recipe: Recipe) {
-        recipe.imageUrl?.let {
-           //get new image from gallery
-        }
     }
 
     override fun viewRecipeDetails(recipe: Recipe) {

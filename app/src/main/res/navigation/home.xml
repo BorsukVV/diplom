@@ -30,14 +30,21 @@
     <fragment
         android:id="@+id/recipeDescriptionCreateFragment"
         android:name="ru.netology.neRecipes.ui.RecipeDescriptionCreateFragment"
-        android:label="RecipeDescriptionCreateFragment" />
+        android:label="RecipeDescriptionCreateFragment"
+        tools:layout="@layout/recipe_description_create_fragment"/>
     <fragment
         android:id="@+id/recipeDescriptionDetailsFragment"
         android:name="ru.netology.neRecipes.ui.RecipeDescriptionDetailsFragment"
-        android:label="RecipeDescriptionDetailsFragment" />
+        android:label="RecipeDescriptionDetailsFragment"
+        tools:layout="@layout/recipe_description_details_fragment">
+        <argument
+            android:name="initialRecipeId"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/recipeStepsListFragment"
         android:name="ru.netology.neRecipes.ui.RecipeStepsListFragment"
-        android:label="RecipeStepsListFragment" />
+        android:label="RecipeStepsListFragment"
+        tools:layout="@layout/recipe_steps_list_fragment"/>
     <include app:graph="@navigation/steps_creation_graph" />
 </navigation>

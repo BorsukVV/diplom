@@ -12,6 +12,11 @@ interface StepDao {
     @Query("SELECT * FROM steps ORDER BY id DESC")
     fun getAll(): LiveData<List<StepEntity>>
 
+    @Query("SELECT * FROM steps WHERE id = :undistributedSteps ORDER BY id DESC ")
+    fun getUndistributedSteps(
+        undistributedSteps: Long = RecipeRepository.NEW_RECIPE_ID
+    ): LiveData<List<StepEntity>>
+
     @Insert
     fun insert(step: StepEntity)
 
@@ -22,6 +27,6 @@ interface StepDao {
         if (step.id == RecipeRepository.NEW_STEP_ID) insert(step) else updateDescriptionById(step.id, step.stepDescription)
 
     @Query("DELETE FROM recipes WHERE id = :id")
-    fun removeById(id: Long)
+    fun removeById(id: Int)
 
 }

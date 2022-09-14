@@ -13,11 +13,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/step_with_counter"
-        app:layout_constraintBottom_toTopOf="@+id/recipe_step_description"
+        app:layout_constraintBottom_toBottomOf="@+id/options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/step_with_counter" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/options"
+        style="@style/Widget.AppTheme.OptionsCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/options"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="@id/recipe_step_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/header_barrier"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="recipe_step_header, options" />
 
     <TextView
         android:id="@+id/recipe_step_description"
@@ -28,8 +48,10 @@
         app:layout_constraintBottom_toTopOf="@+id/recipe_step_description_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recipe_step_header"
+        app:layout_constraintTop_toBottomOf="@id/header_barrier"
         tools:text="@string/recipe_step_description" />
+
+
 
     <ImageView
         android:id="@+id/recipe_step_description_image"

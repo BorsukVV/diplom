@@ -17,8 +17,8 @@ class RecipeEntity(
     val category: String,
     @ColumnInfo(name = "description")
     val description: String,
-    @ColumnInfo(name = "imageUrl")
-    val recipeImageUrl: String,
+    @ColumnInfo(name = "imageURI")
+    val recipeImageUri: String?,
     @ColumnInfo(name = "isFavourite")
     val isFavourite: Boolean
 )

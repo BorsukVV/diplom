@@ -19,14 +19,16 @@ interface RecipeDao {
         "UPDATE recipes SET title = :updatedTitle, " +
                 "authorName = :updatedAuthor, " +
                 "category = :updatedCategory, " +
-                "description = :updatedDescription  WHERE id = :id"
+                "description = :updatedDescription, " +
+                "imageURI = :updatedImageURI  WHERE id = :id"
     )
     fun updateDescriptionById(
         id: Long,
         updatedTitle: String,
         updatedAuthor: String,
         updatedCategory: String,
-        updatedDescription: String
+        updatedDescription: String,
+        updatedImageURI: String?
     )
 
     fun save(recipe: RecipeEntity) =
@@ -38,7 +40,8 @@ interface RecipeDao {
                 recipe.title,
                 recipe.authorName,
                 recipe.category,
-                recipe.description
+                recipe.description,
+                recipe.recipeImageUri
             )
         }
 

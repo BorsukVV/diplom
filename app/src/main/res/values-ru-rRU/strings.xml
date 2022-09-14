@@ -52,4 +52,8 @@
     <item>Русская</item>
     <item>Средиземноморская</item>
 </string-array>
+
+    <string name="feed_fragment_greeting">Сохраняйте свои рецепты и приятного аппетита!</string>
+    <string name="default_recipe_title">Рецепт</string>
+    <string name="default_recipe_author">Рыжий Барсук</string>
 </resources>
