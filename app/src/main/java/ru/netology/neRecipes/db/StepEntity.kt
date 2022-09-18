@@ -11,8 +11,12 @@ class StepEntity(
     val id: Int,
     @ColumnInfo(name = "recipeId")
     val recipeId: Long,
+    @ColumnInfo(name = "sequentialNumber")
+    val sequentialNumber: Int,
     @ColumnInfo(name = "stepDescription")
     val stepDescription: String,
+    @ColumnInfo(name = "hasCustomImage")
+    val hasCustomImage: Boolean,
     @ColumnInfo(name = "imageUri")
     val stepImageUri: String?,
 )

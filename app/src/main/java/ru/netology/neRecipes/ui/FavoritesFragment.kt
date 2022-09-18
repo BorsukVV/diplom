@@ -19,9 +19,8 @@ class FavoritesFragment : Fragment() {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
 
-            viewModel.navigateToRecipeTabForDetails.observe(this) { initialContent ->
-                val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(
-                    initialContent.toString(),
+            viewModel.navigateToRecipeTabForDetails.observe(this) {
+                val direction = FavoritesFragmentDirections.fromFavoritesFragmentToRecipeTabFragment(
                     operationCode = false
                 )
                 findNavController().navigate(direction)
@@ -38,8 +37,9 @@ class FavoritesFragment : Fragment() {
 
             binding.favouritesRecyclerView.adapter = adapter
 
-            viewModel.data.observe(viewLifecycleOwner) { posts ->
-                adapter.submitList(posts)
+            viewModel.data.observe(viewLifecycleOwner) { recipes ->
+                val favorites = recipes.filter { it.isFavourite }
+                adapter.submitList(favorites)
             }
 
         }.root

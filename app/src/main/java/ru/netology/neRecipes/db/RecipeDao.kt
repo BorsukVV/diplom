@@ -12,6 +12,12 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes ORDER BY id DESC")
     fun getAll(): LiveData<List<RecipeEntity>>
 
+    @Query("SELECT * FROM recipes WHERE id = :id")
+    fun getRecipeByID(id: Long): RecipeEntity
+
+    @Query("SELECT * FROM recipes WHERE isFavourite = 1 ORDER BY id DESC")
+    fun getAllFavorites(): LiveData<List<RecipeEntity>>
+
     @Insert
     fun insert(recipe: RecipeEntity)
 

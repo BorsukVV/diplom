@@ -37,27 +37,34 @@ class RecipeViewModel(
     fun onSaveButtonClicked(
         title: String,
         authorName: String,
+        categorySpinnerPosition: Int,
         category: String,
         description: String,
+        hasCustomImage: Boolean,
         imageUri: Uri?
     ) {
         val recipe = currentRecipe.value?.copy(
             title = title,
             authorName = authorName,
+            categorySpinnerPosition = categorySpinnerPosition,
             category = category,
             description = description,
+            hasCustomImage = hasCustomImage,
             imageUri = imageUri
         ) ?: Recipe(
             id = RecipeRepository.NEW_RECIPE_ID,
             title = title,
             authorName = authorName,
+            categorySpinnerPosition = categorySpinnerPosition,
             category = category,
             description = description,
             isFavourite = false,
+            hasCustomImage = hasCustomImage,
             imageUri = imageUri
         )
         repository.save(recipe)
         currentRecipe.value = null
+        repository.associateStepsWithRecipe()
     }
 
 

@@ -54,7 +54,7 @@ internal class StepsForEditAdapter(
         fun bind(step: Step) {
             with(binding) {
                 //TODO реализовать вывод порядкового номера шага
-                recipeStepHeader.text = step.id.toString()
+                recipeStepHeader.text = step.sequentialNumber.toString()
                 recipeStepDescription.text = step.stepDescription
                 recipeStepDescriptionImage.setImageURI(step.stepImageUri)
             }

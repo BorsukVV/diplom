@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import ru.netology.neRecipes.databinding.RecipeDescriptionDetailsFragmentBinding
 import ru.netology.neRecipes.viewModel.RecipeViewModel
 
 class RecipeDescriptionDetailsFragment () : Fragment() {
     private val model: RecipeViewModel by activityViewModels()
-
-    //val currentRecipe =
+    private val args by navArgs<RecipeDescriptionDetailsFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,7 +25,7 @@ class RecipeDescriptionDetailsFragment () : Fragment() {
                 authorName.text = it.authorName
                 recipeCategory.text = it.category
                 recipeDescription.text = it.description
-                recipeImageBlock.recipeImage.setImageURI(it.imageUri)
+                if (it.hasCustomImage) recipeImageBlock.recipeImage.setImageURI(it.imageUri)
             }
         }
     }.root

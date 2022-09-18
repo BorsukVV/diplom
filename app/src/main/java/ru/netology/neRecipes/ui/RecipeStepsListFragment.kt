@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import ru.netology.neRecipes.adapter.StepsForViewAdapter
 import ru.netology.neRecipes.databinding.RecipeStepsListFragmentBinding
 import ru.netology.neRecipes.viewModel.RecipeViewModel
+import ru.netology.neRecipes.viewModel.StepViewModel
 
 
 class RecipeStepsListFragment : Fragment() {
-    private val model: RecipeViewModel by activityViewModels()
+    private val recipeModel: RecipeViewModel by activityViewModels()
+    private val stepModel: StepViewModel by activityViewModels()
     private lateinit var binding: RecipeStepsListFragmentBinding
 
     override fun onCreateView(
@@ -19,15 +22,26 @@ class RecipeStepsListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = RecipeStepsListFragmentBinding.inflate(inflater, container, false)
+        with(binding){
+            val recipe = recipeModel.currentRecipe.value
+            recipe?.let {
+                title.text = it.title
+            }
+
+            val adapter = StepsForViewAdapter(stepModel)
+
+           stepsRecyclerView.adapter = adapter
+
+            val recipeSteps = recipe?.let { stepModel.recipeSteps(it.id) }
+            adapter.submitList(recipeSteps)
+//            stepModel.stepsList.observe(viewLifecycleOwner) { steps ->
+//                //Log.d("TAG", "steps list size ${steps.size}")
+//                adapter.submitList(steps)
+//            }
+        }
         return binding.root
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-//        model.  .observe(viewLifecycleOwner){
-//            binding.tvinfo.text = it.info
-//
-//        }
-    }
+
     companion object {
 
         fun newInstance() = RecipeStepsListFragment()

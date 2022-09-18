@@ -1,6 +1,7 @@
 package ru.netology.neRecipes.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -25,42 +26,15 @@ internal class StepsForViewAdapter(
 
         private lateinit var step: Step
 
-//        private val popupMenu by lazy {
-//            PopupMenu(itemView.context, binding.recipeStepHeader.  .options).apply {
-//                inflate(R.menu.options_recipe)
-//                setOnMenuItemClickListener { menuItem ->
-//                    when (menuItem.itemId) {
-//                        R.id.remove -> {
-//                            listener.onRemoveClicked(step)
-//                            true
-//                        }
-//                        R.id.edit -> {
-//                            listener.onEditClicked(step)
-//                            true
-//                        }
-//                        else -> false
-//                    }
-//                }
-//            }
-//        }
-//
-//        init {
-//
-//            binding.recipeHeader.options.setOnClickListener {
-//                popupMenu.show()
-//            }
-//
-//        }
-
         fun bind(step: Step) {
-            //this.recipe = recipe
 
             val resources = binding.root.resources
             val stepTitleStringTemplate = resources.getString(R.string.step_with_counter)
 
             with(binding) {
-                recipeStepHeader.text = String.format(stepTitleStringTemplate, step.id)
+                recipeStepHeader.text = String.format(stepTitleStringTemplate, step.sequentialNumber)
                 recipeStepDescription.text = step.stepDescription
+                recipeStepDescriptionImageGroup.visibility = if (step.hasCustomImage) View.VISIBLE else View.GONE
                 recipeStepDescriptionImage.setImageURI(step.stepImageUri)
             }
         }

@@ -2,6 +2,7 @@ package ru.netology.neRecipes.viewModel
 
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.neRecipes.adapter.StepInterActionListener
@@ -26,6 +27,10 @@ class StepViewModel(
 
     val stepsList by repository::stepsList
 
+    fun recipeSteps(recipeId: Long): List<Step> {
+        return repository.recipeSteps(recipeId)
+    }
+
     val navigateToStepCreateEdit = SingleLiveEvent<Int>()
 
     val currentStep = MutableLiveData<Step?>(null)
@@ -34,6 +39,7 @@ class StepViewModel(
 
     fun onSaveButtonClicked(
         stepDescription: String,
+        hasCustomImage: Boolean,
         stepImageUri: Uri?
     ) {
         val step = currentStep.value?.copy(
@@ -42,9 +48,12 @@ class StepViewModel(
         ) ?: Step(
             id = RecipeRepository.NEW_STEP_ID,
             recipeId = RecipeRepository.NEW_RECIPE_ID,
+            hasCustomImage = hasCustomImage,
+            sequentialNumber = 1,
             stepDescription = stepDescription,
             stepImageUri = stepImageUri
         )
+        Log.d("TAG", "step in onSaveButtonClicked = $step")
         repository.saveStep(step)
         currentStep.value = null
     }
@@ -58,12 +67,6 @@ class StepViewModel(
     override fun onEditClicked(step: Step) {
         currentStep.value = step
         navigateToStepCreateEdit.value = step.id
-    }
-
-    override fun onImageClicked(step: Step) {
-        step.stepImageUri?.let {
-           //get new image from gallery
-        }
     }
 
 }

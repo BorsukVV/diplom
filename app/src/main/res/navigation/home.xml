@@ -12,7 +12,7 @@
         tools:layout="@layout/feed_fragment">
         <action
             android:id="@+id/from_feedFragment_to_recipeTabFragment"
-            app:destination="@id/recipeTabFragment" />
+            app:destination="@id/recipeTabFragment"/>
     </fragment>
     <fragment
         android:id="@+id/recipeTabFragment"
@@ -25,7 +25,11 @@
             app:nullable="true"/>
         <argument
             android:name="operationCode"
-            app:argType="boolean" />
+            app:argType="boolean"/>
+
+        <action
+            android:id="@+id/from_recipeTabFragment_to_recipeStepCreateFragment"
+            app:destination="@id/recipeStepCreateFragment"/>
     </fragment>
     <fragment
         android:id="@+id/recipeDescriptionCreateFragment"
@@ -39,12 +43,21 @@
         tools:layout="@layout/recipe_description_details_fragment">
         <argument
             android:name="initialRecipeId"
-            app:argType="long" />
+            app:argType="long"/>
     </fragment>
     <fragment
         android:id="@+id/recipeStepsListFragment"
         android:name="ru.netology.neRecipes.ui.RecipeStepsListFragment"
         android:label="RecipeStepsListFragment"
         tools:layout="@layout/recipe_steps_list_fragment"/>
-    <include app:graph="@navigation/steps_creation_graph" />
+    <fragment
+        android:id="@+id/recipeStepCreateFragment"
+        android:name="ru.netology.neRecipes.ui.RecipeStepCreateFragment"
+        android:label="RecipeStepCreateFragment"
+        tools:layout="@layout/recipe_step_create_fragment">
+        <argument
+            android:name="initialContent"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

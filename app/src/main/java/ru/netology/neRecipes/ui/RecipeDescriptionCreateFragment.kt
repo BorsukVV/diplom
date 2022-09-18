@@ -1,9 +1,7 @@
 package ru.netology.neRecipes.ui
 
-import android.content.ContentResolver
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.databinding.RecipeDescriptionCreateFragmentBinding
 import ru.netology.neRecipes.viewModel.RecipeViewModel
+import ru.netology.neRecipes.viewModel.ViewUtil
 
 class RecipeDescriptionCreateFragment : Fragment() {
     private val model: RecipeViewModel by activityViewModels()
@@ -22,7 +21,7 @@ class RecipeDescriptionCreateFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = RecipeDescriptionCreateFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,19 +33,20 @@ class RecipeDescriptionCreateFragment : Fragment() {
 
             val originalRecipe = model.currentRecipe.value
 
-            //TODO реализовать установку значения выпадающего списка
-
             if (originalRecipe != null) {
                 editTitle.setText(originalRecipe.title)
                 editAuthor.setText(originalRecipe.authorName)
+                categorySpinner.setSelection(originalRecipe.categorySpinnerPosition)
                 editDescription.setText(originalRecipe.description)
                 editDescription.requestFocus()
                 recipeDescriptionImage.setImageURI(originalRecipe.imageUri)
             }
 
             val image = registerForActivityResult(ActivityResultContracts.OpenDocument()){
+                requireActivity().contentResolver
+                    .takePersistableUriPermission(requireNotNull(it), Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 model.newImageUri = it
-                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+                //Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
                 recipeDescriptionImage.setImageURI(it)
             }
 
@@ -54,47 +54,33 @@ class RecipeDescriptionCreateFragment : Fragment() {
                 image.launch(arrayOf("image/*"))
             }
 
-            val resources = binding.root.resources
-
-            val templateImageUri = Uri.Builder()
-                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(resources.getResourcePackageName(R.drawable.recipe_image_template))
-                .appendPath(resources.getResourceTypeName(R.drawable.recipe_image_template))
-                .appendPath(resources.getResourceEntryName(R.drawable.recipe_image_template))
-                .build()
-
             ok.setOnClickListener {
                 val title = this.editTitle.text.toString()
                 val author = this.editAuthor.text.toString()
                 val category = this.categorySpinner.selectedItem.toString()
+                val categorySpinnerPosition = this.categorySpinner.selectedItemPosition
                 val description = this.editDescription.text.toString()
+                val hasCustomImage = model.newImageUri != null
 
                 model.onSaveButtonClicked(
                     title = if (!title.isNullOrBlank())
                         title else resources.getString(R.string.default_recipe_title),
                     authorName = if (!author.isNullOrBlank())
                         author else resources.getString(R.string.default_recipe_author),
+                    categorySpinnerPosition = categorySpinnerPosition,
                     category = category,
                     description = description,
-                    imageUri = if (model.newImageUri == null)
-                        templateImageUri else model.newImageUri
+                    hasCustomImage = hasCustomImage,
+                    imageUri = if (hasCustomImage)
+                        ViewUtil.descriptionImageTemplateUri(binding.root.resources) else model.newImageUri
 
                 )
-                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+                //Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
                 findNavController().navigateUp()
                 model.newImageUri = null
             }
         }
     }
-
-//    fun Context.resourceUri(resourceId: Int): Uri = with(resources) {
-//        Uri.Builder()
-//            .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-//            .authority(getResourcePackageName(resourceId))
-//            .appendPath(getResourceTypeName(resourceId))
-//            .appendPath(getResourceEntryName(resourceId))
-//            .build()
-//    }
 
     companion object {
 

@@ -1,6 +1,7 @@
 package ru.netology.neRecipes.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -50,10 +51,6 @@ internal class RecipesAdapter(
                 listener.chooseFavorite(recipe)
             }
 
-            //binding.recipeImageBlock.recipeImage.setOnClickListener {
-//                listener.onImageClicked(recipe)
-//            }
-
             binding.recipeHeader.options.setOnClickListener {
                 popupMenu.show()
             }
@@ -72,6 +69,7 @@ internal class RecipesAdapter(
                 recipeHeader.authorName.text = recipe.authorName
                 recipeHeader.recipeCategory.text = recipe.category
                 recipeImageBlock.recipeImage.setImageURI(recipe.imageUri)
+                recipeImageBlock.imageGroup.visibility = if (recipe.hasCustomImage) View.VISIBLE else View.GONE
                 recipeImageBlock.isFavouriteIcon.isChecked = recipe.isFavourite
             }
         }

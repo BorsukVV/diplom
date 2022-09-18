@@ -19,8 +19,8 @@ class RecipeStepsListCreateFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         model.navigateToStepCreateEdit.observe(this) { initialContent  ->
-            val direction = RecipeStepsListCreateFragmentDirections.
-            actionRecipeStepsListCreateFragmentToRecipeStepCreateFragment(initialContent.toString())
+            val direction = RecipeTabFragmentDirections
+                .fromRecipeTabFragmentToRecipeStepCreateFragment(initialContent.toString())
             findNavController().navigate(direction)
         }
     }
@@ -35,7 +35,7 @@ class RecipeStepsListCreateFragment : Fragment() {
         binding.createStepsRecyclerView.adapter = adapter
 
         model.stepsList.observe(viewLifecycleOwner) { steps ->
-            Log.d("TAG", "recipes size ${steps.size}")
+            Log.d("TAG", "*RecipeStepsListCreateFragment* steps list size ${steps.size}")
             adapter.submitList(steps)
         }
 

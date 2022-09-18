@@ -1,7 +1,6 @@
 package ru.netology.neRecipes.ui
 
-import android.content.ContentResolver
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,24 +10,24 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import ru.netology.neRecipes.R
 import ru.netology.neRecipes.databinding.RecipeStepCreateFragmentBinding
 import ru.netology.neRecipes.viewModel.StepViewModel
+import ru.netology.neRecipes.viewModel.ViewUtil
 
 class RecipeStepCreateFragment : Fragment() {
 
-        private val model: StepViewModel by activityViewModels()
+    private val model: StepViewModel by activityViewModels()
     private lateinit var binding: RecipeStepCreateFragmentBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = RecipeStepCreateFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,19 +35,23 @@ class RecipeStepCreateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding){
-                        val image = registerForActivityResult(ActivityResultContracts.OpenDocument()){
+        with(binding) {
+            val image = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
+                requireActivity().contentResolver
+                    .takePersistableUriPermission(
+                        requireNotNull(it),
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
                 model.newImageUri = it
-                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+                Log.d("TAG", "*RecipeStepCreateFragment* *step.newImageUri = it*  ${model.newImageUri}")
                 recipeStepDescriptionImage.setImageURI(it)
             }
 
-                        val originalStep = model.currentStep.value
-
-            //TODO реализовать установку значения выпадающего списка
+            val originalStep = model.currentStep.value
 
             if (originalStep != null) {
                 editStepDescription.setText(originalStep.stepDescription)
+                editStepDescription.requestFocus()
                 recipeStepDescriptionImage.setImageURI(originalStep.stepImageUri)
             }
 
@@ -56,25 +59,18 @@ class RecipeStepCreateFragment : Fragment() {
                 image.launch(arrayOf("image/*"))
             }
 
-            val resources = binding.root.resources
-
-            val templateImageUri = Uri.Builder()
-                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
-                .authority(resources.getResourcePackageName(R.drawable.step_image_template))
-                .appendPath(resources.getResourceTypeName(R.drawable.step_image_template))
-                .appendPath(resources.getResourceEntryName(R.drawable.step_image_template))
-                .build()
-
             stepCreateOk.setOnClickListener {
                 val stepDescription = this.editStepDescription.text.toString()
+                val hasCustomImage = model.newImageUri != null
 
                 model.onSaveButtonClicked(
                     stepDescription = stepDescription,
-                    stepImageUri = if (model.newImageUri == null)
-                        templateImageUri else model.newImageUri
+                    hasCustomImage = hasCustomImage,
+                    stepImageUri = if (hasCustomImage)
+                        ViewUtil.stepImageTemplateUri(binding.root.resources) else model.newImageUri
 
                 )
-                Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
+                Log.d("TAG", "*RecipeStepCreateFragment* *onSaveButtonClicked* model.newImageUri = ${model.newImageUri}")
                 findNavController().navigateUp()
                 model.newImageUri = null
             }
@@ -82,12 +78,12 @@ class RecipeStepCreateFragment : Fragment() {
         }
     }
 
-    companion object {
-
-        fun newInstance() =
-            RecipeStepCreateFragment()
-
-    }
+//    companion object {
+//
+//        fun newInstance() =
+//            RecipeStepCreateFragment()
+//
+//    }
 }
 
 //class RecipeDescriptionCreateFragment : Fragment() {

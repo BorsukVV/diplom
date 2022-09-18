@@ -4,13 +4,15 @@ import androidx.lifecycle.LiveData
 
 interface RecipeRepository {
     val data: LiveData<List<Recipe>>
+    val favorites: LiveData<List<Recipe>>
     var stepsList: LiveData<List<Step>>
+    fun recipeSteps(recipeID: Long): List<Step>
     fun chooseFavorite(recipeID: Long)
     fun delete(recipeID: Long)
     fun save(recipe: Recipe)
     fun deleteStep(stepID: Int)
     fun saveStep(step: Step)
-    //fun insertStepToBuffer(step: Step)
+    fun associateStepsWithRecipe()
 
     companion object {
         const val NEW_RECIPE_ID = 0L

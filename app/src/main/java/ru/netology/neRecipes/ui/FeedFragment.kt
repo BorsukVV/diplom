@@ -1,7 +1,6 @@
 package ru.netology.neRecipes.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +44,7 @@ open class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.recipesRecyclerView.adapter = adapter
 
         model.data.observe(viewLifecycleOwner) { recipes ->
-            Log.d("TAG", "recipes size ${recipes.size}")
+            //Log.d("TAG", "recipes size ${recipes.size}")
             binding.defaultStubGroup.visibility =
                 if (recipes.isNotEmpty()) View.GONE else View.VISIBLE
             adapter.submitList(recipes)
