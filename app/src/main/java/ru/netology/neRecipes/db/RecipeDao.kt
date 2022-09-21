@@ -3,6 +3,7 @@ package ru.netology.neRecipes.db
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ru.netology.neRecipes.data.RecipeRepository
 
@@ -18,8 +19,8 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE isFavourite = 1 ORDER BY id DESC")
     fun getAllFavorites(): LiveData<List<RecipeEntity>>
 
-    @Insert
-    fun insert(recipe: RecipeEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(recipe: RecipeEntity): Long
 
     @Query(
         "UPDATE recipes SET title = :updatedTitle, " +
@@ -37,8 +38,8 @@ interface RecipeDao {
         updatedImageURI: String?
     )
 
-    fun save(recipe: RecipeEntity) =
-        if (recipe.id == RecipeRepository.NEW_RECIPE_ID) {
+    fun save(recipe: RecipeEntity): Long {
+        return if (recipe.id == RecipeRepository.NEW_RECIPE_ID) {
             insert(recipe)
         } else {
             updateDescriptionById(
@@ -49,7 +50,9 @@ interface RecipeDao {
                 recipe.description,
                 recipe.recipeImageUri
             )
+            recipe.id
         }
+    }
 
     @Query(
         """

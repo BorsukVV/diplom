@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/feed_fragment"
         android:name="ru.netology.neRecipes.ui.FeedFragment"
-        android:label="FeedFragment"
+        android:label="@string/title_home"
         tools:layout="@layout/feed_fragment">
         <action
             android:id="@+id/from_feedFragment_to_recipeTabFragment"
@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/recipeTabFragment"
         android:name="ru.netology.neRecipes.ui.RecipeTabFragment"
-        android:label="RecipeTabDetailsFragment"
+        android:label="@string/details"
         tools:layout="@layout/recipe_tab_fragment">
         <argument
             android:name="initialContent"

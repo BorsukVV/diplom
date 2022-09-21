@@ -7,6 +7,6 @@
     <fragment
         android:id="@+id/filterFragment"
         android:name="ru.netology.neRecipes.ui.FilterFragment"
-        android:label="FilterFragment"
+        android:label="@string/filters"
         tools:layout="@layout/filter_fragment"/>
 </navigation>

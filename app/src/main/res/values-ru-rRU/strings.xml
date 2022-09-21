@@ -24,13 +24,14 @@
 <string name="recipe_step_save">Сохранить шаг</string>
 
 <!-- Bottom tab nav names -->
-<string name="title_home">Домой</string>
+<string name="title_home">Главная</string>
 <string name="filters">Фильтры</string>
 <string name="favorites">Избранное</string>
 
 <!-- Recipe tab names -->
 <string name="summary">Общее</string>
 <string name="by_steps">Пошагово</string>
+    <string name="details">Подробнее</string>
 
 <!-- Search filters for checkboxes-->
 <string name="european">Европейская</string>
@@ -40,6 +41,8 @@
 <string name="american">Американская</string>
 <string name="russian">Русская</string>
 <string name="mediterranean">Средиземноморская</string>
+
+    <string name="selectAll">Выбрать все</string>
 
 <!-- Recipe categories -->
 <string name="recipe_category">Категория</string>

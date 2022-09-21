@@ -30,6 +30,7 @@
     <!-- Recipe tab names -->
     <string name="summary">Summary</string>
     <string name="by_steps">By steps</string>
+    <string name="details">Details</string>
 
     <!-- Search filters for checkboxes-->
     <string name="european">European</string>
@@ -39,6 +40,8 @@
     <string name="american">American</string>
     <string name="russian">Russian</string>
     <string name="mediterranean">Mediterranean</string>
+
+    <string name="selectAll">Select All</string>
 
     <!-- Recipe categories -->
     <string name="recipe_category">Recipe category</string>

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="ru.netology.neRecipes.ui.FavoritesFragment"
-        android:label="FavoritesFragment"
+        android:label="@string/favorites"
         tools:layout="@layout/favorites_fragment">
         <argument
             android:name="isFavorite"
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/recipeTabFragment"
         android:name="ru.netology.neRecipes.ui.RecipeTabFragment"
-        android:label="RecipeTabFragment"
+        android:label="@string/details"
         tools:layout="@layout/recipe_tab_fragment">
         <argument
             android:name="operationCode"

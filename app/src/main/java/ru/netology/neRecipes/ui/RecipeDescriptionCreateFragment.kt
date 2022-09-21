@@ -72,8 +72,7 @@ class RecipeDescriptionCreateFragment : Fragment() {
                     description = description,
                     hasCustomImage = hasCustomImage,
                     imageUri = if (hasCustomImage)
-                        ViewUtil.descriptionImageTemplateUri(binding.root.resources) else model.newImageUri
-
+                        model.newImageUri else ViewUtil.descriptionImageTemplateUri(binding.root.resources)
                 )
                 //Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
                 findNavController().navigateUp()

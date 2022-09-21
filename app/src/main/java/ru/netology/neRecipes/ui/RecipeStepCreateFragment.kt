@@ -66,15 +66,14 @@ class RecipeStepCreateFragment : Fragment() {
                 model.onSaveButtonClicked(
                     stepDescription = stepDescription,
                     hasCustomImage = hasCustomImage,
-                    stepImageUri = if (hasCustomImage)
-                        ViewUtil.stepImageTemplateUri(binding.root.resources) else model.newImageUri
+                    stepImageUri = if (hasCustomImage) model.newImageUri
+                        else ViewUtil.stepImageTemplateUri(binding.root.resources)
 
                 )
                 Log.d("TAG", "*RecipeStepCreateFragment* *onSaveButtonClicked* model.newImageUri = ${model.newImageUri}")
                 findNavController().navigateUp()
                 model.newImageUri = null
             }
-
         }
     }
 

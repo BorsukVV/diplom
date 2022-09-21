@@ -1,8 +1,10 @@
 package ru.netology.neRecipes.data
 
 import android.net.Uri
+import androidx.room.PrimaryKey
 
 data class Recipe(
+    @PrimaryKey
     val id: Long,
     val title: String,
     val authorName: String,

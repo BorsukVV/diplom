@@ -2,6 +2,7 @@ package ru.netology.neRecipes.viewModel
 
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import ru.netology.neRecipes.adapter.RecipeInterActionListener
@@ -21,7 +22,8 @@ class RecipeViewModel(
         ).recipeDao,
         stepDao = AppDb.getInstance(
             context = application
-        ).stepDao
+        ).stepDao,
+        application
     )
 
     val data by repository::data
@@ -43,6 +45,9 @@ class RecipeViewModel(
         hasCustomImage: Boolean,
         imageUri: Uri?
     ) {
+
+        if (description.isBlank()) return
+
         val recipe = currentRecipe.value?.copy(
             title = title,
             authorName = authorName,
@@ -62,9 +67,16 @@ class RecipeViewModel(
             hasCustomImage = hasCustomImage,
             imageUri = imageUri
         )
-        repository.save(recipe)
+        val newRecipeId = repository.save(recipe)
+        Log.d("TAG", "last recipeId in DATABASE = $newRecipeId")
         currentRecipe.value = null
-        repository.associateStepsWithRecipe()
+//        val stepsList = repository.stepsList.value
+//        if (stepsList != null) {
+//            for (i in stepsList.indices) {
+//                repository.saveStep(stepsList[i].copy(recipeId = newRecipeId, sequentialNumber = i))
+//            }
+//        }
+        repository.associateStepsWithRecipe(newRecipeId)
     }
 
 

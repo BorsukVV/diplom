@@ -22,12 +22,23 @@ class StepViewModel(
         ).recipeDao,
         stepDao = AppDb.getInstance(
             context = application
-        ).stepDao
+        ).stepDao,
+        application
     )
 
-    val stepsList by repository::stepsList
+//    val stepsList: MutableLiveData<List<Step>> = MutableLiveData(emptyList())
+
+//    fun recipeSteps() = steps
+//
+//    private val steps
+//        get() = checkNotNull(stepsList.value) {
+//            "Error. Data is null"
+//        }
+
+    val stepsList = repository.stepsList
 
     fun recipeSteps(recipeId: Long): List<Step> {
+        Log.d("TAG", "step in onSaveButtonClicked = ${repository.recipeSteps(recipeId)}")
         return repository.recipeSteps(recipeId)
     }
 
@@ -54,9 +65,14 @@ class StepViewModel(
             stepImageUri = stepImageUri
         )
         Log.d("TAG", "step in onSaveButtonClicked = $step")
-        repository.saveStep(step)
+        repository.addStepToList(step)
         currentStep.value = null
     }
+
+//    private fun insert(step: Step) {
+//        stepsList.value = listOf(step) + steps
+//
+//    }
 
     fun onAddClicked() {
         navigateToStepCreateEdit.call()

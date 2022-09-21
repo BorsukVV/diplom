@@ -13,6 +13,13 @@ class RecipeDescriptionDetailsFragment () : Fragment() {
     private val model: RecipeViewModel by activityViewModels()
     private val args by navArgs<RecipeDescriptionDetailsFragmentArgs>()
 
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+//            // Handle the back button event
+//        }
+//    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

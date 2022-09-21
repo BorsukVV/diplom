@@ -14,6 +14,9 @@ interface StepDao {
         rangeOfSteps: Long
     ): LiveData<List<StepEntity>>
 
+    @Query("SELECT * FROM steps ORDER BY recipeId ASC ")
+    fun getAllSteps(): LiveData<List<StepEntity>>
+
     @Insert
     fun insert(step: StepEntity)
 

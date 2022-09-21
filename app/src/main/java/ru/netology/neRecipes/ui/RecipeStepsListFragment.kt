@@ -1,6 +1,7 @@
 package ru.netology.neRecipes.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,18 +27,20 @@ class RecipeStepsListFragment : Fragment() {
             val recipe = recipeModel.currentRecipe.value
             recipe?.let {
                 title.text = it.title
+                val recipeSteps = stepModel.recipeSteps(it.id)
+                Log.d("TAG", "steps list StepsListFragment $recipeSteps")
+//                stepModel.stepsList = stepModel.recipeSteps(it.id)
+                val adapter = StepsForViewAdapter(stepModel)
+                stepsRecyclerView.adapter = adapter
+//                adapter.submitList(recipeSteps)
+                stepModel.stepsList.observe(viewLifecycleOwner) {
+                    val steps = stepModel.recipeSteps(recipe.id)
+                    Log.d("TAG", "steps list size StepsListFragment ${steps.size}")
+                    adapter.submitList(steps)
+                }
+
             }
 
-            val adapter = StepsForViewAdapter(stepModel)
-
-           stepsRecyclerView.adapter = adapter
-
-            val recipeSteps = recipe?.let { stepModel.recipeSteps(it.id) }
-            adapter.submitList(recipeSteps)
-//            stepModel.stepsList.observe(viewLifecycleOwner) { steps ->
-//                //Log.d("TAG", "steps list size ${steps.size}")
-//                adapter.submitList(steps)
-//            }
         }
         return binding.root
     }

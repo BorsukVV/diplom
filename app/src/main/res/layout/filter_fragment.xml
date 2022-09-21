@@ -7,6 +7,7 @@
     android:padding="@dimen/common_spacing">
 
     <RadioGroup
+        android:id="@+id/checkboxGroup"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -18,7 +19,6 @@
             android:id="@+id/europe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:checked="true"
             android:text="@string/european"
             app:layout_constraintBottom_toTopOf="@id/asian"
@@ -87,6 +87,16 @@
             app:layout_constraintTop_toBottomOf="@id/russian" />
 
     </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/selectAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/selectAll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/checkboxGroup"
+   />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
