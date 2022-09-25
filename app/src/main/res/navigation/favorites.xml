@@ -15,17 +15,18 @@
             app:argType="boolean"
             android:defaultValue="true" />
         <action
-            android:id="@+id/from_favoritesFragment_to_recipeTabFragment"
-            app:destination="@id/recipeTabFragment" />
+            android:id="@+id/from_favorites_to_details_tab"
+            app:destination="@id/FavoritesTabDetails" />
     </fragment>
     <fragment
-        android:id="@+id/recipeTabFragment"
+        android:id="@+id/FavoritesTabDetails"
         android:name="ru.netology.neRecipes.ui.RecipeTabFragment"
-        android:label="@string/details"
-        tools:layout="@layout/recipe_tab_fragment">
+        android:label="RecipeTabFragment" >
+        <argument
+            android:name="initialRecipeID"
+            app:argType="long" />
         <argument
             android:name="operationCode"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            app:argType="boolean" />
     </fragment>
 </navigation>

@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import ru.netology.neRecipes.databinding.FilterFragmentBinding
-import ru.netology.neRecipes.viewModel.StepViewModel
 
 class FilterFragment : Fragment() {
 
-    private val model: StepViewModel by activityViewModels()
     private lateinit var binding: FilterFragmentBinding
 
     override fun onCreateView(

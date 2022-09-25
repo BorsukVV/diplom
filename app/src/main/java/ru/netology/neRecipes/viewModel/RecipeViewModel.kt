@@ -5,7 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import ru.netology.neRecipes.adapter.RecipeInterActionListener
+import ru.netology.neRecipes.adapter.RecipeInteractionListener
 import ru.netology.neRecipes.data.Recipe
 import ru.netology.neRecipes.data.RecipeRepository
 import ru.netology.neRecipes.data.impl.RecipeRepositoryImpl
@@ -14,7 +14,7 @@ import ru.netology.neRecipes.util.SingleLiveEvent
 
 class RecipeViewModel(
     application: Application
-) : AndroidViewModel(application), RecipeInterActionListener {
+) : AndroidViewModel(application), RecipeInteractionListener {
 
     private val repository: RecipeRepository = RecipeRepositoryImpl(
         dao = AppDb.getInstance(
@@ -28,7 +28,7 @@ class RecipeViewModel(
 
     val data by repository::data
 
-    val navigateToRecipeTabsForCreate = SingleLiveEvent<String>()
+    val navigateToRecipeTabsForCreate = SingleLiveEvent<Long>()
 
     val navigateToRecipeTabForDetails = SingleLiveEvent<Long>()
 
@@ -70,18 +70,15 @@ class RecipeViewModel(
         val newRecipeId = repository.save(recipe)
         Log.d("TAG", "last recipeId in DATABASE = $newRecipeId")
         currentRecipe.value = null
-//        val stepsList = repository.stepsList.value
-//        if (stepsList != null) {
-//            for (i in stepsList.indices) {
-//                repository.saveStep(stepsList[i].copy(recipeId = newRecipeId, sequentialNumber = i))
-//            }
-//        }
         repository.associateStepsWithRecipe(newRecipeId)
+
     }
+
+    fun getRecipeByID(recipeID: Long) = repository.getRecipeByID(recipeID)
 
 
     fun onAddClicked() {
-        navigateToRecipeTabsForCreate.call()
+        navigateToRecipeTabsForCreate.value = RecipeRepository.NEW_RECIPE_ID
     }
 
     override fun chooseFavorite(recipe: Recipe) = repository.chooseFavorite(recipe.id)
@@ -91,11 +88,10 @@ class RecipeViewModel(
     override fun onEditClicked(recipe: Recipe) {
 
         currentRecipe.value = recipe
-        navigateToRecipeTabsForCreate.value = recipe.description
+        navigateToRecipeTabsForCreate.value = recipe.id
     }
 
     override fun viewRecipeDetails(recipe: Recipe) {
-        currentRecipe.value = recipe
         navigateToRecipeTabForDetails.value = recipe.id
     }
 

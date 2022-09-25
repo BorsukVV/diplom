@@ -1,13 +1,16 @@
-package ru.netology.neRecipes.viewModel
+package ru.netology.neRecipes.util
 
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
 import ru.netology.neRecipes.R
 
-class ViewUtil {
+class RecipeUtils {
 
     companion object {
+
+        const val CREATE: Boolean = true
+        const val EDIT: Boolean = false
 
     fun descriptionImageTemplateUri(resources: Resources): Uri = Uri.Builder()
         .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -22,6 +25,8 @@ class ViewUtil {
         .appendPath(resources.getResourceTypeName(R.drawable.step_image_template))
         .appendPath(resources.getResourceEntryName(R.drawable.step_image_template))
         .build()
+
+
 
     //val spinnerSet = Resources.getSystem().getStringArray(R.array.category_list)
 }

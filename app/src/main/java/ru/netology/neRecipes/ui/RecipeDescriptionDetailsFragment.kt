@@ -1,43 +1,55 @@
 package ru.netology.neRecipes.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
 import ru.netology.neRecipes.databinding.RecipeDescriptionDetailsFragmentBinding
 import ru.netology.neRecipes.viewModel.RecipeViewModel
 
-class RecipeDescriptionDetailsFragment () : Fragment() {
+class RecipeDescriptionDetailsFragment : Fragment() {
     private val model: RecipeViewModel by activityViewModels()
-    private val args by navArgs<RecipeDescriptionDetailsFragmentArgs>()
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-//            // Handle the back button event
-//        }
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = RecipeDescriptionDetailsFragmentBinding.inflate(inflater, container, false).also { binding ->
+    ) = RecipeDescriptionDetailsFragmentBinding.inflate(inflater, container, false)
+        .also { binding ->
+            val recipeID = arguments?.getLong("ID")
+            Log.d("TAG", "*RecipeDescriptionDetailsFragment* initial id $recipeID")
 
-        with(binding){
-            val recipe = model.currentRecipe.value
-            recipe?.let {
-                title.text = it.title
-                authorName.text = it.authorName
-                recipeCategory.text = it.category
-                recipeDescription.text = it.description
-                if (it.hasCustomImage) recipeImageBlock.recipeImage.setImageURI(it.imageUri)
+            recipeID?.let {
+                with(binding) {
+                    val recipe = model.getRecipeByID(recipeID)
+                    recipe.let {
+                        title.text = it.title
+                        authorName.text = it.authorName
+                        recipeCategory.text = it.category
+                        recipeDescription.text = it.description
+                        recipeImageBlock.imageGroup.visibility =
+                            if (recipe.hasCustomImage) View.VISIBLE else View.GONE
+                        if (it.imageUri != null) {
+                            if (it.hasCustomImage) recipeImageBlock.recipeImage.setImageURI(it.imageUri)
+                        }
+                    }
+                }
             }
-        }
-    }.root
+        }.root
 
     companion object {
-        fun newInstance() = RecipeDescriptionDetailsFragment()
+        fun newInstance(initialRecipeID: Long): RecipeDescriptionDetailsFragment {
+            val args = Bundle()
+            args.putLong("ID", initialRecipeID)
+            val fragment = RecipeDescriptionDetailsFragment()
+            fragment.arguments = args
+            Log.d(
+                "TAG",
+                "*RecipeDescriptionDetailsFragment* fragment.arguments ${fragment.arguments}"
+            )
+            return fragment
+        }
     }
 }

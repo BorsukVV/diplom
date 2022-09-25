@@ -1,37 +1,38 @@
 package ru.netology.neRecipes.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import ru.netology.neRecipes.data.RecipeRepository
 
 @Dao
 interface StepDao {
 
-    @Query("SELECT * FROM steps WHERE recipeId = :rangeOfSteps ORDER BY id ASC ")
+    @Query("SELECT * FROM steps WHERE recipeId = :recipeId ORDER BY recipeId ASC ")
     fun getRequiredRangeOfSteps(
-        rangeOfSteps: Long
+        recipeId: Long
     ): LiveData<List<StepEntity>>
 
     @Query("SELECT * FROM steps ORDER BY recipeId ASC ")
     fun getAllSteps(): LiveData<List<StepEntity>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(step: StepEntity)
 
-    @Query("UPDATE steps SET " +
-            "recipeId = :recipeId, " +
-            "sequentialNumber = :sequentialNumber, " +
-            "stepDescription = :stepDescription, " +
-            "hasCustomImage = :hasCustomImage, " +
-            "imageUri = :stepImageUri WHERE id = :id")
+    @Transaction
+    @Query(
+        "UPDATE steps SET " +
+                "recipeId = :recipeId, " +
+                "sequentialNumber = :sequentialNumber, " +
+                "stepDescription = :stepDescription, " +
+                "hasCustomImage = :hasCustomImage, " +
+                "imageUri = :stepImageUri WHERE stepId = :id"
+    )
     fun updateDescriptionById(
-        id: Int,
+        id: Long,
         recipeId: Long,
         sequentialNumber: Int,
         stepDescription: String,
-        hasCustomImage:Boolean,
+        hasCustomImage: Boolean,
         stepImageUri: String?,
     )
 
@@ -44,9 +45,10 @@ interface StepDao {
             step.stepDescription,
             step.hasCustomImage,
             step.stepImageUri
-            )
+        )
 
+    @Transaction
     @Query("DELETE FROM recipes WHERE id = :id")
-    fun removeById(id: Int)
+    fun removeById(id: Long)
 
 }

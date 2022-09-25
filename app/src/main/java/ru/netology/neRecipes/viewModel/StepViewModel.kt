@@ -5,7 +5,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import ru.netology.neRecipes.adapter.StepInterActionListener
+import ru.netology.neRecipes.adapter.StepInteractionListener
 import ru.netology.neRecipes.data.RecipeRepository
 import ru.netology.neRecipes.data.Step
 import ru.netology.neRecipes.data.impl.RecipeRepositoryImpl
@@ -14,7 +14,7 @@ import ru.netology.neRecipes.util.SingleLiveEvent
 
 class StepViewModel(
     application: Application
-) : AndroidViewModel(application), StepInterActionListener {
+) : AndroidViewModel(application), StepInteractionListener {
 
     private val repository: RecipeRepository = RecipeRepositoryImpl(
         dao = AppDb.getInstance(
@@ -26,23 +26,15 @@ class StepViewModel(
         application
     )
 
-//    val stepsList: MutableLiveData<List<Step>> = MutableLiveData(emptyList())
+    var stepsList = RecipeRepositoryImpl.stepsList
 
-//    fun recipeSteps() = steps
-//
-//    private val steps
-//        get() = checkNotNull(stepsList.value) {
-//            "Error. Data is null"
-//        }
-
-    val stepsList = repository.stepsList
-
-    fun recipeSteps(recipeId: Long): List<Step> {
-        Log.d("TAG", "step in onSaveButtonClicked = ${repository.recipeSteps(recipeId)}")
-        return repository.recipeSteps(recipeId)
+    fun recipeSteps(recipeId: Long) {
+        Log.d("TAG", "StepViewModel steps by id = ${repository.recipeSteps(recipeId)}")
+        val list = repository.recipeSteps(recipeId) as MutableLiveData
+        stepsList = list
     }
 
-    val navigateToStepCreateEdit = SingleLiveEvent<Int>()
+    val navigateToStepCreateEdit = SingleLiveEvent<Long>()
 
     val currentStep = MutableLiveData<Step?>(null)
 
@@ -65,17 +57,12 @@ class StepViewModel(
             stepImageUri = stepImageUri
         )
         Log.d("TAG", "step in onSaveButtonClicked = $step")
-        repository.addStepToList(step)
+        RecipeRepositoryImpl.addStepToList(step)
         currentStep.value = null
     }
 
-//    private fun insert(step: Step) {
-//        stepsList.value = listOf(step) + steps
-//
-//    }
-
     fun onAddClicked() {
-        navigateToStepCreateEdit.call()
+        navigateToStepCreateEdit.value = RecipeRepository.NEW_STEP_ID
     }
 
     override fun onRemoveClicked(step: Step) = repository.deleteStep(step.id)

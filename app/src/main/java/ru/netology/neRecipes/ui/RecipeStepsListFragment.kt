@@ -12,7 +12,6 @@ import ru.netology.neRecipes.databinding.RecipeStepsListFragmentBinding
 import ru.netology.neRecipes.viewModel.RecipeViewModel
 import ru.netology.neRecipes.viewModel.StepViewModel
 
-
 class RecipeStepsListFragment : Fragment() {
     private val recipeModel: RecipeViewModel by activityViewModels()
     private val stepModel: StepViewModel by activityViewModels()
@@ -21,33 +20,34 @@ class RecipeStepsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = RecipeStepsListFragmentBinding.inflate(inflater, container, false)
-        with(binding){
-            val recipe = recipeModel.currentRecipe.value
-            recipe?.let {
-                title.text = it.title
-                val recipeSteps = stepModel.recipeSteps(it.id)
-                Log.d("TAG", "steps list StepsListFragment $recipeSteps")
-//                stepModel.stepsList = stepModel.recipeSteps(it.id)
+        val recipeID = arguments?.getLong("ID")
+        recipeID?.let {
+            with(binding) {
+                val recipe = recipeModel.getRecipeByID(recipeID)
+                Log.d("TAG", "StepsListFragment recipe from bundle $recipe")
+                title.text = recipe.title
+                stepModel.recipeSteps(recipeID)
                 val adapter = StepsForViewAdapter(stepModel)
                 stepsRecyclerView.adapter = adapter
-//                adapter.submitList(recipeSteps)
-                stepModel.stepsList.observe(viewLifecycleOwner) {
-                    val steps = stepModel.recipeSteps(recipe.id)
-                    Log.d("TAG", "steps list size StepsListFragment ${steps.size}")
+                stepModel.stepsList.observe(viewLifecycleOwner) { steps ->
                     adapter.submitList(steps)
                 }
-
             }
-
         }
         return binding.root
     }
 
     companion object {
 
-        fun newInstance() = RecipeStepsListFragment()
+        fun newInstance(initialRecipeID: Long): RecipeStepsListFragment {
+            val args = Bundle()
+            args.putLong("ID", initialRecipeID)
+            val fragment = RecipeStepsListFragment()
+            fragment.arguments = args
+            return fragment
+        }
 
     }
 }

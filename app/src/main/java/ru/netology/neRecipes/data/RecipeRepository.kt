@@ -1,24 +1,22 @@
 package ru.netology.neRecipes.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 
 interface RecipeRepository {
     val data: LiveData<List<Recipe>>
     val favorites: LiveData<List<Recipe>>
-    var stepsList: MutableLiveData<List<Step>>
-    fun recipeSteps(recipeID: Long): List<Step>
+    fun recipeSteps(recipeID: Long): LiveData<List<Step>>
     fun chooseFavorite(recipeID: Long)
     fun delete(recipeID: Long)
     fun save(recipe: Recipe): Long
-    fun deleteStep(stepID: Int)
+    fun deleteStep(stepID: Long)
     fun saveStep(step: Step)
     fun associateStepsWithRecipe(newRecipeId: Long)
-    fun addStepToList(step: Step)
+    fun getRecipeByID(id: Long): Recipe
 
     companion object {
         const val NEW_RECIPE_ID = 0L
-        const val NEW_STEP_ID = 0
+        const val NEW_STEP_ID = 0L
     }
 
 }

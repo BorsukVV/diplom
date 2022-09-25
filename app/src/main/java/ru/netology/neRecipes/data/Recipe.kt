@@ -17,7 +17,7 @@ data class Recipe(
 )
 
 data class Step(
-    val id: Int,
+    val id: Long,
     val recipeId: Long,
     val sequentialNumber: Int,
     val stepDescription: String,

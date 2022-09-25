@@ -9,26 +9,32 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.neRecipes.adapter.RecipesAdapter
-import ru.netology.neRecipes.databinding.FeedFragmentBinding
+import ru.netology.neRecipes.databinding.MainListFragmentBinding
+import ru.netology.neRecipes.util.RecipeUtils
 import ru.netology.neRecipes.viewModel.RecipeViewModel
 
-open class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
-    private val model: RecipeViewModel by activityViewModels()
+open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
 
+    private val model: RecipeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        model.navigateToRecipeTabsForCreate.observe(this) { initialContent  ->
-            val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(initialContent, operationCode = true)
+        model.navigateToRecipeTabsForCreate.observe(this) { initialRecipeID ->
+            val direction = MainListFragmentDirections
+                .fromMainListFragmentToRecipeTabFragment(
+                    initialRecipeID = initialRecipeID,
+                    operationCode = RecipeUtils.CREATE
+                )
             findNavController().navigate(direction)
         }
 
-        model.navigateToRecipeTabForDetails.observe(this) { initialContent ->
-            val direction = FeedFragmentDirections.fromFeedFragmentToRecipeTabFragment(
-                initialContent.toString(),
-                operationCode = false
-            )
+        model.navigateToRecipeTabForDetails.observe(this) { initialRecipeID ->
+            val direction = MainListFragmentDirections
+                .fromMainListFragmentToRecipeTabFragment(
+                    initialRecipeID = initialRecipeID,
+                    operationCode = RecipeUtils.EDIT
+                )
             findNavController().navigate(direction)
         }
     }
@@ -37,7 +43,7 @@ open class FeedFragment : Fragment(), SearchView.OnQueryTextListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = FeedFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
+    ) = MainListFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
         val adapter = RecipesAdapter(model)
 

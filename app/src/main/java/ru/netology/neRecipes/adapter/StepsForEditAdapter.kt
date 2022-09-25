@@ -1,6 +1,7 @@
 package ru.netology.neRecipes.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -9,18 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.data.Step
 import ru.netology.neRecipes.databinding.RecipeListItemForCreateStepFragmentBinding
-
-
+import ru.netology.neRecipes.util.RecipeUtils
 
 internal class StepsForEditAdapter(
 
-    private val interActionListener: StepInterActionListener
+    private val interactionListener: StepInteractionListener
 
 ) : ListAdapter<Step, StepsForEditAdapter.StepViewHolder>(DiffCallBack) {
 
     inner class StepViewHolder(
         private val binding: RecipeListItemForCreateStepFragmentBinding,
-        listener: StepInterActionListener
+        listener: StepInteractionListener
 
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -56,7 +56,14 @@ internal class StepsForEditAdapter(
                 //TODO реализовать вывод порядкового номера шага
                 recipeStepHeader.text = step.sequentialNumber.toString()
                 recipeStepDescription.text = step.stepDescription
-                recipeStepDescriptionImage.setImageURI(step.stepImageUri)
+                imageGroup.visibility =
+                    if (step.hasCustomImage) View.VISIBLE else View.GONE
+
+                if (step.stepImageUri != null) {
+                    recipeStepDescriptionImage.setImageURI(step.stepImageUri)
+                } else {
+                    RecipeUtils.stepImageTemplateUri(binding.root.resources)
+                }
             }
         }
     }
@@ -64,7 +71,7 @@ internal class StepsForEditAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StepViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = RecipeListItemForCreateStepFragmentBinding.inflate(inflater, parent, false)
-        return StepViewHolder(binding, interActionListener)
+        return StepViewHolder(binding, interactionListener)
     }
 
     override fun onBindViewHolder(holder: StepViewHolder, position: Int) {

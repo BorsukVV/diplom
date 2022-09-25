@@ -10,18 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.data.Recipe
 import ru.netology.neRecipes.databinding.RecipeListItemFragmentBinding
-
+import ru.netology.neRecipes.util.RecipeUtils
 
 
 internal class RecipesAdapter(
 
-    private val interActionListener: RecipeInterActionListener
+    private val interActionListener: RecipeInteractionListener
 
 ) : ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder>(DiffCallBack) {
 
     inner class RecipeViewHolder(
         private val binding: RecipeListItemFragmentBinding,
-        listener: RecipeInterActionListener
+        listener: RecipeInteractionListener
 
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -55,7 +55,7 @@ internal class RecipesAdapter(
                 popupMenu.show()
             }
 
-            binding.root.setOnClickListener{
+            binding.root.setOnClickListener {
                 listener.viewRecipeDetails(recipe)
             }
 
@@ -68,8 +68,15 @@ internal class RecipesAdapter(
                 recipeHeader.title.text = recipe.title
                 recipeHeader.authorName.text = recipe.authorName
                 recipeHeader.recipeCategory.text = recipe.category
-                recipeImageBlock.recipeImage.setImageURI(recipe.imageUri)
-                recipeImageBlock.imageGroup.visibility = if (recipe.hasCustomImage) View.VISIBLE else View.GONE
+
+                if (recipe.imageUri != null) {
+                    recipeImageBlock.recipeImage.setImageURI(recipe.imageUri)
+                } else {
+                    RecipeUtils.descriptionImageTemplateUri(binding.root.resources)
+                }
+
+                recipeImageBlock.imageGroup.visibility =
+                    if (recipe.hasCustomImage) View.VISIBLE else View.GONE
                 recipeImageBlock.isFavouriteIcon.isChecked = recipe.isFavourite
             }
         }

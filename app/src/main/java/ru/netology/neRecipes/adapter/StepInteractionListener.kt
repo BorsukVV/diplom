@@ -3,7 +3,7 @@ package ru.netology.neRecipes.adapter
 
 import ru.netology.neRecipes.data.Step
 
-interface StepInterActionListener {
+interface StepInteractionListener {
     fun onRemoveClicked(step: Step)
     fun onEditClicked(step: Step)
 }

@@ -3,7 +3,7 @@ package ru.netology.neRecipes.adapter
 
 import ru.netology.neRecipes.data.Recipe
 
-interface RecipeInterActionListener {
+interface RecipeInteractionListener {
     fun chooseFavorite(recipe: Recipe)
     fun onRemoveClicked(recipe: Recipe)
     fun onEditClicked(recipe: Recipe)

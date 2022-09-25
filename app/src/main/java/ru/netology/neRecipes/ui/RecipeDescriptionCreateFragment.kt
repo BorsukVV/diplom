@@ -11,8 +11,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.databinding.RecipeDescriptionCreateFragmentBinding
+import ru.netology.neRecipes.util.RecipeUtils
 import ru.netology.neRecipes.viewModel.RecipeViewModel
-import ru.netology.neRecipes.viewModel.ViewUtil
 
 class RecipeDescriptionCreateFragment : Fragment() {
     private val model: RecipeViewModel by activityViewModels()
@@ -33,18 +33,26 @@ class RecipeDescriptionCreateFragment : Fragment() {
 
             val originalRecipe = model.currentRecipe.value
 
+            //categorySpinner.
+
             if (originalRecipe != null) {
                 editTitle.setText(originalRecipe.title)
                 editAuthor.setText(originalRecipe.authorName)
                 categorySpinner.setSelection(originalRecipe.categorySpinnerPosition)
                 editDescription.setText(originalRecipe.description)
                 editDescription.requestFocus()
-                recipeDescriptionImage.setImageURI(originalRecipe.imageUri)
+                if (originalRecipe.imageUri != null)
+                    recipeDescriptionImage.setImageURI(originalRecipe.imageUri)
+                else RecipeUtils.descriptionImageTemplateUri(binding.root.resources)
+
             }
 
-            val image = registerForActivityResult(ActivityResultContracts.OpenDocument()){
+            val image = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
                 requireActivity().contentResolver
-                    .takePersistableUriPermission(requireNotNull(it), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    .takePersistableUriPermission(
+                        requireNotNull(it),
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
                 model.newImageUri = it
                 //Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
                 recipeDescriptionImage.setImageURI(it)
@@ -72,7 +80,7 @@ class RecipeDescriptionCreateFragment : Fragment() {
                     description = description,
                     hasCustomImage = hasCustomImage,
                     imageUri = if (hasCustomImage)
-                        model.newImageUri else ViewUtil.descriptionImageTemplateUri(binding.root.resources)
+                        model.newImageUri else RecipeUtils.descriptionImageTemplateUri(binding.root.resources)
                 )
                 //Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
                 findNavController().navigateUp()

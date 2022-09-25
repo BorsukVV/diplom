@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.databinding.RecipeTabFragmentBinding
+import ru.netology.neRecipes.util.RecipeUtils
 import ru.netology.neRecipes.viewModel.StepViewModel
 
 class RecipeTabFragment : Fragment() {
@@ -22,22 +23,12 @@ class RecipeTabFragment : Fragment() {
     private lateinit var binding: RecipeTabFragmentBinding
 
 
-
-    private val fragmentsForOpenDetails = listOf(
-        RecipeDescriptionDetailsFragment.newInstance(),
-        RecipeStepsListFragment.newInstance()
-    )
-
-    private val fragmentsForEdit = listOf(
-        RecipeDescriptionCreateFragment.newInstance(),
-        RecipeStepsListCreateFragment.newInstance()
-    )
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = RecipeTabFragmentBinding.inflate(
             inflater, container, false
         )
@@ -46,18 +37,41 @@ class RecipeTabFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val tabNames = listOf(
             binding.root.resources.getString(R.string.summary),
             binding.root.resources.getString(R.string.by_steps)
         )
 
-//        model.stepsList.observe(viewLifecycleOwner) { steps ->
-//            Log.d("TAG", "steps list in tablayout ${steps.size}")
-//            adapter.submitList(steps)
-//        }
+//        val descriptionDetailsFragment = RecipeDescriptionDetailsFragment.newInstance()
+//        val initialRecipeID = Bundle()
+//        val recipeID = args.initialRecipeID
+//
+//        initialRecipeID.putLong("ID", recipeID)
+//
+//        Log.d("TAG", "*RecipeTabFragment* args.initialRecipeID $recipeID")
+//
+//        //descriptionDetailsFragment.arguments.putLong() = initialRecipeID
+//        descriptionDetailsFragment.arguments?.putLong("ID", recipeID)
+//        Log.d("TAG", "*RecipeTabFragment* args.initialRecipeID ${descriptionDetailsFragment.arguments?.getLong("ID")}")
+//
+//
+//        val stepsListCreateFragment = RecipeStepsListCreateFragment.newInstance()
+//        stepsListCreateFragment.arguments = initialRecipeID
+//        val stepsListFragment = RecipeStepsListFragment.newInstance()
+//        stepsListFragment.arguments = initialRecipeID
 
-        val fragmentsSet = if (args.operationCode) fragmentsForEdit else fragmentsForOpenDetails
+        val fragmentsForOpenDetails = listOf(
+            RecipeDescriptionDetailsFragment.newInstance(args.initialRecipeID),
+            RecipeStepsListFragment.newInstance(args.initialRecipeID)
+        )
+
+        val fragmentsForEdit = listOf(
+            RecipeDescriptionCreateFragment.newInstance(),
+            RecipeStepsListCreateFragment.newInstance(args.initialRecipeID)
+        )
+
+        val fragmentsSet =
+            if (args.operationCode == RecipeUtils.CREATE) fragmentsForEdit else fragmentsForOpenDetails
 
         val adapter = TabPagerAdapter(
             activity as AppCompatActivity, fragmentsSet

@@ -14,13 +14,13 @@ import ru.netology.neRecipes.databinding.RecipeListItemStepFragmentBinding
 
 internal class StepsForViewAdapter(
 
-    private val interActionListener: StepInterActionListener
+    private val interActionListener: StepInteractionListener
 
 ) : ListAdapter<Step, StepsForViewAdapter.StepViewHolder>(DiffCallBack) {
 
     inner class StepViewHolder(
         private val binding: RecipeListItemStepFragmentBinding,
-        listener: StepInterActionListener
+        listener: StepInteractionListener
 
     ) : RecyclerView.ViewHolder(binding.root) {
 

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import ru.netology.neRecipes.data.Recipe
@@ -38,67 +39,55 @@ class RecipeRepositoryImpl(
         entities.map { it.toModel() }
     }
 
-    fun getRecipeByID(id: Long) = dao.getRecipeByID(id).toModel()
+    override fun getRecipeByID(id: Long) = dao.getRecipeByID(id).toModel()
 
-    fun steps() = println(stepDao.getAllSteps().value)
-
+    //fun steps() = println(stepDao.getAllSteps().value)
 
     override val favorites = dao.getAllFavorites().map { entities ->
         entities.map { it.toModel() }
     }
 
-//    override var stepsList = stepDao.getRequiredRangeOfSteps(RecipeRepository.NEW_RECIPE_ID).map { entities ->
-//        entities.map { it.toModel() }
-//    }
-
-    override var stepsList: MutableLiveData<List<Step>> = MutableLiveData(emptyList())
-
-    private val steps
-        get() = checkNotNull(stepsList.value) {
-            "Error. Data is null"
+    override fun recipeSteps (recipeID: Long): LiveData<List<Step>> {
+        Log.d("TAG", "RecipeRepositoryImpl recipeID = $recipeID")
+        val stepEntities = stepDao.getRequiredRangeOfSteps(recipeID)
+        Log.d("TAG", "RecipeRepositoryImpl stepEntities = $stepEntities")
+        val listOfSteps = stepEntities.map { entities ->
+            entities.map { it.toModel() }
         }
-
-    override fun recipeSteps(recipeID: Long): List<Step> {
-        return stepDao.getRequiredRangeOfSteps(recipeID).value?.map {
-            it.toModel() } ?: emptyList()
-        }
+        Log.d("TAG", "RecipeRepositoryImpl listOfSteps = $listOfSteps")
+        return listOfSteps
+    }
 
     override fun save(recipe: Recipe): Long = dao.save(recipe.toEntity())
 
-    override fun deleteStep(stepID: Int) = stepDao.removeById(stepID)
+    override fun deleteStep(stepID: Long) = stepDao.removeById(stepID)
 
     override fun saveStep(step: Step) = stepDao.save(step.toEntity())
 
     override fun associateStepsWithRecipe(newRecipeId: Long) {
-        val recipeSteps = stepsList.value
-        Log.d("TAG", "step list in repo before saving = $recipeSteps")
-        if (recipeSteps != null) {
-            for (i in recipeSteps.indices) {
-                saveStep(recipeSteps[i].copy(recipeId = newRecipeId, sequentialNumber = i))
-            }
+        stepsList.value?.forEachIndexed { index, step ->
+            saveStep(step.copy(recipeId = newRecipeId, sequentialNumber = (index + 1)))
         }
-steps()
-//        val recipeId = data.value?.last()?.id
-//        Log.d("TAG", "last recipeId in associateStepsWithRecipe = $recipeId")
-//        stepsList.value?.let { steps ->
-//            for (step in steps) {
-//                if (recipeId != null) {
-//                    val associatedStep = step.copy(recipeId = recipeId)
-//                    saveStep(associatedStep)
-//                }
-//            }
-//        }
-    }
-
-    override fun addStepToList(step: Step) {
-        stepsList.value = listOf(step) + steps
+        stepsList.value = emptyList()
     }
 
     override fun chooseFavorite(recipeID: Long) = dao.chooseFavoriteById(recipeID)
 
     override fun delete(recipeID: Long) = dao.removeById(recipeID)
 
+    companion object{
+
+        val stepsList: MutableLiveData<List<Step>> = MutableLiveData(emptyList())
+
+        fun addStepToList(step: Step): MutableLiveData<List<Step>> {
+            val steps = checkNotNull(stepsList.value)
+            stepsList.value = listOf(step) + steps
+            return stepsList
+        }
+    }
+
 }
+//region externalFunctions
 
 private fun Recipe.toEntity() = RecipeEntity(
     id = id,
@@ -141,3 +130,5 @@ private fun StepEntity.toModel() = Step(
     sequentialNumber = sequentialNumber,
     stepImageUri = Uri.parse(stepImageUri)
 )
+
+//endregion
