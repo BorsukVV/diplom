@@ -24,10 +24,7 @@ internal class StepsForViewAdapter(
 
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private lateinit var step: Step
-
         fun bind(step: Step) {
-
             val resources = binding.root.resources
             val stepTitleStringTemplate = resources.getString(R.string.step_with_counter)
 

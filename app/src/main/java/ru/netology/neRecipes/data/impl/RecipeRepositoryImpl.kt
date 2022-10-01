@@ -1,7 +1,6 @@
 package ru.netology.neRecipes.data.impl
 
 import android.app.Application
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -15,8 +14,6 @@ import ru.netology.neRecipes.db.RecipeEntity
 import ru.netology.neRecipes.db.StepDao
 import ru.netology.neRecipes.db.StepEntity
 
-private const val CATEGORY_FILTER = "CATEGORY_FILTER"
-
 class RecipeRepositoryImpl(
     private val dao: RecipeDao,
     private val stepDao: StepDao,
@@ -24,30 +21,27 @@ class RecipeRepositoryImpl(
 
 ) : RecipeRepository {
 
-    private val filters = application.getSharedPreferences(
-        CATEGORY_FILTER, Context.MODE_PRIVATE
-    )
-
-//    private var filterSet: Long by Delegates.observable(
-//        filters.getLong(NEXT_ID_PREF_KEY, 0L)
-//    ) {_,_, newValue ->
-//        prefs.edit { putLong(NEXT_ID_PREF_KEY, newValue) }
-//    }
+    val categoryIndexesForDBRequest = SettingsRepositoryImpl.categoryIndexesForDBRequest
 
 
-    override val data = dao.getAll().map { entities ->
+
+    override val data = dao.getAll(categoryIndexesForDBRequest).map { entities ->
+        Log.d("TAG", "categoryIndexesForDBRequest = ${categoryIndexesForDBRequest.toString()}")
         entities.map { it.toModel() }
+
     }
 
-    override fun getRecipeByID(id: Long) = dao.getRecipeByID(id).toModel()
+//    override val data = dao.getAll().map { entities ->
+//        entities.map { it.toModel() }
+//    }
 
-    //fun steps() = println(stepDao.getAllSteps().value)
+    override fun getRecipeByID(id: Long) = dao.getRecipeByID(id).toModel()
 
     override val favorites = dao.getAllFavorites().map { entities ->
         entities.map { it.toModel() }
     }
 
-    override fun recipeSteps (recipeID: Long): LiveData<List<Step>> {
+    override fun recipeSteps(recipeID: Long): LiveData<List<Step>> {
         Log.d("TAG", "RecipeRepositoryImpl recipeID = $recipeID")
         val stepEntities = stepDao.getRequiredRangeOfSteps(recipeID)
         Log.d("TAG", "RecipeRepositoryImpl stepEntities = $stepEntities")
@@ -75,7 +69,7 @@ class RecipeRepositoryImpl(
 
     override fun delete(recipeID: Long) = dao.removeById(recipeID)
 
-    companion object{
+    companion object {
 
         val stepsList: MutableLiveData<List<Step>> = MutableLiveData(emptyList())
 

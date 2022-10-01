@@ -1,7 +1,10 @@
 package ru.netology.neRecipes.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import ru.netology.neRecipes.data.RecipeRepository
 
 @Dao
@@ -18,7 +21,7 @@ interface StepDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(step: StepEntity)
 
-    @Transaction
+    //@Transaction
     @Query(
         "UPDATE steps SET " +
                 "recipeId = :recipeId, " +
@@ -47,7 +50,7 @@ interface StepDao {
             step.stepImageUri
         )
 
-    @Transaction
+    //@Transaction
     @Query("DELETE FROM recipes WHERE id = :id")
     fun removeById(id: Long)
 

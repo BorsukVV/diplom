@@ -15,12 +15,12 @@ import ru.netology.neRecipes.viewModel.RecipeViewModel
 
 open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
 
-    private val model: RecipeViewModel by activityViewModels()
+    private val recipeViewModel: RecipeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        model.navigateToRecipeTabsForCreate.observe(this) { initialRecipeID ->
+        recipeViewModel.navigateToRecipeTabsForCreate.observe(this) { initialRecipeID ->
             val direction = MainListFragmentDirections
                 .fromMainListFragmentToRecipeTabFragment(
                     initialRecipeID = initialRecipeID,
@@ -29,7 +29,7 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
             findNavController().navigate(direction)
         }
 
-        model.navigateToRecipeTabForDetails.observe(this) { initialRecipeID ->
+        recipeViewModel.navigateToRecipeTabForDetails.observe(this) { initialRecipeID ->
             val direction = MainListFragmentDirections
                 .fromMainListFragmentToRecipeTabFragment(
                     initialRecipeID = initialRecipeID,
@@ -45,11 +45,11 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ) = MainListFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        val adapter = RecipesAdapter(model)
+        val adapter = RecipesAdapter(recipeViewModel)
 
         binding.recipesRecyclerView.adapter = adapter
 
-        model.data.observe(viewLifecycleOwner) { recipes ->
+        recipeViewModel.data.observe(viewLifecycleOwner) { recipes ->
             //Log.d("TAG", "recipes size ${recipes.size}")
             binding.defaultStubGroup.visibility =
                 if (recipes.isNotEmpty()) View.GONE else View.VISIBLE
@@ -57,7 +57,7 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
         }
 
         binding.fabAddRecipe.setOnClickListener {
-            model.onAddClicked()
+            recipeViewModel.onAddClicked()
         }
 
     }.root

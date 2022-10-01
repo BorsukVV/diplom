@@ -16,11 +16,11 @@ import ru.netology.neRecipes.viewModel.StepViewModel
 
 class RecipeStepsListCreateFragment() : Fragment() {
 
-    private val model: StepViewModel by activityViewModels()
+    private val stepViewModel: StepViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        model.navigateToStepCreateEdit.observe(this) { initialStepId ->
+        stepViewModel.navigateToStepCreateEdit.observe(this) { initialStepId ->
             val direction = RecipeTabFragmentDirections
                 .fromRecipeTabFragmentToRecipeStepCreateFragment(initialStepId)
             findNavController().navigate(direction)
@@ -36,23 +36,23 @@ class RecipeStepsListCreateFragment() : Fragment() {
             recipeID?.let {
                 Log.d("TAG", "*RecipeStepsListCreateFragment* initial id $recipeID")
                 if (recipeID != RecipeRepository.NEW_RECIPE_ID) {
-                    model.recipeSteps(recipeID)
+                    stepViewModel.recipeSteps(recipeID)
                     Log.d(
                         "TAG",
-                        "*RecipeStepsListCreateFragment* initial id ${model.stepsList.value}"
+                        "*RecipeStepsListCreateFragment* initial id ${stepViewModel.stepsList.value}"
                     )
                 }
             }
-            val adapter = StepsForEditAdapter(model)
+            val adapter = StepsForEditAdapter(stepViewModel)
             binding.createStepsRecyclerView.adapter = adapter
 
-            model.stepsList.observe(viewLifecycleOwner) { steps ->
+            stepViewModel.stepsList.observe(viewLifecycleOwner) { steps ->
                 Log.d("TAG", "*RecipeStepsListCreateFragment* steps list size ${steps.size}")
                 adapter.submitList(steps)
             }
 
             binding.fabAddStep.setOnClickListener {
-                model.onAddClicked()
+                stepViewModel.onAddClicked()
             }
 
             val itemTouchHelper by lazy {

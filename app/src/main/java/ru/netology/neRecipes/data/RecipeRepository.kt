@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 
 interface RecipeRepository {
     val data: LiveData<List<Recipe>>
+    //val filtersSetData: MutableLiveData<List<CheckBoxSettings>>
     val favorites: LiveData<List<Recipe>>
     fun recipeSteps(recipeID: Long): LiveData<List<Step>>
     fun chooseFavorite(recipeID: Long)
@@ -18,5 +19,7 @@ interface RecipeRepository {
         const val NEW_RECIPE_ID = 0L
         const val NEW_STEP_ID = 0L
     }
-
+//
+//    fun checkBoxSelected(checkBox: CheckBoxSettings)
+//    fun checkBoxesSelectAll()
 }

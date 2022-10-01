@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/filter_fragment"
+    android:padding="@dimen/common_spacing">
+
+    <RadioGroup
+        android:id="@+id/checkboxGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/europe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/european"
+            app:layout_constraintBottom_toTopOf="@id/asian"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <CheckBox
+            android:id="@+id/asian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/asian"
+            app:layout_constraintBottom_toTopOf="@id/panAsian"
+            app:layout_constraintStart_toStartOf="@id/europe"
+            app:layout_constraintTop_toBottomOf="@id/europe" />
+
+        <CheckBox
+            android:id="@+id/panAsian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/panAsian"
+            app:layout_constraintBottom_toTopOf="@id/eastern"
+            app:layout_constraintStart_toStartOf="@id/europe"
+            app:layout_constraintTop_toBottomOf="@id/asian" />
+
+        <CheckBox
+            android:id="@+id/eastern"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/eastern"
+            app:layout_constraintBottom_toTopOf="@id/american"
+            app:layout_constraintStart_toStartOf="@id/europe"
+            app:layout_constraintTop_toBottomOf="@id/panAsian" />
+
+        <CheckBox
+            android:id="@+id/american"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/american"
+            app:layout_constraintBottom_toTopOf="@id/russian"
+            app:layout_constraintStart_toStartOf="@id/europe"
+            app:layout_constraintTop_toBottomOf="@id/eastern" />
+
+        <CheckBox
+            android:id="@+id/russian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/russian"
+            app:layout_constraintBottom_toTopOf="@id/mediterranean"
+            app:layout_constraintStart_toStartOf="@id/europe"
+            app:layout_constraintTop_toBottomOf="@id/american" />
+
+        <CheckBox
+            android:id="@+id/mediterranean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/mediterranean"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/europe"
+            app:layout_constraintTop_toBottomOf="@id/russian" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/selectAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/selectAll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/checkboxGroup"
+   />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

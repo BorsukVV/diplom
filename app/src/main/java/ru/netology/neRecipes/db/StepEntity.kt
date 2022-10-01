@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "steps",
     foreignKeys = [ForeignKey(
         entity = RecipeEntity::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("stepId"),
+        parentColumns = ["id"],
+        childColumns = ["recipeId"],
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE
     )]
