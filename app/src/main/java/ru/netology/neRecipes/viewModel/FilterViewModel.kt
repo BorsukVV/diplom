@@ -14,17 +14,21 @@ class FilterViewModel(
 
     private val repository: PrefsSettingsRepository = SettingsRepositoryImpl(application)
 
-    val filterSet by repository::filtersSetData
+    val filterSet by repository::filtersSet
 
     var wasSettingsSetChangedFlag = false
 
-    private var currentFilterSet = filterSet.value as MutableList
+    override var checkBoxEnabled = true
+
+    override var currentFilterSet = filterSet.value as MutableList
 
     var checkedCategoriesCount = currentFilterSet.count { checkBoxSettings ->
         checkBoxSettings.isChecked
     }
 
-    val selectAllState by repository::selectAllSettings
+//    val selectAllState by repository::selectAllSettings
+
+    val selectAllState = repository.selectAllSettings
 
     override fun onItemClicked(checkBox: CheckBoxSettings) {
         if (!wasSettingsSetChangedFlag) wasSettingsSetChangedFlag = true
@@ -32,37 +36,40 @@ class FilterViewModel(
         checkedCategoriesCount = currentFilterSet.count { checkBoxSettings ->
             checkBoxSettings.isChecked
         }
-        repository.selectAllStateSave(checkedCategoriesCount == currentFilterSet.size)
-        repository.checkBoxSave(checkBox)
+        checkBoxEnabled = checkedCategoriesCount != 1
+        val currentSelectAllState = checkedCategoriesCount == currentFilterSet.size
+        Log.d("TAG", "view model fun currentSelectAllState $currentSelectAllState")
+        //if (selectAllState.value != currentSelectAllState)
+            repository.selectAllStateSave(currentSelectAllState)
+        //repository.checkBoxSave(checkBox)
+        Log.d("TAG", "view model override var checkBoxEnabled =  $checkBoxEnabled")
     }
 
     fun updateFilterSetInRepository() {
         currentFilterSet.forEach { checkBox ->
-            Log.d("TAG", "view model fun updateFilterSetInRepository $checkBox")
+            //Log.d("TAG", "view model fun updateFilterSetInRepository $checkBox")
             repository.checkBoxSave(checkBox)
         }
-        Log.d("TAG", "view model currentFilterSet $currentFilterSet")
+        //Log.d("TAG", "view model currentFilterSet $currentFilterSet")
     }
 
     fun selectAll() {
-//        currentFilterSet.forEachIndexed { index,  checkBox ->
-//            Log.d("TAG", "view model fun updateFilterSetInRepository $checkBox")
-//            //repository.checkBoxSave(checkBox)
-//            if (!checkBox.isChecked) {
-//                val updatedCheckBox = CheckBoxSettings(
-//                    categoryId = checkBox.categoryId,
-//                    category = checkBox.category,
-//                    isChecked = true
-//                )
-//                repository.checkBoxSave(updatedCheckBox)
-//                currentFilterSet[index] = updatedCheckBox
-//            }
-//
-//        }
+        currentFilterSet.forEachIndexed { index, checkBox ->
+            Log.d("TAG", "view model override var checkBoxEnabled =  $checkBoxEnabled")
+            //repository.checkBoxSave(checkBox)
+            if (!checkBox.isChecked) {
+                val updatedCheckBox = CheckBoxSettings(
+                    categoryId = checkBox.categoryId,
+                    category = checkBox.category,
+                    isChecked = true
+                )
+                repository.checkBoxSave(updatedCheckBox)
+                currentFilterSet[index] = updatedCheckBox
+            }
+        }
+        checkBoxEnabled = true
         repository.checkBoxesSelectAll()
-        currentFilterSet = filterSet.value as MutableList<CheckBoxSettings>
-        Log.d("TAG", "fun selectAll() $$$$$$ filterSet by repository::filtersSetData ${filterSet.value}")
-        Log.d("TAG", "fun selectAll() view model &&&&& currentFilterSet $currentFilterSet")
+
     }
 
 }

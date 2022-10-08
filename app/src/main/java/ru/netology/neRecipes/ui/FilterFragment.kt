@@ -23,15 +23,15 @@ class FilterFragment : Fragment() {
     ): View {
         binding = FilterFragmentBinding.inflate(layoutInflater, container, false)
 
-
         filterViewModel.selectAllState.value?.let {
             binding.selectAll.isChecked = it
             Log.d("TAG", "selectAll fun onCreateView $it")
             binding.selectAll.isEnabled = !binding.selectAll.isChecked
         }
+
+        filterViewModel.wasSettingsSetChangedFlag = false
+
         //Log.d("TAG", "filterViewModel.selectAllChecked.value fun onCreateView ${filterViewModel.selectAllState.value}")
-
-
         return binding.root
     }
 
@@ -41,8 +41,8 @@ class FilterFragment : Fragment() {
             //Log.d("TAG", "filterSet ${filterViewModel.filterSet.value}")
             val adapter = FilterAdapter(filterViewModel)
             checkboxRecyclerView.adapter = adapter
-            filterViewModel.filterSet.observe(viewLifecycleOwner) { checkBoxes ->
 
+            filterViewModel.filterSet.observe(viewLifecycleOwner) { checkBoxes ->
                 Log.d("TAG", "RecyclerView filterSet $checkBoxes")
                 adapter.submitList(checkBoxes)
             }
@@ -65,9 +65,10 @@ class FilterFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        filterViewModel.updateFilterSetInRepository()
+        if (filterViewModel.wasSettingsSetChangedFlag) filterViewModel.updateFilterSetInRepository()
         //filterViewModel.wasSettingsSetChangedFlag = false
         Log.d("TAG", "fun onPause()")
+        //filterViewModel.currentFilterSet.clear()
     }
 
 }

@@ -1,5 +1,6 @@
 package ru.netology.neRecipes.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -15,23 +16,46 @@ internal class FilterAdapter(
 ) : ListAdapter<CheckBoxSettings, FilterAdapter.FilterViewHolder>(DiffCallBack) {
 
     inner class FilterViewHolder(
-        private val binding: FilterItemFragmentBinding
+        private val binding: FilterItemFragmentBinding,
+        listener: FilterInteractionListener
 
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        private lateinit var checkBox: CheckBoxSettings
+
+        init {
+            binding.filterCheckBox.setOnCheckedChangeListener { _, checkBoxState ->
+
+                val changedCheckBox = CheckBoxSettings(
+                    categoryId = checkBox.categoryId,
+                    category = checkBox.category,
+                    isChecked = checkBoxState
+                )
+
+                listener.onItemClicked(changedCheckBox)
+            }
+        }
+
         fun bind(checkBox: CheckBoxSettings) {
+
+            Log.d("TAG", "adapter fun bind(checkBox: CheckBoxSettings)  ${checkBox} ")
+
+            this.checkBox = checkBox
+            //Log.d("TAG", "adapter this.checkBox ${this.checkBox} ")
+
             with(binding) {
                 filterCheckBox.isChecked = checkBox.isChecked
                 filterCheckBox.text = checkBox.category
-                filterCheckBox.setOnCheckedChangeListener { _, checkBoxState ->
-                    val changedCheckBox = CheckBoxSettings(
-                        categoryId = checkBox.categoryId,
-                        category = checkBox.category,
-                        isChecked = checkBoxState
-                    )
-                    interactionListener.onItemClicked(changedCheckBox)
-                    //Log.d("TAG", "checkbox state? ${checkBox.categoryId} $b")
-                }
+                filterCheckBox.isEnabled = interactionListener.checkBoxEnabled
+//                filterCheckBox.setOnCheckedChangeListener { _, checkBoxState ->
+//                    val changedCheckBox = CheckBoxSettings(
+//                        categoryId = checkBox.categoryId,
+//                        category = checkBox.category,
+//                        isChecked = checkBoxState
+//                    )
+//                    //interactionListener.onItemClicked(changedCheckBox)
+//                    //Log.d("TAG", "checkbox state? ${checkBox.categoryId} $b")
+//                }
             }
         }
     }
@@ -39,7 +63,7 @@ internal class FilterAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = FilterItemFragmentBinding.inflate(inflater, parent, false)
-        return FilterViewHolder(binding)
+        return FilterViewHolder(binding, interactionListener)
     }
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
@@ -47,11 +71,17 @@ internal class FilterAdapter(
     }
 
     private object DiffCallBack : DiffUtil.ItemCallback<CheckBoxSettings>() {
-        override fun areItemsTheSame(oldItem: CheckBoxSettings, newItem: CheckBoxSettings): Boolean =
+        override fun areItemsTheSame(
+            oldItem: CheckBoxSettings,
+            newItem: CheckBoxSettings
+        ): Boolean =
             oldItem.categoryId == newItem.categoryId
 
-        override fun areContentsTheSame(oldItem: CheckBoxSettings, newItem: CheckBoxSettings): Boolean =
-            oldItem.categoryId == newItem.categoryId
+        override fun areContentsTheSame(
+            oldItem: CheckBoxSettings,
+            newItem: CheckBoxSettings
+        ): Boolean =
+            oldItem == newItem
     }
 
 }

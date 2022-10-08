@@ -11,7 +11,7 @@ import ru.netology.neRecipes.data.RecipeRepository
 interface RecipeDao {
 
     @Query("SELECT * FROM recipes WHERE categorySpinnerPosition IN (:categoryIndexes) ORDER BY id DESC")
-    fun getAll(categoryIndexes: Array<Int>): LiveData<List<RecipeEntity>>
+    fun getAll(categoryIndexes: List<Int>): LiveData<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes WHERE id = :id")
     fun getRecipeByID(id: Long): RecipeEntity

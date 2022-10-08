@@ -32,9 +32,10 @@ class RecipeStepCreateFragment : Fragment() {
 
         with(binding) {
             val image = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
+                it ?: return@registerForActivityResult
                 requireActivity().contentResolver
                     .takePersistableUriPermission(
-                        requireNotNull(it),
+                        it,
                         Intent.FLAG_GRANT_READ_URI_PERMISSION
                     )
                 model.newImageUri = it

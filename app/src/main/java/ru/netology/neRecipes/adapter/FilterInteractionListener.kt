@@ -6,4 +6,6 @@ import ru.netology.neRecipes.util.CheckBoxSettings
 interface FilterInteractionListener {
     //fun selectAll()
     fun onItemClicked(checkBox: CheckBoxSettings)
+    var checkBoxEnabled: Boolean
+    var currentFilterSet: MutableList<CheckBoxSettings>
 }

@@ -1,11 +1,13 @@
 package ru.netology.neRecipes.data.impl
 
 import android.app.Application
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
+import ru.netology.neRecipes.data.PrefsSettingsRepository
 import ru.netology.neRecipes.data.Recipe
 import ru.netology.neRecipes.data.RecipeRepository
 import ru.netology.neRecipes.data.Step
@@ -21,7 +23,16 @@ class RecipeRepositoryImpl(
 
 ) : RecipeRepository {
 
-    val categoryIndexesForDBRequest = SettingsRepositoryImpl.categoryIndexesForDBRequest
+    val categoryIndexesForDBRequest = listOf(1,2,3,4, 5, 6)
+
+    private val filters = application.getSharedPreferences(
+        PrefsSettingsRepository.CATEGORY_FILTER, Context.MODE_PRIVATE
+    )
+
+//    private var categoryIndexesForDBRequest: List<Int> by Delegates.observable(
+//        val serializedIndexes = filters.getString(PREF_DB_INDEXES, null)
+//
+//    ) {    }
 
 
 
