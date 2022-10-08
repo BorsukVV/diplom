@@ -18,17 +18,13 @@ class FilterViewModel(
 
     var wasSettingsSetChangedFlag = false
 
-    override var checkBoxEnabled = true
-
     override var currentFilterSet = filterSet.value as MutableList
 
-    var checkedCategoriesCount = currentFilterSet.count { checkBoxSettings ->
+    private var checkedCategoriesCount = currentFilterSet.count { checkBoxSettings ->
         checkBoxSettings.isChecked
     }
 
-//    val selectAllState by repository::selectAllSettings
-
-    val selectAllState = repository.selectAllSettings
+    val selectAllState by repository::selectAllSettings
 
     override fun onItemClicked(checkBox: CheckBoxSettings) {
         if (!wasSettingsSetChangedFlag) wasSettingsSetChangedFlag = true
@@ -36,13 +32,13 @@ class FilterViewModel(
         checkedCategoriesCount = currentFilterSet.count { checkBoxSettings ->
             checkBoxSettings.isChecked
         }
-        checkBoxEnabled = checkedCategoriesCount != 1
         val currentSelectAllState = checkedCategoriesCount == currentFilterSet.size
         Log.d("TAG", "view model fun currentSelectAllState $currentSelectAllState")
-        //if (selectAllState.value != currentSelectAllState)
+        if (selectAllState.value != currentSelectAllState)
+        //val cb = checkBox.copy(isEnabled = checkBoxEnabled)
             repository.selectAllStateSave(currentSelectAllState)
-        //repository.checkBoxSave(checkBox)
-        Log.d("TAG", "view model override var checkBoxEnabled =  $checkBoxEnabled")
+        repository.checkBoxSave(checkBox)
+        Log.d("TAG", "view model override var ")
     }
 
     fun updateFilterSetInRepository() {
@@ -55,7 +51,7 @@ class FilterViewModel(
 
     fun selectAll() {
         currentFilterSet.forEachIndexed { index, checkBox ->
-            Log.d("TAG", "view model override var checkBoxEnabled =  $checkBoxEnabled")
+            //Log.d("TAG", "view model override var checkBoxEnabled =  $checkBoxEnabled")
             //repository.checkBoxSave(checkBox)
             if (!checkBox.isChecked) {
                 val updatedCheckBox = CheckBoxSettings(
@@ -67,7 +63,7 @@ class FilterViewModel(
                 currentFilterSet[index] = updatedCheckBox
             }
         }
-        checkBoxEnabled = true
+        //checkBoxEnabled = true
         repository.checkBoxesSelectAll()
 
     }

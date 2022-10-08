@@ -31,7 +31,7 @@ internal class FilterAdapter(
                     category = checkBox.category,
                     isChecked = checkBoxState
                 )
-
+                //binding.filterCheckBox.isEnabled = listener.checkBoxEnabled
                 listener.onItemClicked(changedCheckBox)
             }
         }
@@ -46,16 +46,7 @@ internal class FilterAdapter(
             with(binding) {
                 filterCheckBox.isChecked = checkBox.isChecked
                 filterCheckBox.text = checkBox.category
-                filterCheckBox.isEnabled = interactionListener.checkBoxEnabled
-//                filterCheckBox.setOnCheckedChangeListener { _, checkBoxState ->
-//                    val changedCheckBox = CheckBoxSettings(
-//                        categoryId = checkBox.categoryId,
-//                        category = checkBox.category,
-//                        isChecked = checkBoxState
-//                    )
-//                    //interactionListener.onItemClicked(changedCheckBox)
-//                    //Log.d("TAG", "checkbox state? ${checkBox.categoryId} $b")
-//                }
+                filterCheckBox.isEnabled = checkBox.isEnabled
             }
         }
     }

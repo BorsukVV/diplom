@@ -77,14 +77,24 @@ class SettingsRepositoryImpl(
         filtersSetValue = filtersSetValue.map {
             if (it.categoryId == checkBox.categoryId) checkBox else it
         }
+        val listChecked = filtersSetValue.filter { it.isChecked }
+        if (listChecked.size == 1) {
+            val singleCheckBox = listChecked.first()
+            val disabledCheckBox = singleCheckBox.copy(isEnabled = false)
+            filtersSetValue = filtersSetValue.map {
+                if (it.categoryId == disabledCheckBox.categoryId) disabledCheckBox else it
+            }
+        }
+
         Log.d("TAG", "repository fun checkBoxSave $filtersSetValue")
     }
 
     override fun checkBoxesSelectAll() {
         filtersSetValue = filtersSetValue.map {
-            if (it.isChecked) it else {
+            if (it.isChecked) it.copy(isEnabled = true) else {
                 it.copy(
-                    isChecked = true
+                    isChecked = true,
+                    isEnabled = true
                 )
             }
         }
@@ -94,17 +104,6 @@ class SettingsRepositoryImpl(
 
         //categoryIndexesForDBRequest = selectedСategories.map { it.categoryId } as Array<Int>
         Log.d("TAG", "repository checkBoxesSelectAll $filtersSetValue")
-    }
-
-    override fun checkBoxSelected(checkBox: CheckBoxSettings) {
-        filtersSetValue = filtersSetValue.map {
-            if (it.categoryId != checkBox.categoryId) it
-            else {
-                it.copy(
-                    isChecked = !it.isChecked,
-                )
-            }
-        }
     }
 
     override fun selectAllStateSave(state: Boolean) {
