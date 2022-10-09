@@ -90,7 +90,7 @@ class SettingsRepositoryImpl(
     }
 
     override fun checkBoxSave(checkBox: CheckBoxSettings) {
-        //set changes to filterSet
+        //copy to RAM and set changes to filterSet
         val modifiedSet = filtersSetValue.map {
             if (it.categoryId == checkBox.categoryId) checkBox else it
         }
@@ -105,29 +105,26 @@ class SettingsRepositoryImpl(
         filtersSetValue = if (listChecked.size == 1) {
             val singleCheckBox = listChecked.first()
             val disabledCheckBox = singleCheckBox.copy(isEnabled = false)
-            filtersSetValue.map {
+            modifiedSet.map {
                 if (it.categoryId == disabledCheckBox.categoryId) disabledCheckBox else it
             }
-        } else modifiedSet
+        } else modifiedSet.map {
+            if (it.isEnabled) it else it.copy(isEnabled = true)
+        }
 
         extractCategoryIndexes()
 
-        //Log.d("TAG", "repository fun checkBoxSave $filtersSetValue")
     }
 
     override fun checkBoxesSelectAll() {
         filtersSetValue = filtersSetValue.map {
-            if (it.isChecked) it.copy(isEnabled = true) else {
-                it.copy(
-                    isChecked = true,
-                    isEnabled = true
-                )
-            }
+            it.copy(
+                isChecked = true,
+                isEnabled = true
+            )
         }
         selectAllSettingsValue = true
         extractCategoryIndexes()
-        //Log.d("TAG", "repository extractCategoryIndexes $categoryIndexesForDBRequest")
-        //Log.d("TAG", "repository checkBoxesSelectAll $filtersSetValue")
     }
 
     private fun extractCategoryIndexes() {
