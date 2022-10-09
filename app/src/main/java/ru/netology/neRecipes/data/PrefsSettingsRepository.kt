@@ -18,5 +18,4 @@ interface PrefsSettingsRepository {
     fun checkBoxesSelectAll()
     fun checkBoxSave(checkBox: CheckBoxSettings)
 
-    fun selectAllStateSave(state: Boolean)
 }

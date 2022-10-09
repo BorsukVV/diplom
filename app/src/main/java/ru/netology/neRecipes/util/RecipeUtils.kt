@@ -26,9 +26,6 @@ class RecipeUtils {
         .appendPath(resources.getResourceEntryName(R.drawable.step_image_template))
         .build()
 
-
-
-    //val spinnerSet = Resources.getSystem().getStringArray(R.array.category_list)
 }
 
 

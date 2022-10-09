@@ -29,17 +29,13 @@ class RecipeRepositoryImpl(
         PrefsSettingsRepository.CATEGORY_FILTER, Context.MODE_PRIVATE
     )
 
-//    private var categoryIndexesForDBRequest: List<Int> by Delegates.observable(
-//        val serializedIndexes = filters.getString(PREF_DB_INDEXES, null)
-//
-//    ) {    }
+    //private var categoryIndexesForDBRequest by SettingsRepositoryImpl.
 
 
 
     override val data = dao.getAll(categoryIndexesForDBRequest).map { entities ->
-        Log.d("TAG", "categoryIndexesForDBRequest = ${categoryIndexesForDBRequest.toString()}")
+        Log.d("TAG", "categoryIndexesForDBRequest = $categoryIndexesForDBRequest")
         entities.map { it.toModel() }
-
     }
 
 //    override val data = dao.getAll().map { entities ->

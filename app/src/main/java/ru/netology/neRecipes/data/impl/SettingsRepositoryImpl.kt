@@ -21,11 +21,21 @@ class SettingsRepositoryImpl(
         PrefsSettingsRepository.CATEGORY_FILTER, Context.MODE_PRIVATE
     )
 
-    private val checkBoxesNames: Array<String>
+    //private val checkBoxesNames: Array<String>
 
     override val filtersSet: MutableLiveData<List<CheckBoxSettings>>
 
     override val selectAllSettings: MutableLiveData<Boolean>
+
+    //val categoryIndexesForDBRequest: MutableLiveData<List<Int>>
+
+//    private var categoryIndexes
+//        get() = checkNotNull(categoryIndexesForDBRequest.value) {
+//            "Error. SELECT_ALL is null"
+//        }
+//        set(value) {
+//            categoryIndexesForDBRequest.value = value
+//        }
 
     private var selectAllSettingsValue
         get() = checkNotNull(selectAllSettings.value) {
@@ -51,7 +61,7 @@ class SettingsRepositoryImpl(
         }
 
     init {
-        checkBoxesNames = application.resources.getStringArray(R.array.category_list)
+        val checkBoxesNames = application.resources.getStringArray(R.array.category_list)
         val categoriesCount = checkBoxesNames.size
         val serializedCheckBoxSettings =
             filters.getString(PrefsSettingsRepository.PREF_FILTER_KEY, null)
@@ -68,25 +78,41 @@ class SettingsRepositoryImpl(
         }
         this.filtersSet = MutableLiveData(filtersSet)
 
+//        categoryIndexes = List(categoriesCount) { index ->
+//            index
+//        }
+//
+//        categoryIndexesForDBRequest = MutableLiveData(categoryIndexes)
+
         val initialSelectAllState =
             filters.getBoolean(PrefsSettingsRepository.PREF_SELECT_ALL_KEY, true)
         selectAllSettings = MutableLiveData(initialSelectAllState)
     }
 
     override fun checkBoxSave(checkBox: CheckBoxSettings) {
-        filtersSetValue = filtersSetValue.map {
+        //set changes to filterSet
+        val modifiedSet = filtersSetValue.map {
             if (it.categoryId == checkBox.categoryId) checkBox else it
         }
-        val listChecked = filtersSetValue.filter { it.isChecked }
-        if (listChecked.size == 1) {
+
+        //Get list of checked checkBoxes
+        val listChecked = modifiedSet.filter { it.isChecked }
+
+        //Setup selectAll value
+        selectAllSettingsValue = modifiedSet.size == listChecked.size
+
+        //save changes in sharedPreferences
+        filtersSetValue = if (listChecked.size == 1) {
             val singleCheckBox = listChecked.first()
             val disabledCheckBox = singleCheckBox.copy(isEnabled = false)
-            filtersSetValue = filtersSetValue.map {
+            filtersSetValue.map {
                 if (it.categoryId == disabledCheckBox.categoryId) disabledCheckBox else it
             }
-        }
+        } else modifiedSet
 
-        Log.d("TAG", "repository fun checkBoxSave $filtersSetValue")
+        extractCategoryIndexes()
+
+        //Log.d("TAG", "repository fun checkBoxSave $filtersSetValue")
     }
 
     override fun checkBoxesSelectAll() {
@@ -99,34 +125,29 @@ class SettingsRepositoryImpl(
             }
         }
         selectAllSettingsValue = true
-        //extractCategoryIndexes(filtersSetValue)
-        //val selectedСategories = filtersSetValue.filter { it.isChecked }
-
-        //categoryIndexesForDBRequest = selectedСategories.map { it.categoryId } as Array<Int>
-        Log.d("TAG", "repository checkBoxesSelectAll $filtersSetValue")
+        extractCategoryIndexes()
+        //Log.d("TAG", "repository extractCategoryIndexes $categoryIndexesForDBRequest")
+        //Log.d("TAG", "repository checkBoxesSelectAll $filtersSetValue")
     }
 
-    override fun selectAllStateSave(state: Boolean) {
-        selectAllSettingsValue = state
-        Log.d("TAG", "repository checkBoxesSelectAll new value $selectAllSettingsValue")
-    }
-
-    fun extractCategoryIndexes (checkBoxList: List<CheckBoxSettings>) {
-        var categoryIndexes = emptyList<Int>()
-        for (checkBox in checkBoxList){
-            if (checkBox.isChecked) categoryIndexes += checkBox.categoryId
+    private fun extractCategoryIndexes() {
+        val priorIndexes = filtersSetValue.map {
+            if (it.isChecked) it.categoryId else NOT_CHECKED
         }
+        val categoryIndexes = priorIndexes.filterNot { it == NOT_CHECKED }
         //val prefIndexes: IntArray = categoryIndexes as IntArray
-        filters.edit {
-            val serializedIndexes = Json.encodeToString(categoryIndexes)
-            putString(PrefsSettingsRepository.PREF_DB_INDEXES, serializedIndexes)
-        }
+//        filters.edit {
+//            val serializedIndexes = Json.encodeToString(categoryIndexes)
+//            putString(PrefsSettingsRepository.PREF_DB_INDEXES, serializedIndexes)
+//        }
+        Log.d("TAG", "repository extractCategoryIndexes $categoryIndexes")
 
     }
 
-//    companion object {
-//        var categoryIndexesForDBRequest = emptyArray<Int>()
-//    }
+    companion object {
+        private const val NOT_CHECKED = -1
+        //var categoryIndexesForDBRequest = emptyList<Int>()
+    }
 }
 //region externalFunctions
 

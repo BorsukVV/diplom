@@ -1,6 +1,6 @@
 package ru.netology.neRecipes.adapter
 
-import android.util.Log
+//import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,14 +31,13 @@ internal class FilterAdapter(
                     category = checkBox.category,
                     isChecked = checkBoxState
                 )
-                //binding.filterCheckBox.isEnabled = listener.checkBoxEnabled
                 listener.onItemClicked(changedCheckBox)
             }
         }
 
         fun bind(checkBox: CheckBoxSettings) {
 
-            Log.d("TAG", "adapter fun bind(checkBox: CheckBoxSettings)  ${checkBox} ")
+            //Log.d("TAG", "adapter fun bind(checkBox: CheckBoxSettings)  $checkBox ")
 
             this.checkBox = checkBox
             //Log.d("TAG", "adapter this.checkBox ${this.checkBox} ")

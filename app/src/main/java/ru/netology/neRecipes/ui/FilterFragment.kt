@@ -1,7 +1,7 @@
 package ru.netology.neRecipes.ui
 
 import android.os.Bundle
-import android.util.Log
+//import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,11 +25,9 @@ class FilterFragment : Fragment() {
 
         filterViewModel.selectAllState.value?.let {
             binding.selectAll.isChecked = it
-            Log.d("TAG", "selectAll fun onCreateView $it")
+            //Log.d("TAG", "selectAll fun onCreateView $it")
             binding.selectAll.isEnabled = !binding.selectAll.isChecked
         }
-
-        filterViewModel.wasSettingsSetChangedFlag = false
 
         //Log.d("TAG", "filterViewModel.selectAllChecked.value fun onCreateView ${filterViewModel.selectAllState.value}")
         return binding.root
@@ -43,7 +41,7 @@ class FilterFragment : Fragment() {
             checkboxRecyclerView.adapter = adapter
 
             filterViewModel.filterSet.observe(viewLifecycleOwner) { checkBoxes ->
-                Log.d("TAG", "RecyclerView filterSet $checkBoxes")
+                //Log.d("TAG", "RecyclerView filterSet $checkBoxes")
                 adapter.submitList(checkBoxes)
             }
 
@@ -59,16 +57,7 @@ class FilterFragment : Fragment() {
                 //Log.d("TAG", "selectAll.setOnCheckedChangeListener b parameter $checked")
             }
         }
-
-
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (filterViewModel.wasSettingsSetChangedFlag) filterViewModel.updateFilterSetInRepository()
-        //filterViewModel.wasSettingsSetChangedFlag = false
-        Log.d("TAG", "fun onPause()")
-        //filterViewModel.currentFilterSet.clear()
-    }
 
 }
