@@ -1,13 +1,11 @@
 package ru.netology.neRecipes.data.impl
 
 import android.app.Application
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
-import ru.netology.neRecipes.data.PrefsSettingsRepository
 import ru.netology.neRecipes.data.Recipe
 import ru.netology.neRecipes.data.RecipeRepository
 import ru.netology.neRecipes.data.Step
@@ -23,24 +21,38 @@ class RecipeRepositoryImpl(
 
 ) : RecipeRepository {
 
-    val categoryIndexesForDBRequest = listOf(1,2,3,4, 5, 6)
+    //val categoryIndexesForDBRequest = listOf(1,2,3,4, 5, 6)
 
-    private val filters = application.getSharedPreferences(
-        PrefsSettingsRepository.CATEGORY_FILTER, Context.MODE_PRIVATE
-    )
+//    private val filters = application.getSharedPreferences(
+//        PrefsSettingsRepository.CATEGORY_FILTER, Context.MODE_PRIVATE
+//    )
+//
+//
+//
+//     val categoryIndexesForDBRequest: List<Int> =
+//         filters.getString(PrefsSettingsRepository.PREF_DB_INDEXES, null)
+//             ?.let { Json.decodeFromString(it) }!!
 
-    //private var categoryIndexesForDBRequest by SettingsRepositoryImpl.
 
 
+//    override val data
 
-    override val data = dao.getAll(categoryIndexesForDBRequest).map { entities ->
-        Log.d("TAG", "categoryIndexesForDBRequest = $categoryIndexesForDBRequest")
-        entities.map { it.toModel() }
-    }
+
+//    override val data = dao.getAll(categoryIndexesForDBRequest).map { entities ->
+//        Log.d("TAG", "RecipeRepositoryImpl categoryIndexes = $categoryIndexesForDBRequest")
+//        entities.map { it.toModel() }
+//    }
 
 //    override val data = dao.getAll().map { entities ->
 //        entities.map { it.toModel() }
 //    }
+
+    override fun getFilteredRecipes(categoryIndexes: List<Int>): LiveData<List<Recipe>> {
+        return dao.getAll(categoryIndexes).map { entities ->
+            Log.d("TAG", "RecipeRepositoryImpl categoryIndexes = $categoryIndexes")
+            entities.map { it.toModel() }
+        }
+    }
 
     override fun getRecipeByID(id: Long) = dao.getRecipeByID(id).toModel()
 
@@ -49,9 +61,9 @@ class RecipeRepositoryImpl(
     }
 
     override fun recipeSteps(recipeID: Long): LiveData<List<Step>> {
-        Log.d("TAG", "RecipeRepositoryImpl recipeID = $recipeID")
+        //Log.d("TAG", "RecipeRepositoryImpl recipeID = $recipeID")
         val stepEntities = stepDao.getRequiredRangeOfSteps(recipeID)
-        Log.d("TAG", "RecipeRepositoryImpl stepEntities = $stepEntities")
+        //Log.d("TAG", "RecipeRepositoryImpl stepEntities = $stepEntities")
         val listOfSteps = stepEntities.map { entities ->
             entities.map { it.toModel() }
         }
@@ -86,8 +98,9 @@ class RecipeRepositoryImpl(
             return stepsList
         }
     }
-
 }
+
+
 //region externalFunctions
 
 private fun Recipe.toEntity() = RecipeEntity(

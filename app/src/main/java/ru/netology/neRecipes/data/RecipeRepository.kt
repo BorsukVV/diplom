@@ -3,8 +3,9 @@ package ru.netology.neRecipes.data
 import androidx.lifecycle.LiveData
 
 interface RecipeRepository {
-    val data: LiveData<List<Recipe>>
+//    val data: LiveData<List<Recipe>>
     //val filtersSetData: MutableLiveData<List<CheckBoxSettings>>
+fun getFilteredRecipes(categoryIndexes: List<Int>): LiveData<List<Recipe>>
     val favorites: LiveData<List<Recipe>>
     fun recipeSteps(recipeID: Long): LiveData<List<Step>>
     fun chooseFavorite(recipeID: Long)

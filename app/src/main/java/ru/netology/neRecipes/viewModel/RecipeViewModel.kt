@@ -4,11 +4,14 @@ import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import ru.netology.neRecipes.adapter.RecipeInteractionListener
 import ru.netology.neRecipes.data.Recipe
 import ru.netology.neRecipes.data.RecipeRepository
 import ru.netology.neRecipes.data.impl.RecipeRepositoryImpl
+import ru.netology.neRecipes.data.impl.SettingsRepositoryImpl
 import ru.netology.neRecipes.db.AppDb
 import ru.netology.neRecipes.util.SingleLiveEvent
 
@@ -26,7 +29,15 @@ class RecipeViewModel(
         application
     )
 
-    val data by repository::data
+    private val filters = SettingsRepositoryImpl(application)
+
+    private val categoryFilters: LiveData<List<Int>> = filters.categoryIndexesForDBRequest
+
+    val data: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){
+        repository.getFilteredRecipes(it)
+    }
+
+//    val data by repository::data
 
     val navigateToRecipeTabsForCreate = SingleLiveEvent<Long>()
 

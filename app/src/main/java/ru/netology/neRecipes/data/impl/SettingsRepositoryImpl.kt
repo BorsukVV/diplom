@@ -27,15 +27,19 @@ class SettingsRepositoryImpl(
 
     override val selectAllSettings: MutableLiveData<Boolean>
 
-    //val categoryIndexesForDBRequest: MutableLiveData<List<Int>>
+    val categoryIndexesForDBRequest: MutableLiveData<List<Int>>
 
-//    private var categoryIndexes
-//        get() = checkNotNull(categoryIndexesForDBRequest.value) {
-//            "Error. SELECT_ALL is null"
-//        }
-//        set(value) {
-//            categoryIndexesForDBRequest.value = value
-//        }
+    private var categoryIndexes
+        get() = checkNotNull(categoryIndexesForDBRequest.value) {
+            "Error. categoryIndexes is null"
+        }
+        set(value) {
+            filters.edit {
+                val serializedCategories = Json.encodeToString(value)
+                putString(PrefsSettingsRepository.PREF_DB_INDEXES, serializedCategories)
+            }
+            categoryIndexesForDBRequest.value = value
+        }
 
     private var selectAllSettingsValue
         get() = checkNotNull(selectAllSettings.value) {
@@ -61,8 +65,11 @@ class SettingsRepositoryImpl(
         }
 
     init {
+        //setup filters
+        //get checkboxes names array
         val checkBoxesNames = application.resources.getStringArray(R.array.category_list)
         val categoriesCount = checkBoxesNames.size
+
         val serializedCheckBoxSettings =
             filters.getString(PrefsSettingsRepository.PREF_FILTER_KEY, null)
 
@@ -78,11 +85,14 @@ class SettingsRepositoryImpl(
         }
         this.filtersSet = MutableLiveData(filtersSet)
 
-//        categoryIndexes = List(categoriesCount) { index ->
-//            index
-//        }
-//
-//        categoryIndexesForDBRequest = MutableLiveData(categoryIndexes)
+        val serializedIndexes = filters.getString(PrefsSettingsRepository.PREF_DB_INDEXES, null)
+        val categoryIndexes: List<Int> = if (serializedIndexes != null) {
+            Json.decodeFromString(serializedIndexes)
+        } else List(categoriesCount) { index ->
+                index
+            }
+
+        categoryIndexesForDBRequest = MutableLiveData(categoryIndexes)
 
         val initialSelectAllState =
             filters.getBoolean(PrefsSettingsRepository.PREF_SELECT_ALL_KEY, true)
@@ -131,13 +141,13 @@ class SettingsRepositoryImpl(
         val priorIndexes = filtersSetValue.map {
             if (it.isChecked) it.categoryId else NOT_CHECKED
         }
-        val categoryIndexes = priorIndexes.filterNot { it == NOT_CHECKED }
+        categoryIndexes = priorIndexes.filterNot { it == NOT_CHECKED }
         //val prefIndexes: IntArray = categoryIndexes as IntArray
 //        filters.edit {
 //            val serializedIndexes = Json.encodeToString(categoryIndexes)
 //            putString(PrefsSettingsRepository.PREF_DB_INDEXES, serializedIndexes)
 //        }
-        Log.d("TAG", "repository extractCategoryIndexes $categoryIndexes")
+        Log.d("TAG", "repository categoryIndexesForDBRequest.value ${categoryIndexesForDBRequest.value}")
 
     }
 
