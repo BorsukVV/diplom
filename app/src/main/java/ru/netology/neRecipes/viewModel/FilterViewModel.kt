@@ -11,7 +11,7 @@ class FilterViewModel(
     application: Application
 ) : AndroidViewModel(application), FilterInteractionListener {
 
-    private val repository: PrefsSettingsRepository = SettingsRepositoryImpl(application)
+    private val repository: PrefsSettingsRepository = SettingsRepositoryImpl.getInstance(application)
 
     val filterSet by repository::filtersSet
 

@@ -26,6 +26,7 @@ interface RecipeDao {
         "UPDATE recipes SET title = :updatedTitle, " +
                 "authorName = :updatedAuthor, " +
                 "category = :updatedCategory, " +
+                "categorySpinnerPosition = :updatedCategorySpinnerPosition," +
                 "description = :updatedDescription, " +
                 "imageURI = :updatedImageURI  WHERE id = :id"
     )
@@ -34,6 +35,7 @@ interface RecipeDao {
         updatedTitle: String,
         updatedAuthor: String,
         updatedCategory: String,
+        updatedCategorySpinnerPosition: Int,
         updatedDescription: String,
         updatedImageURI: String?
     )
@@ -47,6 +49,7 @@ interface RecipeDao {
                 recipe.title,
                 recipe.authorName,
                 recipe.category,
+                recipe.categorySpinnerPosition,
                 recipe.description,
                 recipe.recipeImageUri
             )

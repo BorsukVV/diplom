@@ -29,9 +29,9 @@ class RecipeViewModel(
         application
     )
 
-    private val filters = SettingsRepositoryImpl(application)
+    private val filters = SettingsRepositoryImpl.getInstance(application)
 
-    private val categoryFilters: LiveData<List<Int>> = filters.categoryIndexesForDBRequest
+    val categoryFilters: LiveData<List<Int>> = filters.categoryIndexesForDBRequest
 
     val data: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){
         repository.getFilteredRecipes(it)

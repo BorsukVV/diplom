@@ -12,7 +12,7 @@ import ru.netology.neRecipes.R
 import ru.netology.neRecipes.data.PrefsSettingsRepository
 import ru.netology.neRecipes.util.CheckBoxSettings
 
-class SettingsRepositoryImpl(
+class SettingsRepositoryImpl private constructor(
     application: Application
 ) : PrefsSettingsRepository {
 
@@ -153,6 +153,15 @@ class SettingsRepositoryImpl(
 
     companion object {
         private const val NOT_CHECKED = -1
+
+        @Volatile
+        private var instance: SettingsRepositoryImpl? = null
+
+        fun getInstance(context: Application): SettingsRepositoryImpl {
+            return instance ?: synchronized(this) {
+                instance ?: SettingsRepositoryImpl(context)
+            }
+        }
         //var categoryIndexesForDBRequest = emptyList<Int>()
     }
 }
