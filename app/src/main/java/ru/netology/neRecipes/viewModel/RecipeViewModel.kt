@@ -25,20 +25,17 @@ class RecipeViewModel(
         ).recipeDao,
         stepDao = AppDb.getInstance(
             context = application
-        ).stepDao,
-        application
+        ).stepDao
     )
 
     private val filters = SettingsRepositoryImpl.getInstance(application)
 
     val categoryFilters by filters::categoryIndexesForDBRequest
 
-    val data: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){
-        Log.d("TAG", "categoryFilters in RecipeViewModel = $it")
+    var data: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){
+        //Log.d("TAG", "categoryFilters in RecipeViewModel = $it")
         repository.getFilteredRecipes(it)
     }
-
-//    val data by repository::data
 
     val navigateToRecipeTabsForCreate = SingleLiveEvent<Long>()
 
@@ -108,7 +105,9 @@ class RecipeViewModel(
     }
 
     fun searchDatabase(searchQuery: String): LiveData<List<Recipe>> {
-        return repository.searchDatabase(searchQuery)
+        data = repository.searchDatabase(searchQuery)
+        Log.d("TAG", "searchDatabase in RecipeViewModel = ${data.value}")
+        return data
     }
 
 }

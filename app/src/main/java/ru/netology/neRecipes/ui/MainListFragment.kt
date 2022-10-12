@@ -1,11 +1,13 @@
 package ru.netology.neRecipes.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.adapter.RecipesAdapter
@@ -47,14 +49,7 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ) = MainListFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        //val adapter = RecipesAdapter(recipeViewModel)
-
         binding.recipesRecyclerView.adapter = adapter
-
-        recipeViewModel.categoryFilters.observe(viewLifecycleOwner){
-            Log.d("TAG", "categoryFilters in MainListFragment $it")
-            //recipeViewModel
-        }
 
         recipeViewModel.data.observe(viewLifecycleOwner) { recipes ->
             //Log.d("TAG", "recipes size ${recipes.size}")
@@ -71,17 +66,31 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
+        setupMenu()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main_menu, menu)
+    private fun setupMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onPrepareMenu(menu: Menu) {
+                // Handle for example visibility of menu items
+            }
 
-        val search = menu.findItem(R.id.menu_search)
-        val searchView = search?.actionView as? SearchView
-        searchView?.isSubmitButtonEnabled = true
-        searchView?.setOnQueryTextListener(this)
-    }
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.main_menu, menu)
+
+                val search = menu.findItem(R.id.menu_search)
+                val searchView = search?.actionView as? SearchView
+                searchView?.apply {
+                    isSubmitButtonEnabled = true
+                    setOnQueryTextListener(this@MainListFragment)
+                }
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return true
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+   }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         //it will triggered when we submit the written test
@@ -101,7 +110,7 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         recipeViewModel.searchDatabase(searchQuery).observe(this) { list ->
             list.let {
-                adapter.setData(it)
+                adapter.submitList(it)
             }
         }
     }

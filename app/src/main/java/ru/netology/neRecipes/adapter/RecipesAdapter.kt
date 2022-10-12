@@ -19,8 +19,6 @@ internal class RecipesAdapter(
 
 ) : ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder>(DiffCallBack) {
 
-    private var oldData = emptyList<Recipe>()
-
     inner class RecipeViewHolder(
         private val binding: RecipeListItemFragmentBinding,
         listener: RecipeInteractionListener
@@ -100,11 +98,6 @@ internal class RecipesAdapter(
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe): Boolean =
             oldItem == newItem
-    }
-
-    fun setData(newData: List<Recipe>){
-        oldData = newData
-        notifyDataSetChanged()
     }
 
 }

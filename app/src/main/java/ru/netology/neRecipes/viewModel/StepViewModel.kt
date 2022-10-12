@@ -22,8 +22,7 @@ class StepViewModel(
         ).recipeDao,
         stepDao = AppDb.getInstance(
             context = application
-        ).stepDao,
-        application
+        ).stepDao
     )
 
     var stepsList = RecipeRepositoryImpl.stepsList

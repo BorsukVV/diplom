@@ -1,6 +1,5 @@
 package ru.netology.neRecipes.data.impl
 
-import android.app.Application
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -16,36 +15,9 @@ import ru.netology.neRecipes.db.StepEntity
 
 class RecipeRepositoryImpl(
     private val dao: RecipeDao,
-    private val stepDao: StepDao,
-    application: Application
+    private val stepDao: StepDao
 
 ) : RecipeRepository {
-
-    //val categoryIndexesForDBRequest = listOf(1,2,3,4, 5, 6)
-
-//    private val filters = application.getSharedPreferences(
-//        PrefsSettingsRepository.CATEGORY_FILTER, Context.MODE_PRIVATE
-//    )
-//
-//
-//
-//     val categoryIndexesForDBRequest: List<Int> =
-//         filters.getString(PrefsSettingsRepository.PREF_DB_INDEXES, null)
-//             ?.let { Json.decodeFromString(it) }!!
-
-
-
-//    override val data
-
-
-//    override val data = dao.getAll(categoryIndexesForDBRequest).map { entities ->
-//        Log.d("TAG", "RecipeRepositoryImpl categoryIndexes = $categoryIndexesForDBRequest")
-//        entities.map { it.toModel() }
-//    }
-
-//    override val data = dao.getAll().map { entities ->
-//        entities.map { it.toModel() }
-//    }
 
     override fun getFilteredRecipes(categoryIndexes: List<Int>): LiveData<List<Recipe>> {
         return dao.getAll(categoryIndexes).map { entities ->

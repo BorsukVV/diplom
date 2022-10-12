@@ -2,7 +2,6 @@ package ru.netology.neRecipes.data.impl
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import kotlinx.serialization.decodeFromString
@@ -142,12 +141,8 @@ class SettingsRepositoryImpl private constructor(
             if (it.isChecked) it.categoryId else NOT_CHECKED
         }
         categoryIndexes = priorIndexes.filterNot { it == NOT_CHECKED }
-        //val prefIndexes: IntArray = categoryIndexes as IntArray
-//        filters.edit {
-//            val serializedIndexes = Json.encodeToString(categoryIndexes)
-//            putString(PrefsSettingsRepository.PREF_DB_INDEXES, serializedIndexes)
-//        }
-        Log.d("TAG", "repository categoryIndexesForDBRequest.value ${categoryIndexesForDBRequest.value}")
+
+        //Log.d("TAG", "repository categoryIndexesForDBRequest.value ${categoryIndexesForDBRequest.value}")
 
     }
 
@@ -159,13 +154,8 @@ class SettingsRepositoryImpl private constructor(
 
         fun getInstance(context: Application): SettingsRepositoryImpl {
             return instance ?: synchronized(this) {
-                instance ?: SettingsRepositoryImpl(context)
+                instance ?: SettingsRepositoryImpl(context).also { instance  = it}
             }
         }
-        //var categoryIndexesForDBRequest = emptyList<Int>()
     }
 }
-//region externalFunctions
-
-
-//endregion

@@ -35,6 +35,9 @@ class RecipeDescriptionDetailsFragment : Fragment() {
                             if (it.hasCustomImage) recipeImageBlock.recipeImage.setImageURI(it.imageUri)
                         }
                     }
+                    recipeImageBlock.isFavouriteIcon.setOnClickListener {
+                        model.chooseFavorite(recipe)
+                    }
                 }
             }
         }.root
