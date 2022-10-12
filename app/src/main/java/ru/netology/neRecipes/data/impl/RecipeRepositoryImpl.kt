@@ -88,6 +88,15 @@ class RecipeRepositoryImpl(
 
     override fun delete(recipeID: Long) = dao.removeById(recipeID)
 
+    override fun searchDatabase(searchQuery: String): LiveData<List<Recipe>> {
+        return dao.searchDatabase(searchQuery).map { entities ->
+            Log.d("TAG", "RecipeRepositoryImpl searchDatabase = $entities")
+            entities.map {
+                it.toModel()
+            }
+        }
+    }
+
     companion object {
 
         val stepsList: MutableLiveData<List<Step>> = MutableLiveData(emptyList())

@@ -1,13 +1,13 @@
 package ru.netology.neRecipes.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import ru.netology.neRecipes.R
 import ru.netology.neRecipes.adapter.RecipesAdapter
 import ru.netology.neRecipes.databinding.MainListFragmentBinding
 import ru.netology.neRecipes.util.RecipeUtils
@@ -16,6 +16,8 @@ import ru.netology.neRecipes.viewModel.RecipeViewModel
 open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val recipeViewModel: RecipeViewModel by activityViewModels()
+
+    private val adapter: RecipesAdapter by lazy { RecipesAdapter(recipeViewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +47,14 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ) = MainListFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
 
-        val adapter = RecipesAdapter(recipeViewModel)
+        //val adapter = RecipesAdapter(recipeViewModel)
 
         binding.recipesRecyclerView.adapter = adapter
+
+        recipeViewModel.categoryFilters.observe(viewLifecycleOwner){
+            Log.d("TAG", "categoryFilters in MainListFragment $it")
+            //recipeViewModel
+        }
 
         recipeViewModel.data.observe(viewLifecycleOwner) { recipes ->
             //Log.d("TAG", "recipes size ${recipes.size}")
@@ -62,50 +69,41 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
 
     }.root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search?.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+    }
+
     override fun onQueryTextSubmit(query: String?): Boolean {
-        TODO("Not yet implemented")
+        //it will triggered when we submit the written test
+        return true
     }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
-        TODO("Not yet implemented")
+    // this function will triggered when we write even a single char in search view
+    override fun onQueryTextChange(query: String?): Boolean {
+        if(query != null){
+            searchDatabase(query)
+        }
+        return true
     }
+    // I have just created this function for searching our database
+    private fun searchDatabase(query: String) {
+        // %" "% because our costume sql query will require that
+        val searchQuery = "%$query%"
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.main_menu, menu)
-//
-//        val search = menu?.findItem(R.id.menu_search)
-//        val searchView = search?.actionView as? SearchView
-//        searchView?.isSubmitButtonEnabled = true
-//        searchView?.setOnQueryTextListener(this)
-//        // after this you need implement your setOnQueryTextListener in main activity for pass 'this'
-//        //for implement just go above and add it to last like this
-//        //  class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener
-//
-//        return true
-//    }
-//    //after that just alt + enter after moving your cursor to the warning shown
-//    // and then implement these two functions
-//    override fun onQueryTextSubmit(query: String?): Boolean {
-//        //it will triggered when we submit the written test
-//        return true
-//    }
-//    // this function will triggered when we write even a single char in search view
-//    override fun onQueryTextChange(query: String?): Boolean {
-//        if(query != null){
-//            searchDatabase(query)
-//        }
-//        return true
-//    }
-//    // I have just created this function for searching our database
-//    private fun searchDatabase(query: String) {
-//        // %" "% because our costume sql query will require that
-//        val searchQuery = "%$query%"
-//
-//        mainViewModel.searchDatabase(searchQuery).observe(this, { list ->
-//            list.let {
-//                myAdapter.setData(it)
-//            }
-//        })
-//    }
+        recipeViewModel.searchDatabase(searchQuery).observe(this) { list ->
+            list.let {
+                adapter.setData(it)
+            }
+        }
+    }
 
 }

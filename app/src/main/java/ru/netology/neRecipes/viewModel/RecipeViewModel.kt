@@ -31,9 +31,10 @@ class RecipeViewModel(
 
     private val filters = SettingsRepositoryImpl.getInstance(application)
 
-    val categoryFilters: LiveData<List<Int>> = filters.categoryIndexesForDBRequest
+    val categoryFilters by filters::categoryIndexesForDBRequest
 
     val data: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){
+        Log.d("TAG", "categoryFilters in RecipeViewModel = $it")
         repository.getFilteredRecipes(it)
     }
 
@@ -104,6 +105,10 @@ class RecipeViewModel(
 
     override fun viewRecipeDetails(recipe: Recipe) {
         navigateToRecipeTabForDetails.value = recipe.id
+    }
+
+    fun searchDatabase(searchQuery: String): LiveData<List<Recipe>> {
+        return repository.searchDatabase(searchQuery)
     }
 
 }

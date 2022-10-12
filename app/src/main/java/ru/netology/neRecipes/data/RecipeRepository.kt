@@ -15,6 +15,7 @@ fun getFilteredRecipes(categoryIndexes: List<Int>): LiveData<List<Recipe>>
     fun saveStep(step: Step)
     fun associateStepsWithRecipe(newRecipeId: Long)
     fun getRecipeByID(id: Long): Recipe
+    fun searchDatabase(searchQuery: String): LiveData<List<Recipe>>
 
     companion object {
         const val NEW_RECIPE_ID = 0L
