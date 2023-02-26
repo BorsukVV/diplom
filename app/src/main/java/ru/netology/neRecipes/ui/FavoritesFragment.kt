@@ -20,11 +20,21 @@ class FavoritesFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel.navigateToRecipeTabForDetails.observe(this) { initialRecipeID ->
             val direction = FavoritesFragmentDirections.fromFavoritesToDetailsTab(
-                initialRecipeID,
-                RecipeUtils.EDIT
+                initialRecipeID = initialRecipeID,
+                operationCode = RecipeUtils.EDIT
             )
             findNavController().navigate(direction)
         }
+
+        viewModel.navigateToRecipeTabsForCreate.observe(this) { initialRecipeID ->
+            val direction = MainListFragmentDirections
+                .fromMainListFragmentToRecipeTabFragment(
+                    initialRecipeID = initialRecipeID,
+                    operationCode = RecipeUtils.CREATE
+                )
+            findNavController().navigate(direction)
+        }
+
     }
 
     override fun onCreateView(
@@ -43,7 +53,6 @@ class FavoritesFragment : Fragment() {
         }
 
     }.root
-
 
 }
 

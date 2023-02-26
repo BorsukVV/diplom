@@ -30,11 +30,11 @@ class RecipeViewModel(
 
     private val filters = SettingsRepositoryImpl.getInstance(application)
 
-    val categoryFilters by filters::categoryIndexesForDBRequest
+    private val categoryFilters by filters::categoryIndexesForDBRequest
 
-    var data: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){
+    var data: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){filterList ->
         //Log.d("TAG", "categoryFilters in RecipeViewModel = $it")
-        repository.getFilteredRecipes(it)
+        repository.getFilteredRecipes(filterList)
     }
 
     val navigateToRecipeTabsForCreate = SingleLiveEvent<Long>()

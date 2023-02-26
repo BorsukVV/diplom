@@ -21,7 +21,8 @@
     <fragment
         android:id="@+id/FavoritesTabDetails"
         android:name="ru.netology.neRecipes.ui.RecipeTabFragment"
-        android:label="RecipeTabFragment" >
+        android:label="@string/details"
+        tools:layout="@layout/recipe_tab_fragment">
         <argument
             android:name="initialRecipeID"
             app:argType="long" />

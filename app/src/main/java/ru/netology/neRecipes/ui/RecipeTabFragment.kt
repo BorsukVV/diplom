@@ -67,7 +67,5 @@ class RecipeTabFragment : Fragment() {
 
     }
 
-
-
 }
 

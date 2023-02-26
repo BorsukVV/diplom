@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.favorites -> {
                     // Respond to navigation item 3 reselection
                     println("favorites")
+                    onSupportNavigateUp()
                 }
             }
         }
@@ -47,8 +48,8 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.mainListFragment,
-                R.id.filter,
-                R.id.favorites
+                R.id.filterFragment,
+                R.id.favoritesFragment
             )
         )
 
