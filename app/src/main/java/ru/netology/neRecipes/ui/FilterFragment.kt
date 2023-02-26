@@ -1,7 +1,7 @@
 package ru.netology.neRecipes.ui
 
-import android.os.Bundle
 //import android.util.Log
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +28,11 @@ class FilterFragment : Fragment() {
             //Log.d("TAG", "selectAll fun onCreateView $it")
             binding.selectAll.isEnabled = !binding.selectAll.isChecked
         }
+//        activity?.actionBar?.setHomeButtonEnabled(false)
+//        activity?.actionBar?.setDisplayShowHomeEnabled(false)
+//        activity?.actionBar?.setDisplayShowHomeEnabled(false)
+
+
 
         //Log.d("TAG", "filterViewModel.selectAllChecked.value fun onCreateView ${filterViewModel.selectAllState.value}")
         return binding.root
@@ -57,6 +62,8 @@ class FilterFragment : Fragment() {
                 //Log.d("TAG", "selectAll.setOnCheckedChangeListener b parameter $checked")
             }
         }
+        //activity?.actionBar?.setDisplayShowHomeEnabled(false)
+
     }
 
 

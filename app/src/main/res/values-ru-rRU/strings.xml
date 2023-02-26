@@ -27,6 +27,8 @@
 <string name="title_home">Главная</string>
 <string name="filters">Фильтры</string>
 <string name="favorites">Избранное</string>
+    <string name="Recipe_description_create_fragment_title">Редактор/Описание</string>
+    <string name="Recipe_step_create_fragment_title">Редактор/Шаги</string>
 
 <!-- Recipe tab names -->
 <string name="summary">Общее</string>

@@ -29,11 +29,15 @@
         <argument
             android:name="operationCode"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_recipeTabFragment_pop_including_mainListFragment"
+            app:popUpTo="@id/mainListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/recipeDescriptionCreateFragment"
         android:name="ru.netology.neRecipes.ui.RecipeDescriptionCreateFragment"
-        android:label="RecipeDescriptionCreateFragment"
+        android:label="@string/Recipe_description_create_fragment_title"
         tools:layout="@layout/recipe_description_create_fragment"/>
     <fragment
         android:id="@+id/recipeDescriptionDetailsFragment"
@@ -50,7 +54,7 @@
     <fragment
         android:id="@+id/recipeStepCreateFragment"
         android:name="ru.netology.neRecipes.ui.RecipeStepCreateFragment"
-        android:label="RecipeStepCreateFragment"
+        android:label="@string/Recipe_step_create_fragment_title"
         tools:layout="@layout/recipe_step_create_fragment">
         <argument
             android:name="initialStepId"

@@ -6,19 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.netology.neRecipes.R
 import ru.netology.neRecipes.databinding.RecipeTabFragmentBinding
 import ru.netology.neRecipes.util.RecipeUtils
-import ru.netology.neRecipes.viewModel.StepViewModel
 
 class RecipeTabFragment : Fragment() {
 
     private val args by navArgs<RecipeTabFragmentArgs>()
-
-    private val model: StepViewModel by activityViewModels()
 
     private lateinit var binding: RecipeTabFragmentBinding
 
@@ -32,6 +28,7 @@ class RecipeTabFragment : Fragment() {
         binding = RecipeTabFragmentBinding.inflate(
             inflater, container, false
         )
+
         return binding.root
     }
 
@@ -41,24 +38,6 @@ class RecipeTabFragment : Fragment() {
             binding.root.resources.getString(R.string.summary),
             binding.root.resources.getString(R.string.by_steps)
         )
-
-//        val descriptionDetailsFragment = RecipeDescriptionDetailsFragment.newInstance()
-//        val initialRecipeID = Bundle()
-//        val recipeID = args.initialRecipeID
-//
-//        initialRecipeID.putLong("ID", recipeID)
-//
-//        Log.d("TAG", "*RecipeTabFragment* args.initialRecipeID $recipeID")
-//
-//        //descriptionDetailsFragment.arguments.putLong() = initialRecipeID
-//        descriptionDetailsFragment.arguments?.putLong("ID", recipeID)
-//        Log.d("TAG", "*RecipeTabFragment* args.initialRecipeID ${descriptionDetailsFragment.arguments?.getLong("ID")}")
-//
-//
-//        val stepsListCreateFragment = RecipeStepsListCreateFragment.newInstance()
-//        stepsListCreateFragment.arguments = initialRecipeID
-//        val stepsListFragment = RecipeStepsListFragment.newInstance()
-//        stepsListFragment.arguments = initialRecipeID
 
         val fragmentsForOpenDetails = listOf(
             RecipeDescriptionDetailsFragment.newInstance(args.initialRecipeID),
@@ -85,7 +64,10 @@ class RecipeTabFragment : Fragment() {
         ) { tab, position ->
             tab.text = tabNames[position]
         }.attach()
+
     }
+
+
 
 }
 

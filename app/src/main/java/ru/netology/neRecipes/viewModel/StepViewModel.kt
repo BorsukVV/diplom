@@ -71,4 +71,12 @@ class StepViewModel(
         navigateToStepCreateEdit.value = step.id
     }
 
+    override fun whenCreateOnRemoveClicked(step: Step) {
+        TODO("Not yet implemented")
+    }
+
+    override fun whenCreateOnEditClicked(step: Step) {
+        TODO("Not yet implemented")
+    }
+
 }

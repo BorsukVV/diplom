@@ -67,6 +67,7 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMenu()
+
     }
 
     private fun setupMenu() {

@@ -31,6 +31,8 @@
     <string name="summary">Summary</string>
     <string name="by_steps">By steps</string>
     <string name="details">Details</string>
+    <string name="Recipe_description_create_fragment_title">Editor/Description</string>
+    <string name="Recipe_step_create_fragment_title">Editor/Steps</string>
 
     <!-- Search filters for checkboxes-->
     <string name="european">European</string>
