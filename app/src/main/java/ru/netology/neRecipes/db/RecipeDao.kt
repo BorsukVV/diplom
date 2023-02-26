@@ -16,8 +16,11 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE id = :id")
     fun getRecipeByID(id: Long): RecipeEntity
 
-    @Query("SELECT * FROM recipes WHERE isFavourite = 1 ORDER BY id DESC")
-    fun getAllFavorites(): LiveData<List<RecipeEntity>>
+//    @Query("SELECT * FROM recipes WHERE isFavourite = 1 ORDER BY id DESC")
+//    fun getAllFavorites(): LiveData<List<RecipeEntity>>
+
+    @Query("SELECT * FROM recipes WHERE isFavourite = 1 AND categorySpinnerPosition IN (:categoryIndexes) ORDER BY id DESC")
+    fun getAllFavorites(categoryIndexes: List<Int>): LiveData<List<RecipeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(recipe: RecipeEntity): Long

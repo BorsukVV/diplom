@@ -21,16 +21,25 @@ class RecipeRepositoryImpl(
 
     override fun getFilteredRecipes(categoryIndexes: List<Int>): LiveData<List<Recipe>> {
         return dao.getAll(categoryIndexes).map { entities ->
-            Log.d("TAG", "RecipeRepositoryImpl categoryIndexes = $categoryIndexes")
+            entities.forEach { recipeEntity -> println(recipeEntity.id) }
+            Log.d("TAG", "getFilteredRecipes categoryIndexes = $categoryIndexes")
+            entities.map { it.toModel() }
+        }
+    }
+
+    override fun getFilteredFavorites(categoryIndexes: List<Int>): LiveData<List<Recipe>> {
+        return dao.getAllFavorites(categoryIndexes).map { entities ->
+            entities.forEach { recipeEntity -> println(recipeEntity.id) }
+            Log.d("TAG", "getFilteredFavorites categoryIndexes = $categoryIndexes")
             entities.map { it.toModel() }
         }
     }
 
     override fun getRecipeByID(id: Long) = dao.getRecipeByID(id).toModel()
 
-    override val favorites = dao.getAllFavorites().map { entities ->
-        entities.map { it.toModel() }
-    }
+//    override val favorites = dao.getAllFavorites().map { entities ->
+//        entities.map { it.toModel() }
+//    }
 
     override fun recipeSteps(recipeID: Long): LiveData<List<Step>> {
         //Log.d("TAG", "RecipeRepositoryImpl recipeID = $recipeID")

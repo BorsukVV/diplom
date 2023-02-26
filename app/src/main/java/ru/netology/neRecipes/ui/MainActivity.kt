@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.favorites -> {
                     // Respond to navigation item 3 reselection
                     println("favorites")
-                    onSupportNavigateUp()
+                    //onSupportNavigateUp()
                 }
             }
         }
