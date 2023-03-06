@@ -2,7 +2,6 @@ package ru.netology.neRecipes.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,10 +38,10 @@ class RecipeStepCreateFragment : Fragment() {
                         Intent.FLAG_GRANT_READ_URI_PERMISSION
                     )
                 model.newImageUri = it
-                Log.d(
-                    "TAG",
-                    "*RecipeStepCreateFragment* *step.newImageUri = it*  ${model.newImageUri}"
-                )
+//                Log.d(
+//                    "TAG",
+//                    "*RecipeStepCreateFragment* *step.newImageUri = it*  ${model.newImageUri}"
+//                )
                 recipeStepDescriptionImage.setImageURI(it)
             }
 
@@ -68,10 +67,10 @@ class RecipeStepCreateFragment : Fragment() {
                     stepImageUri = if (hasCustomImage) model.newImageUri
                     else RecipeUtils.stepImageTemplateUri(binding.root.resources)
                 )
-                Log.d(
-                    "TAG",
-                    "*RecipeStepCreateFragment* *onSaveButtonClicked* model.newImageUri = ${model.newImageUri}"
-                )
+//                Log.d(
+//                    "TAG",
+//                    "*RecipeStepCreateFragment* *onSaveButtonClicked* model.newImageUri = ${model.newImageUri}"
+//                )
                 findNavController().navigateUp()
                 model.newImageUri = null
             }

@@ -16,8 +16,6 @@ class FavoritesFragment : Fragment() {
         ownerProducer = ::requireParentFragment
     )
 
-//    val viewModel = ViewModelProvider(requireActivity())[RecipeViewModel::class.java]
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.navigateToRecipeTabForDetails.observe(this) { initialRecipeID ->
@@ -49,7 +47,7 @@ class FavoritesFragment : Fragment() {
         binding.favouritesRecyclerView.adapter = adapter
 
         viewModel.favoriteRecipes.observe(viewLifecycleOwner) { favorites ->
-            //favorites.forEach { recipe -> println(recipe.id) }
+            //favorites.forEach { recipe -> println("Favorites(fragment) recipe id " + recipe.id) }
             adapter.submitList(favorites)
         }
 

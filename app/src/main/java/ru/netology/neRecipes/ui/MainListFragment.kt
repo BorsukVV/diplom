@@ -53,6 +53,7 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
 
         recipeViewModel.data.observe(viewLifecycleOwner) { recipes ->
             //Log.d("TAG", "recipes size ${recipes.size}")
+            //recipes.forEach { recipe -> println("Recipes(fragment) recipe id " + recipe.id) }
             binding.defaultStubGroup.visibility =
                 if (recipes.isNotEmpty()) View.GONE else View.VISIBLE
             adapter.submitList(recipes)
@@ -61,6 +62,8 @@ open class MainListFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.fabAddRecipe.setOnClickListener {
             recipeViewModel.onAddClicked()
         }
+
+        //recipeViewModel.favoriteRecipes.observe(viewLifecycleOwner){}
 
     }.root
 

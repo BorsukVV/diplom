@@ -18,6 +18,8 @@ internal class StepsForEditAdapter(
 
 ) : ListAdapter<Step, StepsForEditAdapter.StepViewHolder>(DiffCallBack) {
 
+    private var currentRecipeStepsList = mutableListOf<Step>()
+
     inner class StepViewHolder(
         private val binding: RecipeListItemForCreateStepFragmentBinding,
         listener: StepInteractionListener
@@ -77,6 +79,19 @@ internal class StepsForEditAdapter(
     override fun onBindViewHolder(holder: StepViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
+//    override fun submitList(list: List<Step>?) {
+//        super.submitList(list)
+//        if (list != null) {
+//            currentRecipeStepsList = list as MutableList<Step>
+//        }
+//
+//    }
+
+    fun getStep(position: Int): Step {
+        return currentRecipeStepsList[position]
+    }
+
 
     private object DiffCallBack : DiffUtil.ItemCallback<Step>() {
         override fun areItemsTheSame(oldItem: Step, newItem: Step): Boolean =

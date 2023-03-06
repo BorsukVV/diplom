@@ -10,7 +10,7 @@ fun getFilteredRecipes(categoryIndexes: List<Int>): LiveData<List<Recipe>>
     fun chooseFavorite(recipeID: Long)
     fun delete(recipeID: Long)
     fun save(recipe: Recipe): Long
-    fun deleteStep(stepID: Long)
+    fun deleteStep(step: Step)
     fun saveStep(step: Step)
     fun associateStepsWithRecipe(newRecipeId: Long)
     fun getRecipeByID(id: Long): Recipe

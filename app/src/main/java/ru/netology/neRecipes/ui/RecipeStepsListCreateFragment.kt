@@ -59,7 +59,10 @@ class RecipeStepsListCreateFragment() : Fragment() {
 
 
                 val simpleCallback = object :
-                    ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+                    ItemTouchHelper.SimpleCallback(
+                        ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
+                       // ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT
+                    ) {
 
                     override fun onMove(
                         p0: RecyclerView,
@@ -73,9 +76,12 @@ class RecipeStepsListCreateFragment() : Fragment() {
                         return true
                     }
 
-
+//                    @SuppressLint("NotifyDataSetChanged")
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        TODO("Not yet implemented")
+//                        val position = viewHolder.bindingAdapterPosition
+//                        val step = adapter.getStep(position)
+//                        stepViewModel.onRemoveClicked(step)
+//                        adapter.notifyDataSetChanged()
                     }
 
                 }

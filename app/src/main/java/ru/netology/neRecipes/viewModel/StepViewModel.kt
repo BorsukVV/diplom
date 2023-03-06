@@ -27,17 +27,17 @@ class StepViewModel(
 
     var stepsList = RecipeRepositoryImpl.stepsList
 
-    fun recipeSteps(recipeId: Long) {
-        Log.d("TAG", "StepViewModel steps by id = ${repository.recipeSteps(recipeId)}")
-        val list = repository.recipeSteps(recipeId) as MutableLiveData
-        stepsList = list
-    }
-
     val navigateToStepCreateEdit = SingleLiveEvent<Long>()
 
     val currentStep = MutableLiveData<Step?>(null)
 
     var newImageUri: Uri? = null
+
+    fun recipeSteps(recipeId: Long) {
+        Log.d("TAG", "StepViewModel steps by id = ${repository.recipeSteps(recipeId)}")
+        val list = repository.recipeSteps(recipeId) as MutableLiveData
+        stepsList = list
+    }
 
     fun onSaveButtonClicked(
         stepDescription: String,
@@ -64,15 +64,11 @@ class StepViewModel(
         navigateToStepCreateEdit.value = RecipeRepository.NEW_STEP_ID
     }
 
-    override fun onRemoveClicked(step: Step) = repository.deleteStep(step.id)
+    override fun onRemoveClicked(step: Step) = repository.deleteStep(step)
 
     override fun onEditClicked(step: Step) {
         currentStep.value = step
         navigateToStepCreateEdit.value = step.id
-    }
-
-    override fun whenCreateOnRemoveClicked(step: Step) {
-        TODO("Not yet implemented")
     }
 
     override fun whenCreateOnEditClicked(step: Step) {

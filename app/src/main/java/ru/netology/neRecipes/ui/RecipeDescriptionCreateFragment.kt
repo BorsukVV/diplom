@@ -2,6 +2,7 @@ package ru.netology.neRecipes.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,10 +85,18 @@ class RecipeDescriptionCreateFragment : Fragment() {
                         model.newImageUri else RecipeUtils.descriptionImageTemplateUri(binding.root.resources)
                 )
                 //Log.d("TAG", "model.newImageUri = ${model.newImageUri}")
-                findNavController().navigateUp()
                 model.newImageUri = null
+                findNavController().navigateUp()
+
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        Log.d("TAG", "RecipeDescriptionCreateFragment onDestroy")
+        model.currentRecipe.value = null
     }
 
     companion object {

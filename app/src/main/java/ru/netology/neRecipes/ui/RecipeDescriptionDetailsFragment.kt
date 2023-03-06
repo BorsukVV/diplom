@@ -42,16 +42,28 @@ class RecipeDescriptionDetailsFragment : Fragment() {
             }
         }.root
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("TAG", "RecipeDescriptionDetailsFragment onDestroy")
+        model.currentRecipe.value = null
+    }
+
+    override fun onStop() {
+        Log.d("TAG", "RecipeDescriptionDetailsFragment onStop")
+
+        super.onStop()
+    }
+
     companion object {
         fun newInstance(initialRecipeID: Long): RecipeDescriptionDetailsFragment {
             val args = Bundle()
             args.putLong("ID", initialRecipeID)
             val fragment = RecipeDescriptionDetailsFragment()
             fragment.arguments = args
-            Log.d(
-                "TAG",
-                "*RecipeDescriptionDetailsFragment* fragment.arguments ${fragment.arguments}"
-            )
+//            Log.d(
+//                "TAG",
+//                "*RecipeDescriptionDetailsFragment* fragment.arguments ${fragment.arguments}"
+//            )
             return fragment
         }
     }

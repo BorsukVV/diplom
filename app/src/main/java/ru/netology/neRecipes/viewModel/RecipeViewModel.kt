@@ -39,7 +39,7 @@ class RecipeViewModel(
 
     var favoriteRecipes: LiveData<List<Recipe>> = Transformations.switchMap(categoryFilters){filterList ->
         //Log.d("TAG", "categoryFilters in RecipeViewModel = $it")
-        repository.getFilteredRecipes(filterList)
+        repository.getFilteredFavorites(filterList)
     }
 
     val navigateToRecipeTabsForCreate = SingleLiveEvent<Long>()
@@ -111,7 +111,7 @@ class RecipeViewModel(
 
     fun searchDatabase(searchQuery: String): LiveData<List<Recipe>> {
         data = repository.searchDatabase(searchQuery)
-        Log.d("TAG", "searchDatabase in RecipeViewModel = ${data.value}")
+        //Log.d("TAG", "searchDatabase in RecipeViewModel = ${data.value}")
         return data
     }
 
